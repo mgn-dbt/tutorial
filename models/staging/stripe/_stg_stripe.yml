@@ -1,0 +1,16 @@
+models:
+  - name: stg_stripe__payments
+    description: staging payments
+    columns:
+      - name: payment_id
+        description: payment PK
+        tests:
+          - unique
+          - not_null
+      - name: order_id
+        description: order FK
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('stg_jaffle_shop__orders')
+                field: order_id
