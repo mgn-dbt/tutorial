@@ -1,8 +1,8 @@
 sources:
   - name: jaffle_shop
-    database: dbt-tutorial
-    schema: jaffle_shop
-    description: big query jaffle_shop dataset from dbt-tutorial
+    database: dbt-jaffle-shop-481313
+    schema: dbt_raw_jaffle_shop
+    description: big query jaffle_shop dataset
     tables:
       - name: customers
         description: raw customer table

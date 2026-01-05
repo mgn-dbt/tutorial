@@ -1,8 +1,8 @@
 sources:
   - name: stripe
-    database: dbt-tutorial
-    schema: stripe
-    description: big query stripe dataset from dbt-tutorial
+    database: dbt-jaffle-shop-481313
+    schema: dbt_raw_stripe
+    description: big query stripe dataset
     tables:
       - name: payment
         description: raw payment table
