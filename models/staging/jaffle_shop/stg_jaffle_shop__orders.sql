@@ -2,7 +2,7 @@
         id as order_id,
         user_id as customer_id,
         order_date,
-        date_diff( date({{ dbt.current_timestamp() }}), order_date, DAY ) as days_since_ordered,
+        date_diff( date({{ my_current_timestamp() }}), order_date, DAY ) as days_since_ordered,
         case 
             when status like '%shipped%' then 'shipped'
             when status like '%return%' then 'returned'

@@ -21,10 +21,10 @@ unit_tests:
   - name: test_days_since_ordered
     description: Test my datediff calculation for days_since_ordered
     model: stg_jaffle_shop__orders
-    # overrides fails on dbtf
+    # fusion overrides with dbt internal macro dont work (dbt.current_timestamp)
     overrides:
       macros:
-        dbt.current_timestamp: "timestamp('2024-01-15 00:00:00+00')"
+        my_current_timestamp: "timestamp('2024-01-15 00:00:00+00')"
     given:
       - input: source('jaffle_shop',  'orders')
         rows:
@@ -32,6 +32,7 @@ unit_tests:
     expect:
       rows:
         - {order_date: 2024-01-01, days_since_ordered: 14}
+
 
   - name: test_full_name
     description: Test my full_name calculation 
