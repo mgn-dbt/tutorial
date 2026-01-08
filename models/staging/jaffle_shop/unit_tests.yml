@@ -31,7 +31,7 @@ unit_tests:
           - {order_date: 2024-01-01}
     expect:
       rows:
-        - {macro_call: override, order_date: 2024-01-01, days_since_ordered: 14}
+        - {order_date: 2024-01-01, days_since_ordered: 14}
 
   - name: test_full_name
     description: Test my full_name calculation 
