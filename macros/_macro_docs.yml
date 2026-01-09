@@ -4,11 +4,7 @@ macros:
       This macro returns the current timestamp as a string.
     arguments: []
     returns: string
-    examples:
-      - code: |
-          {{ my_current_timestamp() }}
-        description: >
-          Returns the current timestamp as a string.
+
   - name: cents_to_dollars
     description: >
       This macro converts cents to dollars.
@@ -21,11 +17,7 @@ macros:
         description: The number of decimal places to round to (default is 2).
         default: 2
     returns: string
-    examples:
-      - code: |
-          {{ cents_to_dollars('amount') }}
-        description: >
-          Returns the amount in cents converted in dollars.
+
   - name: default__snapshot_check_strategy
     description: >
       This macro overrides the buggy check startegy (line 34) updated_at -> check_cols.
@@ -46,8 +38,3 @@ macros:
         type: boolean
         description: Whether the target exists.
     returns: record
-    examples:
-      - code: |
-          {{ default__snapshot_check_strategy(node, snapshotted_rel, current_rel, model_config, target_exists) }}
-        description: >
-          Returns the check strategy for the given snapshot parameters.
