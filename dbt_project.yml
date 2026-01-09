@@ -12,6 +12,7 @@ dbt-cloud:
 # This setting configures which "profile" dbt uses for this project.
 profile: 'default'
 
+# debug de snapshot check
 #dispatch:
 #  - macro_namespace: dbt
 #    search_order: ['jaffle_shop', 'dbt']
