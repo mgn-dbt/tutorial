@@ -15,7 +15,7 @@ macros:
       - name: decimal_places
         type: integer
         description: The number of decimal places to round to (default is 2).
-        default: 2
+
 
 
 
