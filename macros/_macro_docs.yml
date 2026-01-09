@@ -26,7 +26,7 @@ macros:
           {{ cents_to_dollars('amount') }}
         description: >
           Returns the amount in cents converted in dollars.
-  - name: snapshot_check_strategy
+  - name: default__snapshot_check_strategy
     description: >
       This macro overrides the buggy check startegy (line 34) updated_at -> check_cols.
     arguments: 
@@ -48,6 +48,6 @@ macros:
     returns: record
     examples:
       - code: |
-          {{ snapshot_check_strategy(node, snapshotted_rel, current_rel, model_config, target_exists) }}
+          {{ default__snapshot_check_strategy(node, snapshotted_rel, current_rel, model_config, target_exists) }}
         description: >
           Returns the check strategy for the given snapshot parameters.
