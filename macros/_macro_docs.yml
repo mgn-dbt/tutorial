@@ -3,7 +3,7 @@ macros:
     description: >
       This macro returns the current timestamp as a string.
     arguments: []
-    returns: string
+
 
   - name: cents_to_dollars
     description: >
@@ -16,25 +16,6 @@ macros:
         type: integer
         description: The number of decimal places to round to (default is 2).
         default: 2
-    returns: string
 
-  - name: default__snapshot_check_strategy
-    description: >
-      This macro overrides the buggy check startegy (line 34) updated_at -> check_cols.
-    arguments: 
-      - name: node
-        type: record
-        description: The node record to check the strategy for.
-      - name: snapshotted_rel
-        type: record
-        description: The snapshotted relation to check the strategy for.
-      - name: current_rel
-        type: record
-        description: The current relation to check the strategy for.
-      - name: model_config
-        type: record
-        description: The model configuration to check the strategy for.
-      - name: target_exists
-        type: boolean
-        description: Whether the target exists.
-    returns: record
+
+
