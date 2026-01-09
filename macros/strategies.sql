@@ -61,6 +61,9 @@
 
     {% set column_added, check_cols = snapshot_check_all_get_existing_columns(node, target_exists, check_cols_config) %} -- noqa: check_cols_config is a string|list[string]|none
 
+    {{ log("MOI4=" ~ check_cols, True) }}
+    {# il faudrait |upper pour respecter la casse #}
+
     {%- set row_changed_expr -%}
     (
     {%- if column_added -%}

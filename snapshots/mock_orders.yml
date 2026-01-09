@@ -13,5 +13,4 @@ snapshots:
         - STATUS
       hard_deletes: ignore
       dbt_valid_to_current: "TIMESTAMP(DATE(9999, 12, 31))"
-      # bug
       # updated_at: "TIMESTAMP(_etl_loaded_at)"
