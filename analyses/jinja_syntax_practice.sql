@@ -1,3 +1,4 @@
+{#   
 -- practice setting basic variables!
 
 {% set my_cool_string = 'wow! cool!' %}
@@ -64,7 +65,4 @@
 
 {{ websters_dict['word'] }} ({{ websters_dict['speech_part'] }}): defined as "{{ websters_dict['definition'] }}"
 
-
-
-
-
+#}
