@@ -1,5 +1,5 @@
 macros:
-  - file: macros/my_current_timestamp.sql
+  - name: my_current_timestamp
     description: >
       This macro returns the current timestamp as a string.
     arguments: []
@@ -9,7 +9,7 @@ macros:
           {{ my_current_timestamp() }}
         description: >
           Returns the current timestamp as a string.
-  - file: macros/cents_to_dollars.sql
+  - name: cents_to_dollars
     description: >
       This macro converts cents to dollars.
     arguments: 
@@ -26,3 +26,28 @@ macros:
           {{ cents_to_dollars('amount') }}
         description: >
           Returns the amount in cents converted in dollars.
+  - name: snapshot_check_strategy
+    description: >
+      This macro overrides the buggy check startegy (line 34) updated_at -> check_cols.
+    arguments: 
+      - name: node
+        type: record
+        description: The node record to check the strategy for.
+      - name: snapshotted_rel
+        type: record
+        description: The snapshotted relation to check the strategy for.
+      - name: current_rel
+        type: record
+        description: The current relation to check the strategy for.
+      - name: model_config
+        type: record
+        description: The model configuration to check the strategy for.
+      - name: target_exists
+        type: boolean
+        description: Whether the target exists.
+    returns: record
+    examples:
+      - code: |
+          {{ snapshot_check_strategy(node, snapshotted_rel, current_rel, model_config, target_exists) }}
+        description: >
+          Returns the check strategy for the given snapshot parameters.
