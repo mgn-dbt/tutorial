@@ -16,6 +16,27 @@ macros:
         type: integer
         description: The number of decimal places to round to (default is 2).
 
+  - name: grant_select
+    description: >
+      This macro generates a SQL statement to grant SELECT privileges on a specified schema to a specified role.
+    arguments:
+      - name: schema
+        type: string
+        description: The name of the schema on which to grant SELECT privileges.
+      - name: role
+        type: string
+        description: The name of the role to whom the SELECT privileges will be granted.
 
-
-
+  - name: clean_stale_models
+    description: >
+      This macro identifies and cleans up stale models in the database that are no longer present in the dbt project.
+    arguments:
+      - name: database
+        type: string
+        description: The target database to check for stale models.
+      - name: schema
+        type: string
+        description: The target schema to check for stale models.
+      - name: days
+        type: string
+        description: The number of days to consider a model stale.
