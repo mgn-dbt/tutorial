@@ -48,7 +48,7 @@ models:
     staging:
       +materialized: view
       +meta:
-        required_tests: {"unique.*|not_null": 1}
+        required_tests: {"unique.*|not_null": 2}
     intermediate:
       +materialized: table
     marts:
