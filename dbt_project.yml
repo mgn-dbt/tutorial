@@ -17,6 +17,10 @@ profile: 'default'
 #  - macro_namespace: dbt
 #    search_order: ['jaffle_shop', 'dbt']
 
+# pour dbt_date et dbt_expectations
+vars:
+  'dbt_date:time_zone': 'Europe/Paris'
+
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
 # found in the "models/" directory. You probably won't need to change these!
