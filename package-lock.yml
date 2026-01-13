@@ -2,7 +2,13 @@ packages:
   - name: dbt_utils
     package: dbt-labs/dbt_utils
     version: 1.3.3
+  - name: dbt_expectations
+    package: metaplane/dbt_expectations
+    version: 0.10.4
+  - name: audit_helper
+    package: dbt-labs/audit_helper
+    version: 0.12.2
   - git: https://github.com/tnightengale/dbt-meta-testing.git
     name: dbt_meta_testing
     revision: b05df7ae6158a63e0ec966550c4217e20067f2f7
-sha1_hash: 629dd9a43b4b3a51de48fc180a81bb6f01395203
+sha1_hash: 14799f5ba5fd7be5638ea831c2e1ebaaeb995e87
