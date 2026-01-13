@@ -2,7 +2,7 @@ packages:
   - name: dbt_utils
     package: dbt-labs/dbt_utils
     version: 1.3.3
-  - name: dbt_meta_testing
-    package: tnightengale/dbt_meta_testing
-    version: 0.3.5
-sha1_hash: dca9934238b80ee1ba996f8ecf6c564e4abad35a
+  - git: https://github.com/tnightengale/dbt-meta-testing.git
+    name: dbt_meta_testing
+    revision: b05df7ae6158a63e0ec966550c4217e20067f2f7
+sha1_hash: 629dd9a43b4b3a51de48fc180a81bb6f01395203

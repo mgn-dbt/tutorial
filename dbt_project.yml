@@ -45,9 +45,10 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   jaffle_shop:
-    +required_tests: {+"unique.*|not_null": 1}
     staging:
       +materialized: view
+      +meta:
+        required_tests: {"unique.*|not_null": 1}
     intermediate:
       +materialized: table
     marts:
