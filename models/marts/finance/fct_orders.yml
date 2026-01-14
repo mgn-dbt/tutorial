@@ -5,14 +5,14 @@ models:
 
     columns:
       - name: order_id
-        tests:
+        data_tests:
           - unique
           - not_null
         description: This is a unique identifier for an order
 
       - name: customer_id
         description: Foreign key to the customers table
-        tests:
+        data_tests:
           - not_null
           - relationships:
               to: ref('dim_customers')
@@ -22,7 +22,7 @@ models:
         description: Date (UTC) that the order was placed
 
       - name: amount
-        description: Total amount (AUD) of the order
+        description: Total amount of the order
         data_tests:
           - not_null
           - assert_dollars_spent_greater_than_one:

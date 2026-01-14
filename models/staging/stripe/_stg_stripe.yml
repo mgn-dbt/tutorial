@@ -4,7 +4,7 @@ models:
     columns:
       - name: payment_id
         description: payment PK
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: order_id
