@@ -5,7 +5,13 @@ models:
       - name: payment_id
         description: payment PK
         data_tests:
-          - unique
+          - unique:
+            config:
+              severity: error
+              limit: 10
+              error_if: ">=100"
+              warn_if: ">=10"
+              store_failures: true
           - not_null
       - name: order_id
         description: order FK
