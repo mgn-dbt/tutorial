@@ -1,4 +1,7 @@
-with orders as (select * from {{ ref('stg_jaffle_shop__orders') }})
+with 
+orders as (
+    select * from {{ ref('stg_jaffle_shop__orders') }}
+)
 
 select 
     customer_id,
