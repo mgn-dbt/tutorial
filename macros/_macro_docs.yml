@@ -1,4 +1,10 @@
 macros:
+  - name: audit_helper_compare_column_values
+    description: >
+      This macro compares fct_orders and fct_orders__deprecated
+      and returns a count of mismatches.
+    arguments: []
+
   - name: cents_to_dollars
     description: >
       This macro converts cents to dollars.
@@ -35,8 +41,4 @@ macros:
         type: string
         description: The name of the role to whom the SELECT privileges will be granted.
 
-  - name: my_current_timestamp
-    description: >
-      This macro returns the current timestamp as a string.
-    arguments: []
 
