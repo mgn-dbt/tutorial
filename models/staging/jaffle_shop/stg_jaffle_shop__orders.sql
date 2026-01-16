@@ -1,5 +1,3 @@
-{%- set cejour = dbt.current_timestamp() -%}
-
 with 
 source as (
     select * from {{ source('jaffle_shop', 'orders') }}
@@ -16,8 +14,8 @@ transformed as (
             then order_date 
         end as order_placed_at,
 */
+        {%- set cejour = dbt.current_timestamp() -%}
         {{ datediff("order_date", cejour, "day") }} as days_since_ordered,
-        --{#{ datediff("order_date", "CURRENT_DATETIME()", "day") }#} as days_since_ordered,
         
         case 
             when status like '%shipped%' then 'shipped'
