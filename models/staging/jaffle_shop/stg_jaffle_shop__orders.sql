@@ -16,7 +16,8 @@ transformed as (
 
         --fonctionne avec "CURRENT_DATE()"
         {%- set cejour = dbt.current_timestamp() -%}
-        {{ datediff("order_date", cejour, "day") }} as days_since_ordered,
+        {{ datediff("order_date", cejour, "day") }} 
+            as days_since_ordered,
 
         case
             when status like '%shipped%' then 'shipped'

@@ -1,6 +1,6 @@
 {% test assert_dollars_spent_greater_than_one( model, column_name, group_by_column) %}
 
-select 
+select
     {{ group_by_column }},
     avg( {{ column_name }} ) as average_amount
 

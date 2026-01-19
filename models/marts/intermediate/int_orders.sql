@@ -1,4 +1,4 @@
-with 
+with
 
 orders as (
     select * from {{ ref('stg_jaffle_shop__orders') }}
@@ -10,7 +10,7 @@ payments as (
 
 completed_payments as (
 
-    select 
+    select
         order_id,
         max(payment_created_at) as payment_finalized_date,
         sum(payment_amount) as total_amount_paid
@@ -22,7 +22,7 @@ completed_payments as (
 
 paid_orders as (
 
-    select 
+    select
         orders.order_id,
         orders.customer_id,
         orders.order_placed_at,
