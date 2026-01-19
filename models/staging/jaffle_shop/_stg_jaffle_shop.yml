@@ -4,7 +4,7 @@ models:
     columns:
       - name: customer_id
         description: customers PK
-        tests:
+        data_tests:
           - unique
           - not_null
   - name: stg_jaffle_shop__orders
@@ -12,7 +12,7 @@ models:
     columns:
       - name: order_id
         description: orders PK
-        tests:
+        data_tests:
          - unique
          - not_null
       - name: order_status
