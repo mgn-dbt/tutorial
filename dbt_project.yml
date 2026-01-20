@@ -54,10 +54,8 @@ seeds:
     +full_refresh: true
     autre:
       +schema: autre
-    raw_jaffle_shop:
-      +schema: raw_jaffle_shop
-    raw_stripe:
-      +schema: raw_stripe
+    raw:
+      +schema: raw
 
 # pour dbt_date et dbt_expectations
 vars:

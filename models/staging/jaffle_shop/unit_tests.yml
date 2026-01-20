@@ -23,7 +23,7 @@ unit_tests:
     # overrides with dbt internal macro dont work in fusion (dbt.current_timestamp)
     overrides:
       macros:
-        my_current_timestamp: "timestamp('2024-01-15 00:00:00+00')"
+        dbt.current_timestamp: "timestamp('2024-01-15 00:00:00+00')"
     given:
       - input: source('jaffle_shop',  'orders')
         rows:
