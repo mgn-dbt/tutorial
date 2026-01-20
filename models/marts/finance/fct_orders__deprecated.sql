@@ -6,7 +6,7 @@
     )
 }}
 
-with 
+with
 orders as (
     select * from {{ ref('stg_jaffle_shop__orders') }}
 ),
@@ -28,12 +28,12 @@ final as (
 
     select
         orders.order_id,
+        orders.order_date,
         case
             when orders.customer_id = 1
-            then orders.customer_id +1000
-            else orders.customer_id 
+                then orders.customer_id + 1000
+            else orders.customer_id
         end as customer_id,
-        orders.order_date,
         coalesce(order_payments.amount, 0) as amount
 
     from orders
@@ -43,5 +43,5 @@ final as (
 select * from final
 {% if is_incremental() %}
     -- this filter will only be applied on an incremental run
-    where order_date > (select max(order_date) as maxi from {{ this }}) 
+    where order_date > (select max(lkp.order_date) as maxi from {{ this }} as lkp)
 {% endif %}
