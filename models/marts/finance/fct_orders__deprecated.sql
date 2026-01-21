@@ -28,8 +28,12 @@ final as (
 
     select
         orders.order_id,
-        orders.customer_id,
         orders.order_date,
+        case
+            when orders.customer_id = 1
+                then orders.customer_id + 1000
+            else orders.customer_id
+        end as customer_id,
         coalesce(order_payments.amount, 0) as amount
 
     from orders

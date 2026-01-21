@@ -1,0 +1,47 @@
+
+models:
+  - name: fct_orders
+    description: This table has basic information about orders, as well as some derived facts based on payments
+    data_tests:
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "amount >= 0"
+
+    columns:
+      - name: order_id
+        description: This is a unique identifier for an order
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Foreign key to the customers table
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customers')
+                field: customer_id
+
+      - name: order_date
+        description: Date (UTC) that the order was placed
+
+      - name: amount
+        description: Total amount of the order
+        data_tests:
+          - not_null
+          - assert_dollars_spent_greater_than_one:
+              arguments:
+                group_by_column: customer_id
+          - dbt_expectations.expect_column_values_to_be_between: 
+          # this will perform what the dbt_utils.expression-is-true test does!
+              arguments:
+                min_value: 0
+                row_condition: "order_id is not null" 
+                strictly: false
+          - dbt_expectations.expect_column_mean_to_be_between: 
+          # this will perform what our singular and generic tests do!
+              arguments:
+                min_value: 1
+                group_by: [customer_id] 
+                row_condition: "order_id is not null" # (Optional)
+                strictly: false

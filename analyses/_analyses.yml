@@ -1,0 +1,9 @@
+analyses:
+  - name: interactive_ad_hoc_testing
+    description: dbt_meta_testing exercice
+  - name: jinja_syntax_practice
+    description: scriptlets de code jinja
+  - name: orders_daily_summary
+    description: cas d'usage de dbt_utils.generate_surrogate_key
+  - name: total_revenue
+    description: requete aggregat

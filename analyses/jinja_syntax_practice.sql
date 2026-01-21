@@ -1,4 +1,6 @@
-{#   
+select 1 as one
+
+{# scriplets jinja
 -- practice setting basic variables!
 
 {% set my_cool_string = 'wow! cool!' %}
