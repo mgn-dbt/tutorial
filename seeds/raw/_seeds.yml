@@ -1,0 +1,66 @@
+seeds:
+  - name: raw_customers
+    description: raw customers
+    config:
+      column_types:
+        id: integer
+        first_name: string
+        last_name: string
+    columns:
+      - name: id
+        description: customer id
+        data_tests:
+          - unique
+          - not_null
+      - name: first_name
+        description: first name
+      - name: last_name
+        description: last name
+
+  - name: raw_orders
+    description: raw orders
+    config:
+      column_types:
+        id: integer
+        user_id: integer
+        order_date: date
+        status: string
+    columns:
+      - name: id
+        description: order id
+        data_tests:
+          - unique
+          - not_null
+      - name: user_id
+        description: customer id
+      - name: order_date
+        description: date of the order
+      - name: status
+        description: status of the order
+
+  - name: raw_payments
+    description: raw payments
+    config:
+      column_types:
+        id: integer
+        orderid: integer
+        paymentmethod: string
+        status: string
+        amount: integer
+        created: date
+    columns:
+      - name: id
+        description: payment id
+        data_tests:
+          - unique
+          - not_null
+      - name: orderid
+        description: order id
+      - name: paymentmethod
+        description: payment method
+      - name: status
+        description: payment status
+      - name: amount
+        description: payment amount
+      - name: created
+        description: payment created date

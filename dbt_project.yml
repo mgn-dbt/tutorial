@@ -48,11 +48,14 @@ models:
 
 seeds:
   jaffle_shop:
-    +full_refresh: true
     autre:
       +schema: seeds_autre
+      +enabled: false
+    marts:
+      +enabled: true
     raw:
       +schema: seeds_raw
+      +enabled: true
 
 # pour dbt_date et dbt_expectations
 vars:
