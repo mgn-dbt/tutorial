@@ -55,7 +55,7 @@ seeds:
       +enabled: true
     raw:
       +schema: seeds_raw
-      +enabled: true
+      +enabled: false
 
 # pour dbt_date et dbt_expectations
 vars:
