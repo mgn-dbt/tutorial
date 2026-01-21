@@ -50,9 +50,9 @@ seeds:
   jaffle_shop:
     +full_refresh: true
     autre:
-      +schema: autre
+      +schema: seeds_autre
     raw:
-      +schema: raw
+      +schema: seeds_raw
 
 # pour dbt_date et dbt_expectations
 vars:
