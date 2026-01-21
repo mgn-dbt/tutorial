@@ -14,9 +14,7 @@ transformed as (
                 then order_date
         end as order_placed_at,
 
-        --fonctionne avec "CURRENT_DATE()"
-        {%- set cejour = dbt.current_timestamp() -%}
-        {{ datediff("order_date", cejour, "day") }} 
+        {{ datediff("order_date", my_current_timestamp(), "day") }} 
             as days_since_ordered,
 
         case
