@@ -19,17 +19,11 @@ models:
       - name: last_name
         description: Customer's last name. PII.
 
-#      - name: email
-#        description: Customer's email address. PII.
-
       - name: first_order_date
         description: Date (UTC) of a customer's first order
 
       - name: most_recent_order_date
         description: Date (UTC) of a customer's most recent order
-
-      - name: number_of_orders
-        description: Count of the number of orders a customer has placed
 
       - name: lifetime_value
         description: Total value of all customer's orders
@@ -37,3 +31,12 @@ models:
           - assert_dollars_spent_greater_than_one:
               arguments:
                 group_by_column: customer_id
+
+      - name: employee_id
+        description: Identifier of the employee associated with the customer
+
+#      - name: email
+#        description: Customer's email address. PII.
+
+      - name: number_of_orders
+        description: Count of the number of orders a customer has placed

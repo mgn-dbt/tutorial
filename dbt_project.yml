@@ -60,3 +60,8 @@ seeds:
 # pour dbt_date et dbt_expectations
 vars:
   'dbt_date:time_zone': 'Europe/Paris'
+
+# BigQuery specific flags
+# https://docs.getdbt.com/reference/global-configs/behavior-changes
+flags:
+  bigquery_use_batch_source_freshness: true
