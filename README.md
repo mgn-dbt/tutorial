@@ -14,9 +14,9 @@ NB : SQLTools a besoin de Nodejs pour fonctionner.<BR>
 Le dossier de configuration de SQLTools se trouve ici :<BR>
 C:\Users\\<user\>\AppData\Local\vscode-sqltools
 
-C:\Users\\<user\>\AppData\Local\vscode-sqltools\Data> npm list
+C:\Users\\<user\>\AppData\Local\vscode-sqltools\Data\> npm list
 ```
-Data@ C:\Users\\<user\>\AppData\Local\vscode-sqltools\Data
+Data@ C:\Users\<user>\AppData\Local\vscode-sqltools\Data
 +-- @google-cloud/bigquery@7.9.0
 `-- google-auth-library@9.14.1
 ```
@@ -51,7 +51,7 @@ cafile=<chemin_vers>/cacert.pem
             "location": "us",
             "previewLimit": 50,
             "driver": "BigQuery",
-            "keyfile": "<chemin_vers>\\dbt-jaffle-shop-481313-0d88fc5a6686.json"
+            "keyfile": "<chemin_vers>\\dbt-jaffle-shop-xxxxxx-yyyyyyyyyyyy.json"
         }
     ],
     "sqltools.useNodeRuntime": true
