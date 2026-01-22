@@ -1,28 +1,32 @@
 Bienvenue dans le depot du tutorial DBT
 
 ### Modules installés sous vscode:
-Better Jinja
-BigQuery Driver for SQLTools
-dbt
-GitHub Copilot
-GitHub Copilot Chat
-sqlfluff
-SQLTools
+- Better Jinja
+- BigQuery Driver for SQLTools
+- dbT
+- GitHub Copilot
+- GitHub Copilot Chat
+- sqlfluff
+- SQLTools
 
 
-NB : SQLTools a besoin de Nodejs pour fonctionner.
-Le dossier de configuration de SQLTools se trouve ici :
-C:\Users\<user>\AppData\Local\vscode-sqltools
+NB : SQLTools a besoin de Nodejs pour fonctionner.<BR>
+Le dossier de configuration de SQLTools se trouve ici :<BR>
+C:\Users\\<user\>\AppData\Local\vscode-sqltools
 
-C:\Users\<user>\AppData\Local\vscode-sqltools\Data> npm list
-Data@ C:\Users\<user>\AppData\Local\vscode-sqltools\Data
+C:\Users\\<user\>\AppData\Local\vscode-sqltools\Data> npm list
+```
+Data@ C:\Users\\<user\>\AppData\Local\vscode-sqltools\Data
 +-- @google-cloud/bigquery@7.9.0
 `-- google-auth-library@9.14.1
+```
 
-NB : Attention a zscaler. 
-Les 2 certificats de zscaler doivent être inclus dans le magasin de certificats cacert.pem.
-cf C:\Users\<user>\.npmrc
+NB : Attention a zscaler.<BR>
+Les 2 certificats de zscaler doivent être inclus dans le magasin de certificats cacert.pem.<BR>
+cf C:\Users\\<user\>\\.npmrc
+```
 cafile=<chemin_vers>/cacert.pem
+```
 
 
 ### vscode configuration
@@ -35,10 +39,10 @@ cafile=<chemin_vers>/cacert.pem
     "diffEditor.ignoreTrimWhitespace": false,
     "dbt.dbtPath": "<chemin_vers>\\dbtf\\dbt.exe",
     "sqlfluff.executablePath": "<chemin_vers>\\python\\venvs\\sqlfluff\\Scripts\\sqlfluff.exe",
+    "python.pythonPath": "<chemin_vers>\\python\\venvs\\sqlfluff\\bin\\python",
     "files.associations": {
         "*.sql": "jinja-sql",
-        "*.yml": "jinja-yaml",
-        "*.md": "jinja-md"
+        "*.yml": "jinja-yaml"
     },
     "sqltools.connections": [
         {
@@ -54,9 +58,11 @@ cafile=<chemin_vers>/cacert.pem
 }
 ```
 
-NB : SQLFluff a besoin de Python et dbt pour fonctionner.
+NB : SQLFluff a besoin de Python et dbt pour fonctionner.<BR>
 Packages installés dans le venv sqlfluff :
+```
 pip install  sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery
+```
 
 NB : dbt fusion doit etre mentionné dans le PATH pour pouvoir être utilisé dans le terminal.
 
