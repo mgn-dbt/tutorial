@@ -48,12 +48,20 @@ models:
 
 seeds:
   jaffle_shop:
-    +full_refresh: true
     autre:
-      +schema: autre
+      +schema: seeds_autre
+      +enabled: false
+    marts:
+      +enabled: true
     raw:
-      +schema: raw
+      +schema: seeds_raw
+      +enabled: false
 
 # pour dbt_date et dbt_expectations
 vars:
   'dbt_date:time_zone': 'Europe/Paris'
+
+# BigQuery specific flags
+# https://docs.getdbt.com/reference/global-configs/behavior-changes
+flags:
+  bigquery_use_batch_source_freshness: true
