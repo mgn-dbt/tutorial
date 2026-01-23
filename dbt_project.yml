@@ -20,11 +20,6 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
-# Configuration for dbt Cloud
-dbt-cloud:
-  project-id: 70471823535774
-
-
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
@@ -46,6 +41,7 @@ models:
     marts:
       +materialized: table
 
+# warning sur les seeds desactivés s'ils contiennent des tests
 seeds:
   jaffle_shop:
     autre:
@@ -56,6 +52,10 @@ seeds:
     raw:
       +schema: seeds_raw
       +enabled: false
+
+# Configuration for dbt Cloud
+dbt-cloud:
+  project-id: 70471823535774
 
 # pour dbt_date et dbt_expectations
 vars:

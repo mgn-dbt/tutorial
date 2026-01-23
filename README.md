@@ -3,11 +3,12 @@ Bienvenue dans le depot du tutorial DBT
 ### Modules installés sous vscode:
 - Better Jinja
 - BigQuery Driver for SQLTools
-- dbT
+- dbt
 - GitHub Copilot
 - GitHub Copilot Chat
 - sqlfluff
 - SQLTools
+- vscode-dbt (https://marketplace.visualstudio.com/items?itemName=bastienboutonnet.vscode-dbt)
 
 
 NB : SQLTools a besoin de Nodejs pour fonctionner.<BR>
@@ -41,8 +42,7 @@ cafile=<chemin_vers>/cacert.pem
     "sqlfluff.executablePath": "<chemin_vers>\\python\\venvs\\sqlfluff\\Scripts\\sqlfluff.exe",
     "python.pythonPath": "<chemin_vers>\\python\\venvs\\sqlfluff\\bin\\python",
     "files.associations": {
-        "*.sql": "jinja-sql",
-        "*.yml": "jinja-yaml"
+        "*.sql": "jinja-sql"
     },
     "sqltools.connections": [
         {
@@ -61,10 +61,12 @@ cafile=<chemin_vers>/cacert.pem
 NB : SQLFluff a besoin de Python et dbt pour fonctionner.<BR>
 Packages installés dans le venv sqlfluff :
 ```
-pip install  sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery
+pip install  sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery python-certifi-win32  (pour zscaler)
+pip install  dbt-metricflow dbt-metricflow[dbt-bigquery] ???
 ```
 
-NB : dbt fusion doit etre mentionné dans le PATH pour pouvoir être utilisé dans le terminal.
+NB : dbt fusion doit etre mentionné dans le PATH pour pouvoir être utilisé dans le terminal.<BR>
+Mise à jour : dbt system update (dans le dossier de l'executable)
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
