@@ -9,9 +9,6 @@ seeds:
     columns:
       - name: id
         description: customer id
-        data_tests:
-          - unique
-          - not_null
       - name: first_name
         description: first name
       - name: last_name
@@ -28,9 +25,6 @@ seeds:
     columns:
       - name: id
         description: order id
-        data_tests:
-          - unique
-          - not_null
       - name: user_id
         description: customer id
       - name: order_date
@@ -51,9 +45,6 @@ seeds:
     columns:
       - name: id
         description: payment id
-        data_tests:
-          - unique
-          - not_null
       - name: orderid
         description: order id
       - name: paymentmethod

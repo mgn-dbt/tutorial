@@ -42,16 +42,17 @@ models:
       +materialized: table
 
 # warning sur les seeds desactivés s'ils contiennent des tests
+# dbt seed --full-refresh --vars '{"load_source_data": true}'
 seeds:
   jaffle_shop:
     autre:
       +schema: seeds_autre
-      +enabled: false
+      +enabled: "{{ var('load_source_data', false) }}"
     marts:
       +enabled: true
     raw:
       +schema: seeds_raw
-      +enabled: false
+      +enabled: "{{ var('load_source_data', false) }}"
 
 # Configuration for dbt Cloud
 dbt-cloud:
