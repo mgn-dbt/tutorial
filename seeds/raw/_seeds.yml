@@ -2,6 +2,11 @@ seeds:
   - name: raw_customers
     description: raw customers
     config:
+      tags: 'raw'
+      post_hook:
+        - "DROP TABLE `dbt-jaffle-shop-481313.dbt_raw_jaffle_shop.customers`"
+        - "CREATE  TABLE `dbt-jaffle-shop-481313.dbt_raw_jaffle_shop.customers` AS 
+          select * from {{ this}}"
       column_types:
         id: integer
         first_name: string
@@ -17,6 +22,12 @@ seeds:
   - name: raw_orders
     description: raw orders
     config:
+      tags: 'raw'
+      post_hook:
+        - "DROP TABLE `dbt-jaffle-shop-481313.dbt_raw_jaffle_shop.orders`"
+        - "CREATE  TABLE `dbt-jaffle-shop-481313.dbt_raw_jaffle_shop.orders` AS 
+          select *, datetime_add(current_datetime, interval -16 hour) as _etl_loaded_at
+          from {{ this}}"
       column_types:
         id: integer
         user_id: integer
@@ -35,6 +46,12 @@ seeds:
   - name: raw_payments
     description: raw payments
     config:
+      tags: 'raw'
+      post_hook:
+        - "DROP TABLE `dbt-jaffle-shop-481313.dbt_raw_stripe.payment`"
+        - "CREATE  TABLE `dbt-jaffle-shop-481313.dbt_raw_stripe.payment` AS 
+          select *, datetime_add(current_datetime, interval -4 hour) as _batched_at
+          from {{ this}}"
       column_types:
         id: integer
         orderid: integer

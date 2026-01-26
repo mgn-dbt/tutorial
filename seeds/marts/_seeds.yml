@@ -2,6 +2,7 @@ seeds:
   - name: employees
     description: employees
     config:
+      tags: 'marts'
       column_types:
         employee_id: integer
         email: string
