@@ -40,6 +40,7 @@ cafile=<chemin_vers>/cacert.pem
     "diffEditor.ignoreTrimWhitespace": false,
     "dbt.dbtPath": "<chemin_vers>\\dbtf\\dbt.exe",
     "sqlfluff.executablePath": "<chemin_vers>\\python\\venvs\\sqlfluff\\Scripts\\sqlfluff.exe",
+    "sqlfluff.linter.run": "onSave",
     "python.pythonPath": "<chemin_vers>\\python\\venvs\\sqlfluff\\bin\\python",
     "files.associations": {
         "*.sql": "jinja-sql"

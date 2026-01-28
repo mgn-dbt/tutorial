@@ -37,4 +37,4 @@ final as (
 )
 
 select * from final
-{{ incremental_filter(timestamp_column='order_date') }}
+where {{ incremental_filter(timestamp_column='order_date') }}
