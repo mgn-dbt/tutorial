@@ -61,6 +61,7 @@ dbt-cloud:
 # pour dbt_date et dbt_expectations
 vars:
   'dbt_date:time_zone': 'Europe/Paris'
+  truncate_timespan_to: "{{ current_timestamp() }}"
 
 # BigQuery specific flags
 # https://docs.getdbt.com/reference/global-configs/behavior-changes

@@ -1,0 +1,18 @@
+sources:
+  - name: autre
+    database: dbt-jaffle-shop-481313
+    schema: seeds_autre
+    description: big query autre dataset
+    tables:
+      - name: customers
+        description: autre customer table
+      - name: items
+        description: autre items table
+      - name: orders
+        description: autre orders table
+      - name: products
+        description: autre products table
+      - name: stores
+        description: autre stores table
+      - name: supplies
+        description: autre supplies table

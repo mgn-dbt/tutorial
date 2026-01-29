@@ -1,8 +1,7 @@
 {{ 
-config (
-    materialized='table',
-    static_analysis='unsafe',
-)
+    config (
+        static_analysis='unsafe',
+    )
 }}
 
 --dbt1000: Detected unsafe introspection which may lead to non-deterministic static analysis. 
@@ -10,10 +9,16 @@ config (
 --Learn more: https://docs.getdbt.com/docs/fusion/new-concepts. 
 --Nodes: 'model.jaffle_shop.all_dates' (execute)
 
-{{ 
-dbt_utils.date_spine(
-    datepart="day",
-    start_date="cast('2025-01-01' as date)",
-    end_date="cast('2030-01-01' as date)"
+with
+days as (
+    {{ 
+        dbt_utils.date_spine(
+            datepart="day",
+            start_date="cast('2025-01-01' as date)",
+            end_date="cast('2030-01-01' as date)"
+        )
+    }}
 )
-}}
+
+select cast(date_day as date) as date_day
+from days
