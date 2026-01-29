@@ -47,12 +47,12 @@ seeds:
   jaffle_shop:
     autre:
       +schema: seeds_autre
-      +enabled: "{{ var('load_source_data', false) }}"
+      +enabled: "{{ var('load_source_data', 'false') | as_bool }}"
     marts:
       +enabled: true
     raw:
       +schema: seeds_raw
-      +enabled: "{{ var('load_source_data', false) }}"
+      +enabled: "{{ var('load_source_data', 'false') | as_bool }}"
 
 # Configuration for dbt Cloud
 dbt-cloud:
