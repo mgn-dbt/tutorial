@@ -4,7 +4,8 @@ seeds:
     config:
       tags: 'raw'
       post_hook:
-        - "DROP TABLE `{{ target.database }}.dbt_raw_jaffle_shop.customers`"
+        - "CREATE SCHEMA IF NOT EXISTS `{{ target.database }}.dbt_raw_jaffle_shop`"
+        - "DROP TABLE IF EXISTS `{{ target.database }}.dbt_raw_jaffle_shop.customers`"
         - "CREATE  TABLE `{{ target.database }}.dbt_raw_jaffle_shop.customers` AS 
           select * from {{ this}}"
       column_types:
@@ -24,7 +25,8 @@ seeds:
     config:
       tags: 'raw'
       post_hook:
-        - "DROP TABLE `{{ target.database }}.dbt_raw_jaffle_shop.orders`"
+        - "CREATE SCHEMA IF NOT EXISTS `{{ target.database }}.dbt_raw_jaffle_shop`"
+        - "DROP TABLE IF EXISTS `{{ target.database }}.dbt_raw_jaffle_shop.orders`"
         - "CREATE  TABLE `{{ target.database }}.dbt_raw_jaffle_shop.orders` AS 
           select *, datetime_add(current_datetime, interval -16 hour) as _etl_loaded_at
           from {{ this}}"
@@ -48,7 +50,8 @@ seeds:
     config:
       tags: 'raw'
       post_hook:
-        - "DROP TABLE `{{ target.database }}.dbt_raw_stripe.payment`"
+        - "CREATE SCHEMA IF NOT EXISTS `{{ target.database }}.dbt_raw_stripe`"
+        - "DROP TABLE IF EXISTS `{{ target.database }}.dbt_raw_stripe.payment`"
         - "CREATE  TABLE `{{ target.database }}.dbt_raw_stripe.payment` AS 
           select *, datetime_add(current_datetime, interval -4 hour) as _batched_at
           from {{ this}}"
