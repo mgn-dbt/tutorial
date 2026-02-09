@@ -1,30 +1,71 @@
 models:
   - name: dim_autre_customers
     description: Customer overview data mart, offering key details for each unique customer. One row per customer.
+    semantic_model:
+      enabled: true
+    agg_time_dimension: first_order_date
     columns:
       - name: customer_id
         description: The unique key of the orders mart.
+        entity:
+          name: customer
+          type: primary
         data_tests:
           - not_null
           - unique
       - name: customer_name
         description: Customers' full name.
+        dimension:
+          type: categorical
       - name: count_lifetime_orders
         description: Total number of orders a customer has ever placed.
+
       - name: first_ordered_at
         description: The timestamp when a customer placed their first order.
+        granularity: day
+        dimension:
+          type: time
+
       - name: last_ordered_at
         description: The timestamp of a customer's most recent order.
+        granularity: day
+        dimension:
+          type: time
+
       - name: lifetime_spend_pretax
         description: The sum of all the pre-tax subtotals of every order a customer has placed.
       - name: lifetime_spend
         description: The sum of all the order totals (including tax) that a customer has ever placed.
       - name: customer_type
         description: Options are 'new' or 'returning', indicating if a customer has ordered more than once or has only placed their first order to date.
+        dimension:
+          type: categorical
         data_tests:
           - accepted_values:
               arguments:
                 values: ["new", "returning"]
+    metrics:
+      - name: customers
+        description: Count of customers
+        type: simple
+        agg: count_distinct
+        expr: customer_id
+      - name: count_lifetime_orders
+        description: Total count of orders per customer.
+        type: simple
+        agg: sum
+        expr: count_lifetime_orders
+      - name: lifetime_spend_pretax
+        description: Customer lifetime spend before taxes.
+        type: simple
+        agg: sum
+        expr: lifetime_spend_pretax
+      - name: lifetime_spend
+        description: Gross customer lifetime spend inclusive of taxes.
+        type: simple
+        agg: sum
+        expr: lifetime_spend
+
 
   - name: fct_autre_orders
     description: Order overview data mart, offering key details for each order inlcluding if it's a customer's first order and a food vs. drink item breakdown. One row per order.
