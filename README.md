@@ -1,14 +1,13 @@
 Bienvenue dans le depot du tutorial DBT
 
 ### Modules installés sous vscode:
-- Better Jinja
-- BigQuery Driver for SQLTools
-- dbt
-- GitHub Copilot
-- GitHub Copilot Chat
-- sqlfluff
-- SQLTools
-- vscode-dbt (https://marketplace.visualstudio.com/items?itemName=bastienboutonnet.vscode-dbt)
+- Better Jinja                    samuelcolvin.jinjahtml
+- BigQuery Driver for SQLTools    evidence.sqltools-bigquery-driver
+- dbt                             dbtlabsinc.dbt
+- GitHub Copilot                  github.copilot
+- GitHub Copilot Chat             github.copilot-chat
+- sqlfluff                        sqlfluff.vscode-sqlfluff
+- SQLTools                        mtxr.sqltools
 
 
 NB : SQLTools a besoin de Nodejs pour fonctionner.<BR>
@@ -33,18 +32,10 @@ cafile=<chemin_vers>/cacert.pem
 ### vscode configuration
 ```json
 {
-    "editor.quickSuggestions": {
-        "strings": true
-    },
-    "editor.rulers": [100],
-    "diffEditor.ignoreTrimWhitespace": false,
-    "dbt.dbtPath": "<chemin_vers>\\dbtf\\dbt.exe",
+    "dbt.dbtPath": "<chemin_vers>\\.local\\bin\\dbt.exe",
     "sqlfluff.executablePath": "<chemin_vers>\\python\\venvs\\sqlfluff\\Scripts\\sqlfluff.exe",
     "sqlfluff.linter.run": "onSave",
     "python.pythonPath": "<chemin_vers>\\python\\venvs\\sqlfluff\\bin\\python",
-    "files.associations": {
-        "*.sql": "jinja-sql"
-    },
     "sqltools.connections": [
         {
             "name": "BigQuery",
@@ -55,19 +46,38 @@ cafile=<chemin_vers>/cacert.pem
             "keyfile": "<chemin_vers>\\dbt-jaffle-shop-xxxxxx-yyyyyyyyyyyy.json"
         }
     ],
-    "sqltools.useNodeRuntime": true
+    "sqltools.useNodeRuntime": true,
 }
 ```
 
 NB : SQLFluff a besoin de Python et dbt pour fonctionner.<BR>
 Packages installés dans le venv sqlfluff :
 ```
-pip install  sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery python-certifi-win32  (pour zscaler)
-pip install  dbt-metricflow dbt-metricflow[dbt-bigquery] ???
+python -m venv <chemin_vers>\venvs\sqlfluff
+<chemin_vers>\venvs\sqlfluff\Scripts\activate.ps1
+python.exe -m pip install --upgrade pip
+pip install sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery pip_system_certs
+(pip_system_certs pour zscaler, en remplacement de certifi qui n'est plus maintenu)
+pip install dbt-metricflow dbt-metricflow[dbt-bigquery]
+```
+
+Pour utiliser autofix, il est recommandé de faire un deuxième venv
+```
+python -m venv <chemin_vers>\venvs\autofix
+<chemin_vers>\venvs\autofix\Scripts\activate.ps1
+python.exe -m pip install --upgrade pip
+pip install dbt-autofix pip_system_certs
+
+dbt-autofix deprecations --json --all
+dbt-autofix deprecations --semantic-layer
 ```
 
 NB : dbt fusion doit etre mentionné dans le PATH pour pouvoir être utilisé dans le terminal.<BR>
 Mise à jour : dbt system update (dans le dossier de l'executable)
+
+json schema cf https://github.com/dbt-labs/dbt-jsonschema
+Attention redhat.vscode-yaml incompatible : https://docs.getdbt.com/docs/about-dbt-extension
+
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
