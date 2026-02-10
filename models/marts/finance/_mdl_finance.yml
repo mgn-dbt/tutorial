@@ -44,3 +44,9 @@ models:
                 group_by: [customer_id] 
                 row_condition: "order_id is not null" # (Optional)
                 strictly: false
+
+  - name: fct_orders__deprecated
+    description: Table pour comparer avec fct_orders, pour tester les tests de dbt_expectations
+
+  - name: fct_customer_orders
+    description: Commandes par client
