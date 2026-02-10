@@ -2,7 +2,7 @@ functions:
   - name: safe_divide
     description: Safely divide two numbers, returning NULL if the denominator is zero.
     config:
-      schema: udfs
+      # schema: udfs
       volatility: deterministic
     arguments:
       - name: numerator
