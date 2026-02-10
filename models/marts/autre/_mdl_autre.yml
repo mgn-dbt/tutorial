@@ -135,7 +135,8 @@ models:
         - name: ordered_at
           type: time
           granularity: day
-          expr: "{{ dbt.date_trunc('day', 'ordered_at') }}"
+          expr: |
+            {{ dbt.date_trunc('day', 'ordered_at') }}
 
     metrics:
       - name: revenue
@@ -174,6 +175,8 @@ models:
         data_tests:
           - not_null
           - unique
+        entity:
+          type: primary
       - name: customer_id
         description: The foreign key relating to the customer who placed the order.
         data_tests:
@@ -231,7 +234,8 @@ models:
         - name: ordered_at
           type: time
           granularity: day
-          expr: "{{ dbt.date_trunc('day', 'ordered_at') }}"
+          expr: |
+            {{ dbt.date_trunc('day', 'ordered_at') }}
 
     metrics:
       - name: order_total
@@ -245,18 +249,20 @@ models:
         type: simple
         agg: count_distinct
         expr: location_id
-      - name: order_value_p99
-        label: order_value_p99
-        description: The 99th percentile of each order
-        type: simple
-        agg: percentile
-        expr: order_total
-      - name: discrete_order_value_p99
-        label: discrete_order_value_p99
-        description: The 99th percentile of each order using a discrete distribution
-        type: simple
-        agg: percentile
-        expr: order_total
+      # - name: order_value_p99
+      #   label: order_value_p99
+      #   description: The 99th percentile of each order
+      #   type: simple
+      #   agg: percentile
+      #   expr: order_total
+
+      # - name: discrete_order_value_p99
+      #   label: discrete_order_value_p99
+      #   description: The 99th percentile of each order using a discrete distribution
+      #   type: simple
+      #   agg: percentile
+      #   expr: order_total
+
       - name: large_order
         label: Large Orders
         description: Count of orders with order total over 20.
@@ -297,17 +303,20 @@ models:
         description: The cost of fulfilling each order
         type: simple
         agg: sum
+        expr: order_cost
       - name: tax_paid
         description: The total tax paid on each order.
         type: simple
         agg: sum
         #hidden: true
+# RATIO METRICS
       - name: food_order_pct
         label: food_order_pct
         description: The food cost as the % of the total order
         type: ratio
         numerator: food_order_amount
         denominator: order_total
+# DERIVED METRICS
       - name: food_order_pct_cumulative
         label: food_order_as_percent_of_total_order_amount
         description: Food order total as a % of total order amount
@@ -329,12 +338,13 @@ models:
             alias: cost
             filter: |
               {{ Dimension('product__is_food_order') }} = True
- #CUMULATIVE METRICS 
+ # CUMULATIVE METRICS 
       - name: order_total_1
         description: The total amount for each order including taxes.
-        agg: sum
         type: simple
-        #hidden: true
+        agg: sum
+        expr: order_total
+        hidden: true
       - name: cumulative_order_amount
         label: cumulative_order_amount
         description: The cumulative value of all orders
