@@ -9,12 +9,6 @@ transformed as (
         last_name, --surname,
         first_name, --givenname,
 
-        -- upper(left(first_name, 1))
-        -- || lower(right(first_name, length(first_name) - 1))
-        -- || ' '
-        -- || upper(left(last_name, 1))
-        -- || lower(right(last_name, length(last_name) - 1)) 
-
         initcap({{ dbt.concat(["first_name", "' '", "last_name"]) }}) as full_name
 
     from source
