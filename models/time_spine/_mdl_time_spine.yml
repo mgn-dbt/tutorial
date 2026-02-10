@@ -1,5 +1,5 @@
 models:
-  - name: metricflow_time_spine
+  - name: time_spine
     description: A time spine with one row per day.
     time_spine:
       standard_granularity_column: date_day

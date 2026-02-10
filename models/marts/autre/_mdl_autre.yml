@@ -3,7 +3,7 @@ models:
     description: Customer overview data mart, offering key details for each unique customer. One row per customer.
     semantic_model:
       enabled: true
-    agg_time_dimension: first_order_date
+    agg_time_dimension: first_ordered_at
     columns:
       - name: customer_id
         description: The unique key of the orders mart.
