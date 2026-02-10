@@ -112,15 +112,26 @@ models:
         description: A boolean indicating if this order included any drink items.
 
   - name: order_items
-    description: Order items data mart, offering key details for each individual item within an order. One row per order item.
+    description: |
+      Order items data mart, offering key details for each individual item within an order. 
+      One row per order item.
+    semantic_model:
+      enabled: true
+    agg_time_dimension: ordered_at_day
     columns:
       - name: order_item_id
         description: The unique key of the order items mart.
+        entity:
+          name: order_item
+          type: primary
         data_tests:
           - not_null
           - unique
       - name: order_id
         description: The foreign key relating to the order this item belongs to.
+        entity:
+          name: order_id
+          type: foreign
         data_tests:
           - relationships:
               arguments:
@@ -128,13 +139,46 @@ models:
                 field: order_id
       - name: product_id
         description: The foreign key relating to the product that was ordered.
+        entity:
+          name: product
+          type: foreign
       - name: product_price
         description: The number of this specific product that was ordered.
       - name: supply_cost
         description: The price of a single unit of this product without tax.
       - name: is_food_item
         description: A boolean indicating if this item is a food item.
+        dimension: 
+          type: categorical
       - name: is_drink_item
         description: A boolean indicating if this item is a drink item.
-      - name: ordered_at
+        dimension: 
+          type: categorical
+      - name: ordered_at_day
         description: The timestamp the order containing this item was placed at.
+        granularity: day
+        dimension:
+          type: time
+    metrics:
+      - name: revenue
+        description: |
+          The revenue generated for each order item. 
+          Revenue is calculated as a sum of revenue associated with each product in an order.
+        type: simple
+        agg: sum
+        expr: product_price
+      - name: food_revenue
+        description: |
+          The revenue generated for each order item. 
+          Revenue is calculated as a sum of revenue associated with each product in an order.
+        type: simple
+        agg: sum
+        expr: case when is_food_item = 1 then product_price else 0 end
+      - name: drink_revenue
+        description: |
+          The revenue generated for each order item. 
+          Revenue is calculated as a sum of revenue associated with each product in an order.
+        type: simple
+        agg: sum
+        expr: case when is_drink_item = 1 then product_price else 0 end
+
