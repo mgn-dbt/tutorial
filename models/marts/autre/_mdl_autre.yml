@@ -61,7 +61,7 @@ models:
         description: Unique count of customers placing orders
         type: simple
         agg: count_distinct
-        expr: customer_id
+        expr: case when count_lifetime_orders = 0 then '0' else customer_id end
 
       - name: count_lifetime_orders
         description: Total count of orders per customer.
