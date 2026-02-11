@@ -1,0 +1,9 @@
+dbt_internal_packages
+dbt_packages
+functions
+logs
+macros
+target
+
+*.yml
+*.legacy_yml

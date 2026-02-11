@@ -1,0 +1,42 @@
+{
+    "editor.rulers": [80,100],
+    // show whitespace as dots
+    // (easier to count out indentation and spot trailing whitesapce)
+    "editor.renderWhitespace": "all",
+    // the vscode-dbt docs say you may need this
+    "editor.quickSuggestions": {
+        "strings": true
+    },
+    "files.associations": {
+        "*.sql": "jinja-sql",
+    },
+    "sqlfluff.linter.run": "onSave",
+    //
+    // we specify which jsonschema we want
+    "yaml.schemaStore.enable": false,
+    //
+    "yaml.schemas": {
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest_fusion/dbt_yml_files-latest-fusion.json": [
+            "/**/*.yml",
+            "!profiles.yml",
+            "!dbt_project.yml",
+            "!packages.yml",
+            "!dependencies.yml",
+            "!selectors.yml",
+            "!profile_template.yml",
+            "!package-lock.yml"
+        ],
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest_fusion/dbt_project-latest-fusion.json": [
+            "dbt_project.yml"
+        ],
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest_fusion/selectors-latest-fusion.json": [
+            "selectors.yml"
+        ],
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest_fusion/packages-latest-fusion.json": [
+            "packages.yml"
+        ],
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest_fusion/dependencies-latest-fusion.json": [
+            "dependencies.yml"
+        ]
+    },
+}

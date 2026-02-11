@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "dbt-labs.dbt-vscode",
+        "samuelcolvin.jinjahtml",
+        "sqltools.sqltools",
+        "evidence.sqltools-bigquery-driver",
+        "redhat.vscode-yaml",
+        "sqlfluff.sqlfluff-vscode"
+    ]
+}

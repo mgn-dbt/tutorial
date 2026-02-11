@@ -1,0 +1,25 @@
+seeds:
+  - name: customers
+    description: customers data
+    config:
+      tags: 'autre'
+  - name: items
+    description: items data
+    config:
+      tags: 'autre'
+  - name: orders
+    description: orders data
+    config:
+      tags: 'autre'
+  - name: products
+    description: products data
+    config:
+      tags: 'autre'
+  - name: stores
+    description: stores data
+    config:
+      tags: 'autre'
+  - name: supplies
+    description: supplies data
+    config:
+      tags: 'autre'

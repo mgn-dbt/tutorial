@@ -7,11 +7,11 @@ models:
         data_tests:
           - unique:
               config:
-                severity: error
+                severity: Error
                 limit: 10
                 error_if: ">=100"
                 warn_if: ">=10"
-                store_failures: true
+                # store_failures: true
           - not_null
       - name: order_id
         description: order FK

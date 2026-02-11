@@ -1,0 +1,13 @@
+functions:
+  - name: safe_divide
+    description: Safely divide two numbers, returning NULL if the denominator is zero.
+    config:
+      # schema: udfs
+      volatility: deterministic
+    arguments:
+      - name: numerator
+        data_type: numeric
+      - name: denominator
+        data_type: numeric
+    returns:
+      data_type: numeric

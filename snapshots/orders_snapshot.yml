@@ -2,7 +2,7 @@ snapshots:
   - name: orders_snapshot
     relation: source('jaffle_shop', 'orders')
     config:
-      schema: snapshots
+      # schema: snapshots
       database: dbt-jaffle-shop-481313
       unique_key: id
       strategy: check

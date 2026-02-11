@@ -1,0 +1,7 @@
+
+models:
+  - name: int_orders
+    description: This intermediate table enhances the orders data with additional calculated fields for further analysis.
+
+  - name: int_orders__pivoted
+    description: This intermediate table pivots orders to provide a summarized view of items per payment_method.
