@@ -62,6 +62,7 @@ models:
         type: simple
         agg: count_distinct
         expr: customer_id
+        filter: count_lifetime_orders > 0
 
       - name: count_lifetime_orders
         description: Total count of orders per customer.
@@ -123,19 +124,16 @@ models:
           type: categorical
       - name: ordered_at
         description: The timestamp the order containing this item was placed at.
+      - name: ordered_at_day
+        description: The day the order containing this item was placed at.
+        dimension:
+          type: time
+        granularity: day
 
     semantic_model:
       enabled: true
       name: order_items
-    agg_time_dimension: ordered_at
-
-    derived_semantics:
-      entities: []
-      dimensions:
-        - name: ordered_at
-          type: time
-          granularity: day
-          expr: dbt.date_trunc('day', 'ordered_at')
+    agg_time_dimension: ordered_at_day
 
     metrics:
       - name: revenue
