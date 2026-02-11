@@ -10,10 +10,10 @@ models:
           - not_null
           - unique
         entity:
-          name: customer
+          name: customer_id
           type: primary
       - name: customer_name
-        description: Customers' full name.
+        description: Customer full name.
         dimension:
           type: categorical
       - name: count_lifetime_orders
@@ -62,7 +62,6 @@ models:
         type: simple
         agg: count_distinct
         expr: customer_id
-        filter: count_lifetime_orders > 0
 
       - name: count_lifetime_orders
         description: Total count of orders per customer.
@@ -93,7 +92,7 @@ models:
           - not_null
           - unique
         entity:
-          name: order_item
+          name: order_item_id
           type: primary
       - name: order_id
         description: The foreign key relating to the order this item belongs to.
@@ -108,7 +107,7 @@ models:
       - name: product_id
         description: The foreign key relating to the product that was ordered.
         entity:
-          name: product
+          name: product_id
           type: foreign
       - name: product_price
         description: The number of this specific product that was ordered.
@@ -160,5 +159,4 @@ models:
         agg: sum
         expr: case when is_drink_item = 1 then product_price else 0 end
         #hidden: true
-
 
