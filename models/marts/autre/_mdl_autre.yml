@@ -10,24 +10,44 @@ models:
           - not_null
           - unique
         entity:
-          name: customer_id
           type: primary
+          name: customer
+          label: Customer
+          description: PK for the customers mart, representing a unique customer.
+
       - name: customer_name
         description: Customer full name.
         dimension:
           type: categorical
+          name: customer_name
+          label: Customer Name
+          description: Customer full name.
+          #is_partition: true|false # optional
+          #validity_params: [optional]
+            #start_time: [optional, required if validity_params is provided, indicates the column name for the start time of the record's validity period] 
+            #end_time: [optional, required if validity_params is provided, indicates the column name for the end time of the record's validity period]
+
       - name: count_lifetime_orders
         description: Total number of orders a customer has ever placed.
+
       - name: first_ordered_at
         description: The timestamp when a customer placed their first order.
         dimension:
           type: time
+          name: first_ordered_at
+          label: first order date
+          description: The timestamp when a customer placed their first order.
         granularity: day
+
       - name: last_ordered_at
         description: The timestamp of a customer's most recent order.
         dimension:
           type: time
+          name: last_ordered_at
+          label: most recent order date
+          description: The timestamp of a customer's most recent order.
         granularity: day
+
       - name: lifetime_spend_pretax
         description: The sum of all the pre-tax subtotals of every order a customer has placed.
       - name: lifetime_spend
@@ -42,6 +62,11 @@ models:
                 values: ["new", "returning"]
         dimension:
           type: categorical
+          name: customer_type
+          label: Customer Type
+          description: | 
+            Options are 'new' or 'returning', indicating if a customer has ordered more than once 
+            or has only placed their first order to date.
 
     semantic_model:
       enabled: true
@@ -53,6 +78,8 @@ models:
         label: customers
         description: Count of customers
         type: simple
+        #agg_time_dimension: first_ordered_at
+        #time_granularity: day
         agg: count_distinct
         expr: customer_id
 
@@ -68,11 +95,13 @@ models:
         type: simple
         agg: sum
         #hidden: true
+
       - name: lifetime_spend_pretax
         description: Customer lifetime spend before taxes.
         type: simple
         agg: sum
         #hidden: true
+
       - name: lifetime_spend
         description: Gross customer lifetime spend inclusive of taxes.
         type: simple
@@ -92,8 +121,11 @@ models:
           - not_null
           - unique
         entity:
-          name: order_item_id
           type: primary
+          name: order_item
+          label: Order Item
+          description: PK for the order items mart, representing a unique item within an order.
+
       - name: order_id
         description: The foreign key relating to the order this item belongs to.
         data_tests:
@@ -101,14 +133,20 @@ models:
               arguments:
                 to: ref('fct_autre_orders')
                 field: order_id
-        entity:
-          name: order_id
-          type: foreign
+        # entity:
+        #   type: foreign
+        #   name: order   le nom pose probleme - mot reserve
+        #   label: Order
+        #   description: FK linking to the orders mart, representing the order this item belongs to.
+
       - name: product_id
         description: The foreign key relating to the product that was ordered.
         entity:
-          name: product_id
           type: foreign
+          name: product
+          label: product
+          description: FK linking to the products dimension, representing the product that was ordered.
+
       - name: product_price
         description: The number of this specific product that was ordered.
       - name: supply_cost
@@ -117,22 +155,34 @@ models:
         description: A boolean indicating if this item is a food item.
         dimension: 
           type: categorical
+          name: is_food_item 
+          label: is_food_item 
+          description: A boolean indicating if this item is a food item.
+
       - name: is_drink_item
         description: A boolean indicating if this item is a drink item.
         dimension: 
           type: categorical
+          name: is_drink_item
+          label: is_drink_item 
+          description: A boolean indicating if this item is a drink item.
+
       - name: ordered_at
         description: The timestamp the order containing this item was placed at.
-      - name: ordered_at_day
-        description: The day the order containing this item was placed at.
         dimension:
           type: time
+          name: ordered_at
+          label: ordered_at
+          description: The timestamp the order containing this item was placed at.
         granularity: day
+
+      - name: ordered_at_day
+        description: The day the order containing this item was placed at.
 
     semantic_model:
       enabled: true
       name: order_items
-    agg_time_dimension: ordered_at_day
+    agg_time_dimension: ordered_at
 
     metrics:
       - name: revenue
@@ -143,6 +193,7 @@ models:
         agg: sum
         expr: product_price
         #hidden: true
+
       - name: food_revenue
         description: |
           The revenue generated for each order item. 
@@ -151,6 +202,7 @@ models:
         agg: sum
         expr: case when is_food_item = 1 then product_price else 0 end
         #hidden: true
+
       - name: drink_revenue
         description: |
           The revenue generated for each order item. 
