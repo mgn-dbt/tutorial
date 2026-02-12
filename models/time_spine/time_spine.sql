@@ -23,5 +23,5 @@ final as (
 select *
 from final
 where
-    date_day > {{ dbt.dateadd("year", -5, current_timestamp()) }}  -- Keep recent dates only
+    date_day > {{ dbt.dateadd("year", -11, current_timestamp()) }}  -- Keep recent dates only
     and date_day < {{ dbt.dateadd("day", 30, current_timestamp()) }}

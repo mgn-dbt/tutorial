@@ -422,9 +422,22 @@ models:
         expr: order_total
         hidden: true
         
-      # - name: cumulative_order_amount
-      #   label: cumulative_order_amount
-      #   description: The cumulative value of all orders
-      #   type: cumulative
-      #   input_metric: order_total_1
+      - name: cumulative_order_amount
+        label: cumulative_order_amount
+        description: The cumulative value of all orders
+        type: cumulative
+        input_metric: order_total_1
 
+      - name: cumulative_order_amount_l1m
+        label: cumulative_order_amount_l1m
+        description: Trailing 1 month cumulative order amount
+        type: cumulative
+        input_metric: order_total_1
+        window: 1 month
+        
+      - name: cumulative_order_amount_mtd
+        label: cumulative_order_amount_mtd
+        description: The month to date value of all orders
+        type: cumulative
+        input_metric: order_total_1
+        grain_to_date: month
