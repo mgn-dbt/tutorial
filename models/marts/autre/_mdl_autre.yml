@@ -5,7 +5,7 @@ models:
       One row per customer.
     columns:
       - name: customer_id
-        description: The unique key of the orders mart.
+        description: PK for the customers mart, representing a unique customer.
         data_tests:
           - not_null
           - unique
@@ -13,7 +13,6 @@ models:
           type: primary
           name: customer_id
           label: Customer
-          description: PK for the customers mart, representing a unique customer.
 
       - name: customer_name
         description: Customer full name.
@@ -21,7 +20,6 @@ models:
           type: categorical
           name: customer_name
           label: Customer Name
-          description: Customer full name.
           #is_partition: true|false # optional
           #validity_params: [optional]
             #start_time: [optional, required if validity_params is provided, indicates the column name for the start time of the record's validity period] 
@@ -36,7 +34,6 @@ models:
           type: time
           name: first_ordered_at
           label: first order date
-          description: The timestamp when a customer placed their first order.
         granularity: day
 
       - name: last_ordered_at
@@ -45,7 +42,6 @@ models:
           type: time
           name: last_ordered_at
           label: most recent order date
-          description: The timestamp of a customer's most recent order.
         granularity: day
 
       - name: lifetime_spend_pretax
@@ -64,46 +60,46 @@ models:
           type: categorical
           name: customer_type
           label: Customer Type
-          description: | 
-            Options are 'new' or 'returning', indicating if a customer has ordered more than once 
-            or has only placed their first order to date.
 
     semantic_model:
       enabled: true
-      name: dim_autre_customers
+      name: sem_dim_autre_customers
     agg_time_dimension: first_ordered_at
 
     metrics:
-      - name: customers
+      - name: m_customers
         label: customers
         description: Count of customers
         type: simple
         agg: count_distinct
         expr: customer_id
 
-      - name: customers_with_orders
+      - name: m_customers_with_orders
         label: customers_with_orders
         description: Unique count of customers placing orders
         type: simple
         agg: count_distinct
         expr: case when count_lifetime_orders = 0 then '0' else customer_id end
 
-      - name: count_lifetime_orders
+      - name: m_count_lifetime_orders
         description: Total count of orders per customer.
         type: simple
         agg: sum
+        expr: count_lifetime_orders
         #hidden: true
 
-      - name: lifetime_spend_pretax
+      - name: m_lifetime_spend_pretax
         description: Customer lifetime spend before taxes.
         type: simple
         agg: sum
+        expr: lifetime_spend_pretax
         #hidden: true
 
-      - name: lifetime_spend
+      - name: m_lifetime_spend
         description: Gross customer lifetime spend inclusive of taxes.
         type: simple
         agg: sum
+        expr: lifetime_spend
         #hidden: true
 
 
@@ -114,7 +110,7 @@ models:
 
     columns:
       - name: order_item_id
-        description: The unique key of the order items mart.
+        description: PK for the order items mart, representing a unique item within an order.
         data_tests:
           - not_null
           - unique
@@ -122,10 +118,9 @@ models:
           type: primary
           name: order_item_id
           label: Order Item
-          description: PK for the order items mart, representing a unique item within an order.
 
       - name: order_id
-        description: The foreign key relating to the order this item belongs to.
+        description: FK linking to the orders mart, representing the order this item belongs to.
         data_tests:
           - relationships:
               arguments:
@@ -135,15 +130,13 @@ models:
           type: foreign
           name: order_id   # le nom order est un mot reserve du sql
           label: Order
-          description: FK linking to the orders mart, representing the order this item belongs to.
 
       - name: product_id
-        description: The foreign key relating to the product that was ordered.
+        description: FK linking to the products dimension, representing the product that was ordered.
         entity:
           type: foreign
           name: product_id
           label: product
-          description: FK linking to the products dimension, representing the product that was ordered.
 
       - name: product_price
         description: The number of this specific product that was ordered.
@@ -154,16 +147,14 @@ models:
         dimension: 
           type: categorical
           name: is_food_item 
-          label: is_food_item 
-          description: A boolean indicating if this item is a food item.
+          label: food item
 
       - name: is_drink_item
         description: A boolean indicating if this item is a drink item.
         dimension: 
           type: categorical
           name: is_drink_item
-          label: is_drink_item 
-          description: A boolean indicating if this item is a drink item.
+          label: drink item
 
       - name: ordered_at
         description: The timestamp the order containing this item was placed at.
@@ -174,16 +165,15 @@ models:
           type: time
           name: ordered_at_date
           label: ordered_at_date
-          description: The day the order containing this item was placed at.
         granularity: day
 
     semantic_model:
       enabled: true
-      name: order_items
+      name: sem_order_items
     agg_time_dimension: ordered_at_date
 
     metrics:
-      - name: revenue
+      - name: m_revenue
         description: |
           The revenue generated for each order item. 
           Revenue is calculated as a sum of revenue associated with each product in an order.
@@ -192,7 +182,7 @@ models:
         expr: product_price
         #hidden: true
 
-      - name: food_revenue
+      - name: m_food_revenue
         description: |
           The revenue generated for each order item. 
           Revenue is calculated as a sum of revenue associated with each product in an order.
@@ -201,7 +191,7 @@ models:
         expr: case when is_food_item = 1 then product_price else 0 end
         #hidden: true
 
-      - name: drink_revenue
+      - name: m_drink_revenue
         description: |
           The revenue generated for each order item. 
           Revenue is calculated as a sum of revenue associated with each product in an order.
@@ -217,7 +207,7 @@ models:
       One row per order.
     columns:
       - name: order_id
-        description: The unique key of the orders mart.
+        description: PK for the orders mart, representing a unique order.
         data_tests:
           - not_null
           - unique
@@ -225,9 +215,9 @@ models:
           type: primary
           name: order_id
           label: Order
-          description: PK for the orders mart, representing a unique order.
+
       - name: customer_id
-        description: The foreign key relating to the customer who placed the order.
+        description: FK linking to the customers dimension, representing the customer who placed the order.
         data_tests:
           - relationships:
               arguments:
@@ -237,21 +227,20 @@ models:
           type: foreign
           name: customer_id
           label: Customer
-          description: FK linking to the customers dimension, representing the customer who placed the order.
+
       - name: location_id
-        description: The foreign key relating to the location the order was placed at.
+        description: FK linking to the locations dimension, representing the location the order was placed at.
         entity:
           type: foreign
           name: location_id
           label: Location
-          description: FK linking to the locations dimension, representing the location the order was placed at.
+
       - name: order_total
         description: The total amount of the order in USD including tax.
         dimension:
           type: categorical
           name: order_total_dim
           label: order total
-          description: The total amount of the order in USD including tax.
 
       - name: ordered_at
         description: The timestamp the order was placed at.
@@ -262,7 +251,6 @@ models:
           type: time
           name: ordered_at_date
           label: ordered at date
-          description: The day the order was placed at.
         granularity: day
 
       - name: count_food_items
@@ -289,49 +277,59 @@ models:
           type: categorical
           name: is_food_order
           label: food order boolean
-          description: A boolean indicating if this order included any food items.
+
       - name: is_drink_order
         description: A boolean indicating if this order included any drink items.
         dimension:
           type: categorical
           name: is_drink_order
           label: drink order boolean
-          description: A boolean indicating if this order included any drink items.
 
     semantic_model:
       enabled: true
-      name: fct_autre_orders
+      name: sem_fct_autre_orders
+      
     agg_time_dimension: ordered_at_date
 
     metrics:
-      - name: order_total
+      - name: m_order_total
         label: order_total
         description: Sum of orders value
         type: simple
         agg: sum
+        expr: order_total
 
-      - name: locations_with_orders
+      - name: m_order_total_food
+        label: order_total_food
+        description: Sum of orders value
+        type: simple
+        agg: sum
+        expr: order_total
+        filter: |
+          {{ Dimension('order_id__is_food_order') }} = True
+
+      - name: m_locations_with_orders
         label: locations_with_orders
         description: The number of locations that have orders.
         type: simple
         agg: count_distinct
         expr: location_id
 
-      # - name: order_value_p99
-      #   label: order_value_p99
+      # - name: m_order_value_p99
+      #   label: order value p99
       #   description: The 99th percentile of each order
       #   type: simple
       #   agg: percentile
       #   expr: order_total
 
-      # - name: discrete_order_value_p99
-      #   label: discrete_order_value_p99
+      # - name: m_discrete_order_value_p99
+      #   label: discrete order value p99
       #   description: The 99th percentile of each order using a discrete distribution
       #   type: simple
       #   agg: percentile
       #   expr: order_total
 
-      - name: large_order
+      - name: m_large_order
         label: Large Orders
         description: Count of orders with order total over 20.
         type: simple
@@ -340,28 +338,28 @@ models:
         filter: |
           {{ Dimension('order_id__order_total_dim') }} >= 20
           
-      - name: food_order_amount
+      - name: m_food_order_amount
         label: food_order_amount
         description: Sum order amount for food orders.
         type: simple
         agg: sum
         expr: case when is_food_order then order_total else 0 end
 
-      - name: max_order_amount
+      - name: m_max_order_amount
         label: max_order_amount
         description: The highest order value for a given period
         type: simple
         agg: max
         expr: order_total
 
-      - name: min_order_amount
+      - name: m_min_order_amount
         label: min_order_amount
         description: The lowest order value for a given period
         type: simple
         agg: min
         expr: order_total
 
-      - name: new_customer
+      - name: m_new_customer
         description: Unique count of new customers.
         label: New Customers
         type: simple
@@ -370,75 +368,85 @@ models:
         filter: |
           {{ Dimension('customer_id__customer_type') }} = 'new'
 
-      - name: order_amount
+      - name: m_order_amount
         label: order_amount
         description: The cost of fulfilling each order
         type: simple
         agg: sum
         expr: order_cost
 
-      - name: tax_paid
+      - name: m_order_amount_food
+        label: order_amount_food
+        description: The cost of fulfilling each order
+        type: simple
+        agg: sum
+        expr: order_cost
+        filter: |
+          {{ Dimension('order_id__is_food_order') }} = True
+
+      - name: m_tax_paid
         description: The total tax paid on each order.
         type: simple
         agg: sum
+        expr: tax_paid
         #hidden: true
 
 # RATIO METRICS
-      - name: food_order_pct
+      - name: m_food_order_pct
         label: food_order_pct
         description: The food cost as the % of the total order
         type: ratio
-        numerator: food_order_amount
-        denominator: order_total
+        numerator: m_food_order_amount
+        denominator: m_order_total
 
 # DERIVED METRICS
-      - name: food_order_pct_cumulative
+      - name: m_food_order_pct_cumulative
         label: food_order_as_percent_of_total_order_amount
         description: Food order total as a % of total order amount
         type: derived
-        expr: food_order_pct * 100
+        expr: m_food_order_pct * 100
         input_metrics:
-          - name: food_order_pct
+          - name: m_food_order_pct
 
-      - name: food_order_gross_profit
+      - name: m_food_order_gross_profit
         label: food_order_gross_profit
         description: The gross profit for each food order
         type: derived
         expr: revenue - cost
         input_metrics:
-          - name: order_total
+          - name: m_order_total_food
             alias: revenue
-            filter: |
-              {{ Dimension('order_id__is_food_order') }} = True
-          - name: order_amount
+            # filter: |
+            #   {{ Dimension('order_id__is_food_order') }} = True    # pose problème
+          - name: m_order_amount_food
             alias: cost
-            filter: |
-              {{ Dimension('order_id__is_food_order') }} = True
+            # filter: |
+            #   {{ Dimension('order_id__is_food_order') }} = True    # pose problème
 
 # CUMULATIVE METRICS 
-      - name: order_total_1
+      - name: m_order_total_1
         description: The total amount for each order including taxes.
         type: simple
         agg: sum
         expr: order_total
         hidden: true
         
-      - name: cumulative_order_amount
+      - name: m_cumulative_order_amount
         label: cumulative_order_amount
         description: The cumulative value of all orders
         type: cumulative
-        input_metric: order_total_1
+        input_metric: m_order_total_1
 
-      - name: cumulative_order_amount_l1m
+      - name: m_cumulative_order_amount_l1m
         label: cumulative_order_amount_l1m
         description: Trailing 1 month cumulative order amount
         type: cumulative
-        input_metric: order_total_1
+        input_metric: m_order_total_1
         window: 1 month
         
-      - name: cumulative_order_amount_mtd
+      - name: m_cumulative_order_amount_mtd
         label: cumulative_order_amount_mtd
         description: The month to date value of all orders
         type: cumulative
-        input_metric: order_total_1
+        input_metric: m_order_total_1
         grain_to_date: month
