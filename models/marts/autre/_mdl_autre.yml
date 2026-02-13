@@ -11,7 +11,7 @@ models:
           - unique
         entity:
           type: primary
-          name: customer
+          name: customer_id
           label: Customer
           description: PK for the customers mart, representing a unique customer.
 
@@ -78,8 +78,6 @@ models:
         label: customers
         description: Count of customers
         type: simple
-        #agg_time_dimension: first_ordered_at
-        #time_granularity: day
         agg: count_distinct
         expr: customer_id
 
@@ -122,7 +120,7 @@ models:
           - unique
         entity:
           type: primary
-          name: order_item
+          name: order_item_id
           label: Order Item
           description: PK for the order items mart, representing a unique item within an order.
 
@@ -135,7 +133,7 @@ models:
                 field: order_id
         entity:
           type: foreign
-          name: cmde   # le nom order est un mot reserve du sql
+          name: order_id   # le nom order est un mot reserve du sql
           label: Order
           description: FK linking to the orders mart, representing the order this item belongs to.
 
@@ -143,7 +141,7 @@ models:
         description: The foreign key relating to the product that was ordered.
         entity:
           type: foreign
-          name: product
+          name: product_id
           label: product
           description: FK linking to the products dimension, representing the product that was ordered.
 
@@ -169,20 +167,20 @@ models:
 
       - name: ordered_at
         description: The timestamp the order containing this item was placed at.
+
+      - name: ordered_at_date
+        description: The day the order containing this item was placed at.
         dimension:
           type: time
-          name: ordered_at
-          label: ordered_at
-          description: The timestamp the order containing this item was placed at.
+          name: ordered_at_date
+          label: ordered_at_date
+          description: The day the order containing this item was placed at.
         granularity: day
-
-      - name: ordered_at_day
-        description: The day the order containing this item was placed at.
 
     semantic_model:
       enabled: true
       name: order_items
-    agg_time_dimension: ordered_at
+    agg_time_dimension: ordered_at_date
 
     metrics:
       - name: revenue
@@ -225,7 +223,7 @@ models:
           - unique
         entity:
           type: primary
-          name: cmde
+          name: order_id
           label: Order
           description: PK for the orders mart, representing a unique order.
       - name: customer_id
@@ -237,14 +235,14 @@ models:
                 field: customer_id
         entity:
           type: foreign
-          name: customer
+          name: customer_id
           label: Customer
           description: FK linking to the customers dimension, representing the customer who placed the order.
       - name: location_id
         description: The foreign key relating to the location the order was placed at.
         entity:
           type: foreign
-          name: location
+          name: location_id
           label: Location
           description: FK linking to the locations dimension, representing the location the order was placed at.
       - name: order_total
@@ -254,13 +252,17 @@ models:
           name: order_total_dim
           label: order total
           description: The total amount of the order in USD including tax.
+
       - name: ordered_at
         description: The timestamp the order was placed at.
+
+      - name: ordered_at_date
+        description: The day the order was placed at.
         dimension:
           type: time
-          name: ordered_at
-          label: ordered at
-          description: The timestamp the order was placed at.
+          name: ordered_at_date
+          label: ordered at date
+          description: The day the order was placed at.
         granularity: day
 
       - name: count_food_items
@@ -299,7 +301,7 @@ models:
     semantic_model:
       enabled: true
       name: fct_autre_orders
-    agg_time_dimension: ordered_at
+    agg_time_dimension: ordered_at_date
 
     metrics:
       - name: order_total
@@ -336,7 +338,7 @@ models:
         agg: sum
         expr: 1
         filter: |
-          {{ Dimension('cmde__order_total_dim') }} >= 20
+          {{ Dimension('order_id__order_total_dim') }} >= 20
           
       - name: food_order_amount
         label: food_order_amount
@@ -350,7 +352,6 @@ models:
         description: The highest order value for a given period
         type: simple
         agg: max
-        agg_time_dimension: ordered_at
         expr: order_total
 
       - name: min_order_amount
@@ -367,7 +368,7 @@ models:
         agg: count_distinct
         expr: customer_id
         filter: |
-          {{ Dimension('customer__customer_type') }} = 'new'
+          {{ Dimension('customer_id__customer_type') }} = 'new'
 
       - name: order_amount
         label: order_amount
@@ -408,11 +409,11 @@ models:
           - name: order_total
             alias: revenue
             filter: |
-              {{ Dimension('cmde__is_food_order') }} = True
+              {{ Dimension('order_id__is_food_order') }} = True
           - name: order_amount
             alias: cost
             filter: |
-              {{ Dimension('cmde__is_food_order') }} = True
+              {{ Dimension('order_id__is_food_order') }} = True
 
 # CUMULATIVE METRICS 
       - name: order_total_1

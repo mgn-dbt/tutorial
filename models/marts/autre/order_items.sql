@@ -32,7 +32,7 @@ joined as (
         products.is_food_item,
         products.is_drink_item,
         orders.ordered_at,
-        {{ dbt.date_trunc('day', 'orders.ordered_at') }} as ordered_at_day
+        {{ dbt.cast('orders.ordered_at', 'date') }} as ordered_at_date
 
     from order_items
     left join orders on order_items.order_id = orders.order_id
