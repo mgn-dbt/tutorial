@@ -3,6 +3,7 @@ models:
     description: |
       Customer overview data mart, offering key details for each unique customer. 
       One row per customer.
+
     columns:
       - name: customer_id
         description: PK for the customers mart, representing a unique customer.
@@ -63,7 +64,8 @@ models:
 
     semantic_model:
       enabled: true
-      name: sem_dim_autre_customers
+      name: dim_autre_customers
+
     agg_time_dimension: first_ordered_at
 
     metrics:
@@ -103,6 +105,7 @@ models:
         #hidden: true
 
 
+################################################################################
   - name: order_items
     description: |
       Order items data mart, offering key details for each individual item within an order. 
@@ -169,7 +172,8 @@ models:
 
     semantic_model:
       enabled: true
-      name: sem_order_items
+      name: order_items
+
     agg_time_dimension: ordered_at_date
 
     metrics:
@@ -200,11 +204,14 @@ models:
         expr: case when is_drink_item = 1 then product_price else 0 end
         #hidden: true
 
+
+################################################################################
   - name: fct_autre_orders
     description: |
       Order overview data mart, offering key details for each order inlcluding 
       if it's a customer's first order and a food vs. drink item breakdown. 
       One row per order.
+
     columns:
       - name: order_id
         description: PK for the orders mart, representing a unique order.
@@ -287,8 +294,8 @@ models:
 
     semantic_model:
       enabled: true
-      name: sem_fct_autre_orders
-      
+      name: fct_autre_orders
+
     agg_time_dimension: ordered_at_date
 
     metrics:
@@ -337,7 +344,7 @@ models:
         expr: 1
         filter: |
           {{ Dimension('order_id__order_total_dim') }} >= 20
-          
+
       - name: m_food_order_amount
         label: food_order_amount
         description: Sum order amount for food orders.
@@ -443,7 +450,7 @@ models:
         type: cumulative
         input_metric: m_order_total_1
         window: 1 month
-        
+
       - name: m_cumulative_order_amount_mtd
         label: cumulative_order_amount_mtd
         description: The month to date value of all orders
