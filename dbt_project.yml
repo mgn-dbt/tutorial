@@ -65,9 +65,10 @@ seeds:
 dbt-cloud:
   project-id: 70471823535774
 
-# pour dbt_date et dbt_expectations
 vars:
+  # pour dbt_date
   'dbt_date:time_zone': 'Europe/Paris'
+  # pour staging/autre/stg_autre__orders et staging/autre/stg_autre__locations
   truncate_timespan_to: "{{ current_timestamp() }}"
 
 # BigQuery specific flags
