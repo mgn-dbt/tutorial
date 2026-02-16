@@ -40,18 +40,26 @@ models:
     marts:
       +materialized: table
 
-# warning sur les seeds desactivés s'ils contiennent des tests
-# dbt seed --full-refresh --vars '{"load_source_data": True}' -s "tag:raw"
+### warning sur les seeds desactivés s'ils contiennent des tests
+### dbt veut True/False ou null mais pas de jinja 
+### +enabled: "{#{ var('load_source_data', 'False') | as_bool }#}"
+# dbt seed --full-refresh -s "tag:raw"
 seeds:
   jaffle_shop:
+    +persist_docs:
+      relation: true
+      columns: true
     autre:
       +schema: seeds_autre
-      +enabled: "{{ var('load_source_data', 'False') | as_bool }}"
+      +tags: 'autre'
+      +enabled: true
     marts:
+      +tags: 'marts'
       +enabled: true
     raw:
       +schema: seeds_raw
-      +enabled: "{{ var('load_source_data', 'False') | as_bool }}"
+      +tags: 'raw'
+      +enabled: true
 
 # Configuration for dbt Cloud
 dbt-cloud:

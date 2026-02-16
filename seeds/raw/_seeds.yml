@@ -2,7 +2,6 @@ seeds:
   - name: raw_customers
     description: raw customers
     config:
-      tags: 'raw'
       post_hook:
         - "CREATE SCHEMA IF NOT EXISTS `{{ target.database }}.dbt_raw_jaffle_shop`"
         - "DROP TABLE IF EXISTS `{{ target.database }}.dbt_raw_jaffle_shop.customers`"
@@ -23,7 +22,6 @@ seeds:
   - name: raw_orders
     description: raw orders
     config:
-      tags: 'raw'
       post_hook:
         - "CREATE SCHEMA IF NOT EXISTS `{{ target.database }}.dbt_raw_jaffle_shop`"
         - "DROP TABLE IF EXISTS `{{ target.database }}.dbt_raw_jaffle_shop.orders`"
@@ -48,7 +46,6 @@ seeds:
   - name: raw_payments
     description: raw payments
     config:
-      tags: 'raw'
       post_hook:
         - "CREATE SCHEMA IF NOT EXISTS `{{ target.database }}.dbt_raw_stripe`"
         - "DROP TABLE IF EXISTS `{{ target.database }}.dbt_raw_stripe.payment`"
