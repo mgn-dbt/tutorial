@@ -76,3 +76,4 @@ vars:
 flags:
   bigquery_use_batch_source_freshness: true
   require_generic_test_arguments_property: true
+  require_unique_project_resource_names: true

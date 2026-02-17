@@ -463,3 +463,20 @@ models:
         type: cumulative
         input_metric: m_order_total_1
         grain_to_date: month
+
+################################################################################
+saved_queries:
+  - name: order_metrics
+    description: testing out order metrics in one table
+    query_params:
+      metrics:
+        - m_cumulative_order_amount
+        - m_min_order_amount
+        - m_max_order_amount
+      group_by:
+        - TimeDimension('metric_time', 'day')
+    exports:
+      - name: order_metrics
+        config:
+          export_as: table
+          # schema: faith_tests_exports
