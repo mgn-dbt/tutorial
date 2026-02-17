@@ -322,12 +322,15 @@ models:
         agg: count_distinct
         expr: location_id
 
+      ### percentile bigquery KO
       # - name: m_order_value_p99
       #   label: order value p99
       #   description: The 99th percentile of each order
       #   type: simple
       #   agg: percentile
       #   expr: order_total
+      #   percentile: 0.99
+      #   percentile_type: continuous
 
       # - name: m_discrete_order_value_p99
       #   label: discrete order value p99
@@ -335,6 +338,8 @@ models:
       #   type: simple
       #   agg: percentile
       #   expr: order_total
+      #   percentile: 0.99
+      #   percentile_type: discrete
 
       - name: m_large_order
         label: Large Orders

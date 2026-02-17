@@ -58,7 +58,9 @@ python -m venv <chemin_vers>\venvs\sqlfluff
 python.exe -m pip install --upgrade pip
 pip install sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery pip_system_certs
 (pip_system_certs pour zscaler, en remplacement de certifi qui n'est plus maintenu)
+Ne pas installer :
 pip install dbt-metricflow dbt-metricflow[dbt-bigquery]
+car ils provoquent une descente de version dbt pour la compatibilte 
 ```
 
 Pour utiliser autofix, il est recommandé de faire un deuxième venv
@@ -76,7 +78,7 @@ NB : dbt fusion doit etre mentionné dans le PATH pour pouvoir être utilisé da
 Mise à jour : dbt system update (dans le dossier de l'executable)
 
 json schema cf https://github.com/dbt-labs/dbt-jsonschema
-Attention redhat.vscode-yaml incompatible : https://docs.getdbt.com/docs/about-dbt-extension
+cf https://docs.getdbt.com/docs/about-dbt-extension
 
 
 ### Resources:
