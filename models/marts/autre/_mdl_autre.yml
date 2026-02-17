@@ -246,7 +246,7 @@ models:
         description: The total amount of the order in USD including tax.
         dimension:
           type: categorical
-          name: order_total_dim
+          name: order_total
           label: order total
 
       - name: ordered_at
@@ -322,7 +322,6 @@ models:
         agg: count_distinct
         expr: location_id
 
-      ### percentile bigquery KO ?
       - name: m_order_value_p99
         label: order value p99
         description: The 99th percentile of each order
@@ -332,14 +331,16 @@ models:
         percentile: 0.99
         percentile_type: continuous
 
-      - name: m_discrete_order_value_p99
-        label: discrete order value p99
-        description: The 99th percentile of each order using a discrete distribution
-        type: simple
-        agg: percentile
-        expr: order_total
-        percentile: 0.99
-        percentile_type: discrete
+      ### Only approximate continous percentile aggregations are supported for BigQuery. 
+      ### Set use_approximate_percentile and disable use_discrete_percentile in all percentile simple-metrics
+      # - name: m_discrete_order_value_p99
+      #   label: discrete order value p99
+      #   description: The 99th percentile of each order using a discrete distribution
+      #   type: simple
+      #   agg: percentile
+      #   expr: order_total
+      #   percentile: 0.99
+      #   percentile_type: discrete
 
       - name: m_large_order
         label: Large Orders
@@ -348,7 +349,7 @@ models:
         agg: sum
         expr: 1
         filter: |
-          {{ Dimension('order_id__order_total_dim') }} >= 20
+          {{ Dimension('order_id__order_total') }} >= 20
 
       - name: m_food_order_amount
         label: food_order_amount
