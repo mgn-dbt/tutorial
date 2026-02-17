@@ -8,9 +8,11 @@
 with
 source as (
     select * from {{ source('autre', 'orders') }}
-    {# data runs to 2026, truncate timespan to desired range, 
-    current time as default #}
-    where ordered_at <= {{ var('truncate_timespan_to') }}
+    {# attention le type de ordered_at depend du type dans le seed 
+    where 
+        PARSE_TIMESTAMP("%Y-%m-%d %H:%M:%S.000", ordered_at) 
+        <= {#{ var('truncate_timespan_to') }#}
+        #}
 ),
 
 renamed as (

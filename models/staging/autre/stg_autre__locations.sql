@@ -1,9 +1,8 @@
 with
 source as (
     select * from {{ source('autre', 'stores') }}
-    {# data runs to 2026, truncate timespan to desired range, 
-    current time as default #}
-    where opened_at <= {{ var('truncate_timespan_to') }}
+    {# attention le type de ordered_at depend du type dans le seed #}
+    where opened_at <= {{ dbt.cast(var('truncate_timespan_to'), 'datetime') }}
 ),
 
 renamed as (
