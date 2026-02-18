@@ -11,8 +11,8 @@ renamed as (
         sku as product_id,
         ---------- properties
         name as supply_name,
-        (cost / 100.0) as supply_cost,
-        perishable as is_perishable_supply
+        (cast(cost as integer) / 100.0) as supply_cost,
+        cast(perishable as boolean) as is_perishable_supply
     from source
 )
 

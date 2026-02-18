@@ -54,6 +54,7 @@ seeds:
       +tags: 'autre'
       +enabled: true
     marts:
+      +schema: seeds
       +tags: 'marts'
       +enabled: true
     raw:

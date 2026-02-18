@@ -11,7 +11,7 @@ renamed as (
         name as product_name,
         type as product_type,
         description as product_description,
-        (price / 100.0) as product_price,
+        (cast(price as integer)/ 100.0) as product_price,
         ---------- derived
         case
             when type = 'jaffle' then 1
