@@ -1,7 +1,10 @@
 with
 source as (
     select * from {{ source('autre', 'stores') }}
-    {# attention le type de opened_at depend du type dans le seed #}
+    {# 
+    attention le type de opened_at depend du type dans le seed 
+    dbt.cast(var('truncate_timespan_to'), 'datetime')
+    #}
     where opened_at <= {{ var('truncate_timespan_to') }}
 ),
 
