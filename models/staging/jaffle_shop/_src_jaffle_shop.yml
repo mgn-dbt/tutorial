@@ -1,6 +1,5 @@
 sources:
   - name: jaffle_shop
-    #database: dbt-jaffle-shop-481313
     schema: dbt_raw_jaffle_shop
     description: big query jaffle_shop dataset
     tables:

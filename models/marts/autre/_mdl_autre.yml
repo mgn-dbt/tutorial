@@ -429,12 +429,8 @@ models:
         input_metrics:
           - name: m_order_total_food
             alias: revenue
-            # filter: |
-            #   {#{ Dimension('order_id__is_food_order') }#} = True    ### pose problème
           - name: m_order_amount_food
             alias: cost
-            # filter: |
-            #   {#{ Dimension('order_id__is_food_order') }#} = True    ### pose problème
 
 # CUMULATIVE METRICS 
       - name: m_order_total_1
