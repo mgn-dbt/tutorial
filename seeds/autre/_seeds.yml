@@ -1,18 +1,102 @@
 seeds:
   - name: customers
     description: customers data
+    columns:
+      - name: id
+        description: customer id
+        data_type: string
+      - name: name
+        description: customer name
+        data_type: string
 
   - name: items
     description: items data
+    columns:
+      - name: id
+        description: item id
+        data_type: string
+      - name: order_id
+        description: order id
+        data_type: string
+      - name: sku
+        description: item sku
+        data_type: string
 
   - name: orders
     description: orders data
+    columns:
+      - name: id
+        description: order id
+        data_type: string
+      - name: customer
+        description: customer id
+        data_type: string
+      - name: ordered_at
+        description: order date
+        data_type: timestamp
+      - name: store_id
+        description: store id
+        data_type: string
+      - name: subtotal
+        description: order subtotal
+        data_type: integer
+      - name: tax_paid
+        description: tax paid for the order
+        data_type: integer
+      - name: order_total
+        description: total amount of the order
+        data_type: integer
 
   - name: products
     description: products data
+    columns:
+      - name: sku
+        description: product sku
+        data_type: string
+      - name: name
+        description: product name
+        data_type: string
+      - name: type
+        description: product type
+        data_type: string
+      - name: price
+        description: product price
+        data_type: integer
+      - name: description
+        description: product description
+        data_type: string
 
   - name: stores
     description: stores data
+    columns:
+      - name: id
+        description: store id
+        data_type: string
+      - name: name
+        description: store name
+        data_type: string
+      - name: opened_at
+        description: store opening date
+        data_type: timestamp
+      - name: tax_rate
+        description: store tax rate
+        data_type: float64
 
   - name: supplies
     description: supplies data
+    columns:
+      - name: id
+        description: supply id
+        data_type: string
+      - name: name
+        description: supply name
+        data_type: string
+      - name: cost
+        description: supply cost
+        data_type: integer
+      - name: perishable
+        description: whether the supply is perishable
+        data_type: boolean
+      - name: sku
+        description: supply sku
+        data_type: string

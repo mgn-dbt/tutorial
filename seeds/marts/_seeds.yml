@@ -1,18 +1,16 @@
 seeds:
   - name: employees
     description: employees
-    config:
-      column_types:
-        employee_id: integer
-        email: string
-        customer_id: integer
     columns:
       - name: employee_id
         description: employee id
+        data_type: integer
         data_tests:
           - unique
           - not_null
       - name: email
         description: employee email
+        data_type: string
       - name: customer_id
         description: customer id
+        data_type: integer
