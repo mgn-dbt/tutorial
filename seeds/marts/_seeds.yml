@@ -1,19 +1,11 @@
 seeds:
   - name: employees
     description: employees
-    config: 
+    config:
       column_types:
         employee_id: string
         email: string
         customer_id: string
-      post_hook:
-        - "DROP TABLE IF EXISTS `{{ target.database }}.{{ target.schema }}.employees`"
-        - "CREATE  TABLE `{{ target.database }}.{{ target.schema }}.employees` AS 
-          select 
-            cast(employee_id as integer) as employee_id, 
-            email, 
-            cast(customer_id as integer) as customer_id 
-          from {{ this}}"
     columns:
       - name: employee_id
         description: employee id

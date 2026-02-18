@@ -52,15 +52,14 @@ seeds:
     autre:
       +schema: seeds_autre
       +tags: 'autre'
-      +enabled: true
+      +enabled: false
     marts:
-      +schema: seeds
       +tags: 'marts'
       +enabled: true
     raw:
       +schema: seeds_raw
       +tags: 'raw'
-      +enabled: true
+      +enabled: false
 
 # Configuration for dbt Cloud
 dbt-cloud:

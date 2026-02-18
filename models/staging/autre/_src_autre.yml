@@ -1,6 +1,6 @@
 sources:
   - name: autre
-    database: dbt-jaffle-shop-481313
+    #database: dbt-jaffle-shop-481313
     schema: seeds_autre
     description: big query autre dataset
     tables:
