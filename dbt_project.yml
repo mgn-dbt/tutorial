@@ -40,30 +40,40 @@ models:
     marts:
       +materialized: table
 
-# warning sur les seeds desactivés s'ils contiennent des tests
-# dbt seed --full-refresh --vars '{"load_source_data": True}' -s "tag:raw"
+### warning sur les seeds desactivés s'ils contiennent des tests
+### dbt veut True/False ou null mais pas de jinja 
+### +enabled: "{#{ var('load_source_data', 'False') | as_bool }#}"
+# dbt seed --full-refresh -s "tag:raw"
 seeds:
   jaffle_shop:
+    +persist_docs:
+      relation: true
+      columns: true
     autre:
       +schema: seeds_autre
-      +enabled: "{{ var('load_source_data', 'False') | as_bool }}"
+      +tags: 'autre'
+      +enabled: false
     marts:
+      +tags: 'marts'
       +enabled: true
     raw:
       +schema: seeds_raw
-      +enabled: "{{ var('load_source_data', 'False') | as_bool }}"
+      +tags: 'raw'
+      +enabled: false
 
 # Configuration for dbt Cloud
 dbt-cloud:
   project-id: 70471823535774
 
-# pour dbt_date et dbt_expectations
 vars:
+  # pour dbt_date
   'dbt_date:time_zone': 'Europe/Paris'
-  truncate_timespan_to: "{{ current_timestamp() }}"
+  # pour staging/autre/stg_autre__orders et staging/autre/stg_autre__locations
+  truncate_timespan_to: "{{ my_current_timestamp() }}"
 
 # BigQuery specific flags
 # https://docs.getdbt.com/reference/global-configs/behavior-changes
 flags:
   bigquery_use_batch_source_freshness: true
   require_generic_test_arguments_property: true
+  require_unique_project_resource_names: true

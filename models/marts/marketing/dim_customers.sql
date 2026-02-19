@@ -8,7 +8,11 @@ orders as (
 ),
 
 employees as (
-    select * from {{ ref('employees') }}
+    select 
+        cast(employee_id as integer) as employee_id,
+        email,
+        cast(customer_id as integer) as customer_id
+    from {{ ref('employees') }}
 ),
 
 customer_orders as (

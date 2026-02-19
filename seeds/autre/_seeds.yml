@@ -1,25 +1,125 @@
+# attention les types dans les seeds sont volatiles alors on les passe tous en string
 seeds:
   - name: customers
     description: customers data
-    config:
-      tags: 'autre'
+    config: 
+      column_types:
+        id: string
+        name: string
+    columns:
+      - name: id
+        description: customer id
+      - name: name
+        description: customer name
+
   - name: items
     description: items data
-    config:
-      tags: 'autre'
+    config: 
+      column_types:
+        id: string
+        order_id: string
+        sku: string
+    columns:
+      - name: id
+        description: item id
+      - name: order_id
+        description: order id
+      - name: sku
+        description: item sku
+
   - name: orders
     description: orders data
-    config:
-      tags: 'autre'
+    config: 
+      column_types:
+        id: string
+        customer: string
+        ordered_at: string
+        store_id: string
+        #integer
+        subtotal: string
+        #integer
+        tax_paid: string
+        #integer
+        order_total: string
+    columns:
+      - name: id
+        description: order id
+      - name: customer
+        description: customer id
+      - name: ordered_at
+        description: order date
+      - name: store_id
+        description: store id
+      - name: subtotal
+        description: order subtotal
+      - name: tax_paid
+        description: tax paid for the order
+      - name: order_total
+        description: total amount of the order
+
   - name: products
     description: products data
-    config:
-      tags: 'autre'
+    config: 
+      column_types:
+        sku: string
+        name: string
+        type: string
+        #integer
+        price: string
+        description: string
+    columns:
+      - name: sku
+        description: product sku
+      - name: name
+        description: product name
+      - name: type
+        description: product type
+      - name: price
+        description: product price
+      - name: description
+        description: product description
+
   - name: stores
     description: stores data
-    config:
-      tags: 'autre'
+    config: 
+      column_types:
+        id: string
+        name: string
+        #timestamp
+        opened_at: string
+        #float64
+        tax_rate: string
+    columns:
+      - name: id
+        description: store id
+      - name: name
+        description: store name
+      - name: opened_at
+        description: store opening date
+      - name: tax_rate
+        description: store tax rate
+
+
   - name: supplies
     description: supplies data
-    config:
-      tags: 'autre'
+    config: 
+      column_types:
+        id: string
+        name: string
+        #integer
+        cost: string
+        #boolean
+        perishable: string
+        sku: string
+    columns:
+      - name: id
+        description: supply id
+      - name: name
+        description: supply name
+      - name: cost
+        description: supply cost
+      - name: perishable
+        description: whether the supply is perishable
+      - name: sku
+        description: supply sku
+

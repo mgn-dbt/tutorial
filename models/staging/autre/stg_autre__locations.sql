@@ -1,9 +1,6 @@
 with
 source as (
     select * from {{ source('autre', 'stores') }}
-    {# data runs to 2026, truncate timespan to desired range, 
-    current time as default #}
-    where opened_at <= {{ var('truncate_timespan_to') }}
 ),
 
 renamed as (
@@ -12,10 +9,16 @@ renamed as (
         id as location_id,
         ---------- properties
         name as location_name,
-        tax_rate,
+        {{ dbt.cast('tax_rate', dbt.type_float()) }} as tax_rate,
         ---------- timestamp
-        opened_at
+        {%- set dt_regex -%}
+        regexp_replace({{ dbt.cast('opened_at', dbt.type_string()) }},
+            r'^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}).*',
+            r'\1T\2')
+        {%- endset -%}
+        {{ dbt.cast(dt_regex, dbt.type_timestamp()) }} as opened_at
     from source
 )
 
 select * from renamed
+where opened_at <= {{ var('truncate_timespan_to') }}

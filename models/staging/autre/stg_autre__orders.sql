@@ -17,11 +17,17 @@ renamed as (
         store_id as location_id,
         customer as customer_id,
         ---------- properties
-        (order_total / 100.0) as order_total,
-        (tax_paid / 100.0) as tax_paid,
+        ({{ dbt.cast('order_total', dbt.type_int()) }} / 100.0) as order_total,
+        ({{ dbt.cast('tax_paid', dbt.type_int()) }} / 100.0) as tax_paid,
         ---------- timestamps
-        ordered_at
+        {%- set dt_regex -%}
+        regexp_replace({{ dbt.cast('ordered_at', dbt.type_string()) }},
+            r'^(\d{4}-\d{2}-\d{2})\s(\d{2}:\d{2}:\d{2}).*',
+            r'\1T\2')
+        {%- endset -%}
+        {{ dbt.cast(dt_regex, dbt.type_timestamp()) }} as ordered_at
     from source
 )
 
 select * from renamed
+where ordered_at <= {{ var('truncate_timespan_to') }}

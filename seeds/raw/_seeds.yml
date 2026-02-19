@@ -1,17 +1,18 @@
+# attention les types dans les seeds sont volatiles alors on les passe tous en string
 seeds:
   - name: raw_customers
     description: raw customers
     config:
-      tags: 'raw'
+      column_types:
+        id: string
+        first_name: string
+        last_name: string
       post_hook:
         - "CREATE SCHEMA IF NOT EXISTS `{{ target.database }}.dbt_raw_jaffle_shop`"
         - "DROP TABLE IF EXISTS `{{ target.database }}.dbt_raw_jaffle_shop.customers`"
         - "CREATE  TABLE `{{ target.database }}.dbt_raw_jaffle_shop.customers` AS 
-          select * from {{ this}}"
-      column_types:
-        id: integer
-        first_name: string
-        last_name: string
+          select cast(id as integer) as id, first_name, last_name
+          from {{ this}}"
     columns:
       - name: id
         description: customer id
@@ -23,18 +24,22 @@ seeds:
   - name: raw_orders
     description: raw orders
     config:
-      tags: 'raw'
+      column_types:
+        id: string
+        user_id: string
+        order_date: string
+        status: string
       post_hook:
         - "CREATE SCHEMA IF NOT EXISTS `{{ target.database }}.dbt_raw_jaffle_shop`"
         - "DROP TABLE IF EXISTS `{{ target.database }}.dbt_raw_jaffle_shop.orders`"
         - "CREATE  TABLE `{{ target.database }}.dbt_raw_jaffle_shop.orders` AS 
-          select *, datetime_add(current_datetime, interval -16 hour) as _etl_loaded_at
+          select 
+            cast(id as integer) as id,
+            cast(user_id as integer) as user_id,
+            cast(order_date as date) as order_date,
+            status,
+            datetime_add(current_datetime, interval -16 hour) as _etl_loaded_at
           from {{ this}}"
-      column_types:
-        id: integer
-        user_id: integer
-        order_date: date
-        status: string
     columns:
       - name: id
         description: order id
@@ -48,20 +53,26 @@ seeds:
   - name: raw_payments
     description: raw payments
     config:
-      tags: 'raw'
+      column_types:
+        id: string
+        orderid: string
+        paymentmethod: string
+        status: string
+        amount: string
+        created: string
       post_hook:
         - "CREATE SCHEMA IF NOT EXISTS `{{ target.database }}.dbt_raw_stripe`"
         - "DROP TABLE IF EXISTS `{{ target.database }}.dbt_raw_stripe.payment`"
         - "CREATE  TABLE `{{ target.database }}.dbt_raw_stripe.payment` AS 
-          select *, datetime_add(current_datetime, interval -4 hour) as _batched_at
+          select 
+            cast(id as integer) as id,
+            cast(orderid as integer) as orderid,
+            paymentmethod,
+            status,
+            cast(amount as integer) as amount,
+            cast(created as date) as created,
+            datetime_add(current_datetime, interval -4 hour) as _batched_at
           from {{ this}}"
-      column_types:
-        id: integer
-        orderid: integer
-        paymentmethod: string
-        status: string
-        amount: integer
-        created: date
     columns:
       - name: id
         description: payment id

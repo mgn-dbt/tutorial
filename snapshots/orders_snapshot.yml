@@ -3,10 +3,9 @@ snapshots:
     relation: source('jaffle_shop', 'orders')
     config:
       # schema: snapshots
-      database: dbt-jaffle-shop-481313
       unique_key: id
       strategy: check
-      # respecter la casse de BigQuery (attention a l'en-tete des seeds)
+      ### respecter la casse de BigQuery (attention a l'en-tete des seeds)
       check_cols: 
         - user_id
         - order_date

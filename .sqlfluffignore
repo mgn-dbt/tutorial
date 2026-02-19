@@ -6,4 +6,4 @@ macros
 target
 
 *.yml
-*.legacy_yml
+*.txt
