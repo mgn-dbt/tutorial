@@ -1,3 +1,4 @@
+# attention les types dans les seeds sont volatiles alors on les passe tous en string
 seeds:
   - name: raw_customers
     description: raw customers

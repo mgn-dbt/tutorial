@@ -9,12 +9,14 @@ renamed as (
         id as location_id,
         ---------- properties
         name as location_name,
-        cast(tax_rate as float64) as tax_rate,
+        {{ dbt.cast('tax_rate', dbt.type_float()) }} as tax_rate,
         ---------- timestamp
-        cast(regexp_replace(cast(opened_at as string),
+        {%- set dt_regex -%}
+        regexp_replace({{ dbt.cast('opened_at', dbt.type_string()) }},
             r'^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}).*',
-            r'\1T\2') as timestamp)
-        as opened_at
+            r'\1T\2')
+        {%- endset -%}
+        {{ dbt.cast(dt_regex, dbt.type_timestamp()) }} as opened_at
     from source
 )
 

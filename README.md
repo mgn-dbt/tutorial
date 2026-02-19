@@ -8,6 +8,7 @@ Bienvenue dans le depot du tutorial DBT
 - GitHub Copilot Chat             github.copilot-chat
 - sqlfluff                        sqlfluff.vscode-sqlfluff
 - SQLTools                        mtxr.sqltools
+- YAML                            redhat.vscode-yaml (1.19.1)
 
 
 NB : SQLTools a besoin de Nodejs pour fonctionner.<BR>
@@ -60,7 +61,7 @@ pip install sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery pip_system_cer
 (pip_system_certs pour zscaler, en remplacement de certifi qui n'est plus maintenu)
 Ne pas installer :
 pip install dbt-metricflow dbt-metricflow[dbt-bigquery]
-car ils provoquent une descente de version dbt pour la compatibilte 
+car ils provoquent une descente de version dbt pour la compatibilite 
 ```
 
 Pour utiliser autofix, il est recommandé de faire un deuxième venv

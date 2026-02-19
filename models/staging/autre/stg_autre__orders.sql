@@ -17,12 +17,15 @@ renamed as (
         store_id as location_id,
         customer as customer_id,
         ---------- properties
-        (cast(order_total as integer) / 100.0) as order_total,
-        (cast(tax_paid as integer) / 100.0) as tax_paid,
+        ({{ dbt.cast('order_total', dbt.type_int()) }} / 100.0) as order_total,
+        ({{ dbt.cast('tax_paid', dbt.type_int()) }} / 100.0) as tax_paid,
         ---------- timestamps
-        cast(regexp_replace(cast(ordered_at as string),
+        {%- set dt_regex -%}
+        regexp_replace({{ dbt.cast('ordered_at', dbt.type_string()) }},
             r'^(\d{4}-\d{2}-\d{2})\s(\d{2}:\d{2}:\d{2}).*',
-            r'\1T\2') as timestamp) as ordered_at
+            r'\1T\2')
+        {%- endset -%}
+        {{ dbt.cast(dt_regex, dbt.type_timestamp()) }} as ordered_at
     from source
 )
 
