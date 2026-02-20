@@ -1,18 +1,20 @@
-{{ 
-    config (
-        materialized = 'table',
-    )
-}}
+{{ config ( materialized = 'table' ) }}
 
 with
 days as (
-    {{ 
-        dbt.date_spine(
+{% if target.type == 'postgres' %}
+    {{ dbt.date_spine(
             datepart="day",
-            start_date="cast('2000-01-01' as date)",
-            end_date="cast('2030-01-01' as date)"
-        )
-    }}
+            start_date="'2000-01-01'::date",
+            end_date="'2030-01-01'::date"
+    ) }}
+{% else %}
+    {{ dbt.date_spine(
+            datepart="day",
+            start_date="'2000-01-01'",
+            end_date="'2030-01-01'"
+    ) }}
+{% endif %}
 ),
 
 final as (

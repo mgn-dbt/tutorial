@@ -8,7 +8,7 @@ orders as (
 ),
 
 employees as (
-    select 
+    select
         cast(employee_id as integer) as employee_id,
         email,
         cast(customer_id as integer) as customer_id

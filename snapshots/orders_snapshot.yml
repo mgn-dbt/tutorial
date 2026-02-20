@@ -11,5 +11,5 @@ snapshots:
         - order_date
         - status
       hard_deletes: ignore
-      dbt_valid_to_current: "TIMESTAMP(DATE(9999, 12, 31))"
+      dbt_valid_to_current: "{% if target.type == 'postgres' %}timestamp '9999-12-31'{% else %}timestamp('9999-12-31'){% endif %}"
       # updated_at: "TIMESTAMP(_etl_loaded_at)"

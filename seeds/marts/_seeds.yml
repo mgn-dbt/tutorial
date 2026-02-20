@@ -2,11 +2,11 @@
 seeds:
   - name: employees
     description: employees
-    config:
-      column_types:
-        employee_id: string
-        email: string
-        customer_id: string
+    # config:
+      # column_types:
+      #   employee_id: string
+      #   email: string
+      #   customer_id: string
     columns:
       - name: employee_id
         description: employee id

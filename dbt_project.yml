@@ -52,14 +52,14 @@ seeds:
     autre:
       +schema: seeds_autre
       +tags: 'autre'
-      +enabled: false
+      +enabled: true
     marts:
       +tags: 'marts'
       +enabled: true
     raw:
       +schema: seeds_raw
       +tags: 'raw'
-      +enabled: false
+      +enabled: true
 
 # Configuration for dbt Cloud
 dbt-cloud:
@@ -69,7 +69,7 @@ vars:
   # pour dbt_date
   'dbt_date:time_zone': 'Europe/Paris'
   # pour staging/autre/stg_autre__orders et staging/autre/stg_autre__locations
-  truncate_timespan_to: "{{ my_current_timestamp() }}"
+  truncate_timespan_to: "{{ dbt.current_timestamp() }}"
 
 # BigQuery specific flags
 # https://docs.getdbt.com/reference/global-configs/behavior-changes

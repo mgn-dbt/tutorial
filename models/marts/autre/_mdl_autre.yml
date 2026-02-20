@@ -278,15 +278,16 @@ models:
         description: The full location name of where this order was placed. Denormalized from `stg_locations`.
       - name: is_first_order
         description: A boolean indicating if this order is from a new customer placing their first order.
+
       - name: is_food_order
-        description: A boolean indicating if this order included any food items.
+        description: A boolean indicating if this order include any food items.
         dimension:
           type: categorical
           name: is_food_order
           label: food order boolean
 
       - name: is_drink_order
-        description: A boolean indicating if this order included any drink items.
+        description: A boolean indicating if this order include any drink items.
         dimension:
           type: categorical
           name: is_drink_order
@@ -312,8 +313,8 @@ models:
         type: simple
         agg: sum
         expr: order_total
-        filter: |
-          {{ Dimension('order_id__is_food_order') }} = True
+        # filter: |
+        #   {{ Dimension('order_id__is_food_order') }} = True
 
       - name: m_locations_with_orders
         label: locations_with_orders
@@ -348,8 +349,8 @@ models:
         type: simple
         agg: sum
         expr: 1
-        filter: |
-          {{ Dimension('order_id__order_total') }} >= 20
+        # filter: |
+        #   {{ Dimension('order_id__order_total') }} >= 20
 
       - name: m_food_order_amount
         label: food_order_amount
@@ -378,8 +379,8 @@ models:
         type: simple
         agg: count_distinct
         expr: customer_id
-        filter: |
-          {{ Dimension('customer_id__customer_type') }} = 'new'
+        # filter: |
+        #   {{ Dimension('customer_id__customer_type') }} = 'new'
 
       - name: m_order_amount
         label: order_amount
@@ -394,8 +395,8 @@ models:
         type: simple
         agg: sum
         expr: order_cost
-        filter: |
-          {{ Dimension('order_id__is_food_order') }} = True
+        # filter: |
+        #   {{ Dimension('order_id__is_food_order') }} = True
 
       - name: m_tax_paid
         description: The total tax paid on each order.
@@ -439,7 +440,7 @@ models:
         agg: sum
         expr: order_total
         hidden: true
-        
+
       - name: m_cumulative_order_amount
         label: cumulative_order_amount
         description: The cumulative value of all orders
@@ -461,18 +462,18 @@ models:
         grain_to_date: month
 
 ################################################################################
-saved_queries:
-  - name: order_metrics
-    description: testing out order metrics in one table
-    query_params:
-      metrics:
-        - m_cumulative_order_amount
-        - m_min_order_amount
-        - m_max_order_amount
-      group_by:
-        - TimeDimension('metric_time', 'day')
-    exports:
-      - name: order_metrics
-        config:
-          export_as: table
-          # schema: faith_tests_exports
+# saved_queries:
+#   - name: order_metrics
+#     description: testing out order metrics in one table
+#     query_params:
+#       metrics:
+#         - m_min_order_amount
+#         - m_max_order_amount
+#         - m_cumulative_order_amount
+#       group_by:
+#         - TimeDimension('metric_time', 'day')
+#     exports:
+#       - name: order_metrics
+#         config:
+#           export_as: table
+#           # schema: faith_tests_exports
