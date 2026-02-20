@@ -2,19 +2,19 @@
 
 with
 days as (
-{% if target.type == 'postgres' %}
-    {{ dbt.date_spine(
-            datepart="day",
-            start_date="'2000-01-01'::date",
-            end_date="'2030-01-01'::date"
-    ) }}
-{% else %}
-    {{ dbt.date_spine(
-            datepart="day",
-            start_date="'2000-01-01'",
-            end_date="'2030-01-01'"
-    ) }}
-{% endif %}
+    {% if target.type == 'postgres' %}
+        {{ dbt.date_spine(
+                datepart="day",
+                start_date="'2000-01-01'::date",
+                end_date="'2030-01-01'::date"
+        ) }}
+    {% else %}
+        {{ dbt.date_spine(
+                datepart="day",
+                start_date="'2000-01-01'",
+                end_date="'2030-01-01'"
+        ) }}
+    {% endif %}
 ),
 
 final as (
