@@ -4,6 +4,7 @@ functions:
     config:
       # schema: udfs
       volatility: deterministic
+      enabled: False
     arguments:
       - name: numerator
         data_type: numeric

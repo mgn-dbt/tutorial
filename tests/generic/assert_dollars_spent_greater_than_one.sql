@@ -5,6 +5,6 @@ select
     avg( {{ column_name }} ) as average_amount
 from {{ model }}
 group by 1
-having average_amount < 1
+having avg( {{ column_name }} ) < 1
 
 {% endtest %}

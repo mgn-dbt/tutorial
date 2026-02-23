@@ -61,7 +61,7 @@ pip install sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery pip_system_cer
 (pip_system_certs pour zscaler, en remplacement de certifi qui n'est plus maintenu)
 Ne pas installer :
 pip install dbt-metricflow dbt-metricflow[dbt-bigquery]
-car ils provoquent une descente de version dbt pour la compatibilite 
+car ils provoquent une descente de version dbt pour la compatibilite
 ```
 
 Pour utiliser autofix, il est recommandé de faire un deuxième venv

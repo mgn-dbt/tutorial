@@ -1,11 +1,6 @@
-# attention les types dans les seeds sont volatiles alors on les passe tous en string
 seeds:
   - name: customers
     description: customers data
-    config: 
-      column_types:
-        id: string
-        name: string
     columns:
       - name: id
         description: customer id
@@ -14,11 +9,6 @@ seeds:
 
   - name: items
     description: items data
-    config: 
-      column_types:
-        id: string
-        order_id: string
-        sku: string
     columns:
       - name: id
         description: item id
@@ -29,18 +19,6 @@ seeds:
 
   - name: orders
     description: orders data
-    config: 
-      column_types:
-        id: string
-        customer: string
-        ordered_at: string
-        store_id: string
-        #integer
-        subtotal: string
-        #integer
-        tax_paid: string
-        #integer
-        order_total: string
     columns:
       - name: id
         description: order id
@@ -59,14 +37,6 @@ seeds:
 
   - name: products
     description: products data
-    config: 
-      column_types:
-        sku: string
-        name: string
-        type: string
-        #integer
-        price: string
-        description: string
     columns:
       - name: sku
         description: product sku
@@ -81,14 +51,6 @@ seeds:
 
   - name: stores
     description: stores data
-    config: 
-      column_types:
-        id: string
-        name: string
-        #timestamp
-        opened_at: string
-        #float64
-        tax_rate: string
     columns:
       - name: id
         description: store id
@@ -102,15 +64,6 @@ seeds:
 
   - name: supplies
     description: supplies data
-    config: 
-      column_types:
-        id: string
-        name: string
-        #integer
-        cost: string
-        #boolean
-        perishable: string
-        sku: string
     columns:
       - name: id
         description: supply id
@@ -122,4 +75,3 @@ seeds:
         description: whether the supply is perishable
       - name: sku
         description: supply sku
-

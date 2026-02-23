@@ -40,10 +40,7 @@ models:
     marts:
       +materialized: table
 
-### warning sur les seeds desactivés s'ils contiennent des tests
-### dbt veut True/False ou null mais pas de jinja 
-### +enabled: "{#{ var('load_source_data', 'False') | as_bool }#}"
-# dbt seed --full-refresh -s "tag:raw"
+### dbt emet un warning sur les seeds desactivés s'ils contiennent des tests
 seeds:
   jaffle_shop:
     +persist_docs:
@@ -52,14 +49,19 @@ seeds:
     autre:
       +schema: seeds_autre
       +tags: 'autre'
-      +enabled: false
+      +enabled: true
     marts:
       +tags: 'marts'
       +enabled: true
     raw:
       +schema: seeds_raw
       +tags: 'raw'
-      +enabled: false
+      # Ces seeds ne doivent être actifs que pour charger les tables definitives
+      # Le post_hook de ces seeds créée les tables definitives
+      # La compilation plante a cause de la gestion de la transaction
+      # https://docs.getdbt.com/reference/resource-configs/pre-hook-post-hook#transaction-behavior
+      # dbt seed --select raw --full-refresh --vars '{"load_source_data": "True"}'
+      +enabled: "{{ var('load_source_data', 'False') | as_bool }}"
 
 # Configuration for dbt Cloud
 dbt-cloud:
@@ -69,7 +71,7 @@ vars:
   # pour dbt_date
   'dbt_date:time_zone': 'Europe/Paris'
   # pour staging/autre/stg_autre__orders et staging/autre/stg_autre__locations
-  truncate_timespan_to: "{{ my_current_timestamp() }}"
+  truncate_timespan_to: "{{ dbt.current_timestamp() }}"
 
 # BigQuery specific flags
 # https://docs.getdbt.com/reference/global-configs/behavior-changes

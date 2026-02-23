@@ -1,18 +1,19 @@
-# attention les types dans les seeds sont volatiles alors on les passe tous en string
 seeds:
   - name: raw_customers
     description: raw customers
     config:
-      column_types:
-        id: string
-        first_name: string
-        last_name: string
       post_hook:
-        - "CREATE SCHEMA IF NOT EXISTS `{{ target.database }}.dbt_raw_jaffle_shop`"
-        - "DROP TABLE IF EXISTS `{{ target.database }}.dbt_raw_jaffle_shop.customers`"
-        - "CREATE  TABLE `{{ target.database }}.dbt_raw_jaffle_shop.customers` AS 
-          select cast(id as integer) as id, first_name, last_name
-          from {{ this}}"
+        - "{%- set rel = adapter.get_relation(
+            database=target.database, 
+            schema='dbt_raw_jaffle_shop', 
+            identifier='customers') -%}
+          {% do drop_relation_if_exists(relation=rel) %}" 
+        - "CREATE  TABLE {{ target.database }}.dbt_raw_jaffle_shop.customers AS 
+          select 
+            {{ dbt.cast('id', dbt.type_int()) }} as id, 
+            first_name, 
+            last_name
+          from {{ this }}"
     columns:
       - name: id
         description: customer id
@@ -24,22 +25,25 @@ seeds:
   - name: raw_orders
     description: raw orders
     config:
-      column_types:
-        id: string
-        user_id: string
-        order_date: string
-        status: string
       post_hook:
-        - "CREATE SCHEMA IF NOT EXISTS `{{ target.database }}.dbt_raw_jaffle_shop`"
-        - "DROP TABLE IF EXISTS `{{ target.database }}.dbt_raw_jaffle_shop.orders`"
-        - "CREATE  TABLE `{{ target.database }}.dbt_raw_jaffle_shop.orders` AS 
+        - "{%- set rel = adapter.get_relation(
+            database=target.database, 
+            schema='dbt_raw_jaffle_shop', 
+            identifier='orders') -%}
+          {% do drop_relation_if_exists(relation=rel) %}"
+        - "CREATE  TABLE {{ target.database }}.dbt_raw_jaffle_shop.orders AS 
           select 
-            cast(id as integer) as id,
-            cast(user_id as integer) as user_id,
-            cast(order_date as date) as order_date,
+            {{ dbt.cast('id', dbt.type_int()) }} as id,
+            {{ dbt.cast('user_id', dbt.type_int()) }} as user_id,
+            {{ dbt.cast('order_date', 'date') }} as order_date,
             status,
-            datetime_add(current_datetime, interval -16 hour) as _etl_loaded_at
-          from {{ this}}"
+            {{ dbt.dateadd(
+              datepart='hour', 
+              interval=-16, 
+              from_date_or_timestamp=dbt.current_timestamp())
+            }} as _etl_loaded_at
+          from {{ this }}"
+
     columns:
       - name: id
         description: order id
@@ -53,26 +57,27 @@ seeds:
   - name: raw_payments
     description: raw payments
     config:
-      column_types:
-        id: string
-        orderid: string
-        paymentmethod: string
-        status: string
-        amount: string
-        created: string
       post_hook:
-        - "CREATE SCHEMA IF NOT EXISTS `{{ target.database }}.dbt_raw_stripe`"
-        - "DROP TABLE IF EXISTS `{{ target.database }}.dbt_raw_stripe.payment`"
-        - "CREATE  TABLE `{{ target.database }}.dbt_raw_stripe.payment` AS 
+        - "{%- set rel = adapter.get_relation(
+            database=target.database, 
+            schema='dbt_raw_stripe', 
+            identifier='payment') -%}
+          {% do drop_relation_if_exists(relation=rel) %}"
+        - "CREATE  TABLE {{ target.database }}.dbt_raw_stripe.payment AS 
           select 
-            cast(id as integer) as id,
-            cast(orderid as integer) as orderid,
+            {{ dbt.cast('id', dbt.type_int()) }} as id,
+            {{ dbt.cast('orderid', dbt.type_int()) }} as orderid,
             paymentmethod,
             status,
-            cast(amount as integer) as amount,
-            cast(created as date) as created,
-            datetime_add(current_datetime, interval -4 hour) as _batched_at
-          from {{ this}}"
+            {{ dbt.cast('amount', dbt.type_int()) }} as amount,
+            {{ dbt.cast('created', 'date') }} as created,
+            {{ dbt.dateadd(
+              datepart='hour', 
+              interval=-4, 
+              from_date_or_timestamp=dbt.current_timestamp())
+            }} as _batched_at
+          from {{ this }}"
+
     columns:
       - name: id
         description: payment id
