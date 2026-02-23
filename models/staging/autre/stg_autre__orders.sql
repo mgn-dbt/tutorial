@@ -1,10 +1,3 @@
-{{
-    config(
-        materialized = 'table',
-        unique_key = 'order_id'
-    )
-}}
-
 with
 source as (
     select * from {{ source('autre', 'orders') }}

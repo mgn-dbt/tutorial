@@ -18,12 +18,13 @@ days as (
 ),
 
 final as (
-    select cast(date_day as date) as date_day
+    select {{ dbt.cast('date_day', 'date') }} as date_day
     from days
 )
 
 select *
 from final
 where
-    date_day > {{ dbt.dateadd("year", -11, my_current_timestamp() ) }}  -- Keep recent dates only
+    -- Keep recent dates only
+    date_day > {{ dbt.dateadd("year", -11, my_current_timestamp() ) }}
     and date_day < {{ dbt.dateadd("day", 30, my_current_timestamp() ) }}
