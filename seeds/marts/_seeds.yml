@@ -1,12 +1,6 @@
-# attention les types dans les seeds sont volatiles alors on les passe tous en string
 seeds:
   - name: employees
     description: employees
-    # config:
-      # column_types:
-      #   employee_id: string
-      #   email: string
-      #   customer_id: string
     columns:
       - name: employee_id
         description: employee id

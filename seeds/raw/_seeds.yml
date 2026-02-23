@@ -1,19 +1,13 @@
-# attention les types dans les seeds sont volatiles alors on les passe tous en string
 seeds:
   - name: raw_customers
     description: raw customers
     config:
-      # column_types:
-      #   id: string
-      #   first_name: string
-      #   last_name: string
       post_hook:
-        # - "CREATE SCHEMA IF NOT EXISTS {{ target.database }}.dbt_raw_jaffle_shop"  adapter.get_relation(database='jaffle_shop', schema='dbt_raw_jaffle_shop', identifier='customers')  
         - "{%- set rel = adapter.get_relation(
             database=target.database, 
             schema='dbt_raw_jaffle_shop', 
             identifier='customers') -%}
-          {% do drop_relation_if_exists(relation=rel) %}"
+          {% do drop_relation_if_exists(relation=rel) %}" 
         - "CREATE  TABLE {{ target.database }}.dbt_raw_jaffle_shop.customers AS 
           select 
             {{ dbt.cast('id', dbt.type_int()) }} as id, 
@@ -31,13 +25,7 @@ seeds:
   - name: raw_orders
     description: raw orders
     config:
-      # column_types:
-      #   id: string
-      #   user_id: string
-      #   order_date: string
-      #   status: string
       post_hook:
-        # - "CREATE SCHEMA IF NOT EXISTS {{ target.database }}.dbt_raw_jaffle_shop"
         - "{%- set rel = adapter.get_relation(
             database=target.database, 
             schema='dbt_raw_jaffle_shop', 
@@ -55,6 +43,7 @@ seeds:
               from_date_or_timestamp=dbt.current_timestamp())
             }} as _etl_loaded_at
           from {{ this }}"
+
     columns:
       - name: id
         description: order id
@@ -68,15 +57,7 @@ seeds:
   - name: raw_payments
     description: raw payments
     config:
-      # column_types:
-      #   id: string
-      #   orderid: string
-      #   paymentmethod: string
-      #   status: string
-      #   amount: string
-      #   created: string
       post_hook:
-        # - "CREATE SCHEMA IF NOT EXISTS {{ target.database }}.dbt_raw_stripe"
         - "{%- set rel = adapter.get_relation(
             database=target.database, 
             schema='dbt_raw_stripe', 
@@ -96,6 +77,7 @@ seeds:
               from_date_or_timestamp=dbt.current_timestamp())
             }} as _batched_at
           from {{ this }}"
+
     columns:
       - name: id
         description: payment id

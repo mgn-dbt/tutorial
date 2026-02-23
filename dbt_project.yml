@@ -58,7 +58,9 @@ seeds:
       +tags: 'raw'
       # Ces seeds ne doivent être actifs que pour charger les tables definitives
       # Le post_hook de ces seeds créée les tables definitives
-      # La compilation plante si on essaye de tout faire en même temps
+      # La compilation plante a cause de la gestion de la transaction
+      # https://docs.getdbt.com/reference/resource-configs/pre-hook-post-hook#transaction-behavior
+      # dbt seed --select raw --full-refresh --vars '{"load_source_data": "True"}'
       +enabled: "{{ var('load_source_data', 'False') | as_bool }}"
 
 # Configuration for dbt Cloud
