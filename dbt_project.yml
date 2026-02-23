@@ -59,7 +59,7 @@ seeds:
     raw:
       +schema: seeds_raw
       +tags: 'raw'
-      +enabled: true
+      +enabled: "{{ var('load_source_data', 'False') | as_bool }}"
 
 # Configuration for dbt Cloud
 dbt-cloud:
