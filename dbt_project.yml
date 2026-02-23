@@ -40,10 +40,7 @@ models:
     marts:
       +materialized: table
 
-### warning sur les seeds desactivés s'ils contiennent des tests
-### dbt veut True/False ou null mais pas de jinja 
-### +enabled: "{#{ var('load_source_data', 'False') | as_bool }#}"
-# dbt seed --full-refresh -s "tag:raw"
+### dbt emet un warning sur les seeds desactivés s'ils contiennent des tests
 seeds:
   jaffle_shop:
     +persist_docs:
@@ -59,6 +56,9 @@ seeds:
     raw:
       +schema: seeds_raw
       +tags: 'raw'
+      # Ces seeds ne doivent être actifs que pour charger les tables definitives
+      # Le post_hook de ces seeds créée les tables definitives
+      # La compilation plante si on essaye de tout faire en même temps
       +enabled: "{{ var('load_source_data', 'False') | as_bool }}"
 
 # Configuration for dbt Cloud
