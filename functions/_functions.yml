@@ -4,7 +4,8 @@ functions:
     config:
       # schema: udfs
       volatility: deterministic
-      enabled: False
+      # udf not supported under fusion/postgresql
+      enabled: True
     arguments:
       - name: numerator
         data_type: numeric
