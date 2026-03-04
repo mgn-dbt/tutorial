@@ -14,7 +14,4 @@ packages:
   - git: https://github.com/tnightengale/dbt-meta-testing.git
     name: dbt_meta_testing
     revision: b05df7ae6158a63e0ec966550c4217e20067f2f7
-  - git: https://github.com/mgn-dbt/external.git
-    name: jaffle_shop_external
-    revision: 512542eb5fb44e928767239ce528b94d60b6efd7
-sha1_hash: ff3bee0b2c88c7cdba2cecddfbe93853acaa3799
+sha1_hash: c00974f07dd9b581170685f1ddef33ff3f7d3caa

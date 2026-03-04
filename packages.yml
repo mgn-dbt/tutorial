@@ -12,5 +12,4 @@ packages:
     # bug !! https://github.com/tnightengale/dbt-meta-testing/pull/33
     #  - package: tnightengale/dbt_meta_testing
     #    version: 0.3.6
-  - git: https://github.com/mgn-dbt/external.git
-    revision: main
+
