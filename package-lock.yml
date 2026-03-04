@@ -4,7 +4,7 @@ packages:
     version: 1.3.3
   - name: audit_helper
     package: dbt-labs/audit_helper
-    version: 0.12.2
+    version: 0.13.0
   - name: dbt_date
     package: godatadriven/dbt_date
     version: 0.17.1
@@ -14,4 +14,7 @@ packages:
   - git: https://github.com/tnightengale/dbt-meta-testing.git
     name: dbt_meta_testing
     revision: b05df7ae6158a63e0ec966550c4217e20067f2f7
-sha1_hash: 6f1f70686aa77363b56c75808fc4512508864223
+  - git: https://github.com/mgn-dbt/external.git
+    name: jaffle_shop_external
+    revision: 512542eb5fb44e928767239ce528b94d60b6efd7
+sha1_hash: ff3bee0b2c88c7cdba2cecddfbe93853acaa3799
