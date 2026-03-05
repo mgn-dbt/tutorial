@@ -40,7 +40,7 @@ models:
     marts:
       +materialized: table
       +grants:
-        select: "{% if target.type == 'postgres' %}['lecteur']{% endif %}"
+        select: "{{ ['lecteur'] if target.type == 'postgres' else [] }}"
 
 on-run-end:
   - "{% if target.type == 'postgres' %}grant usage on schema {{ target.schema }} to lecteur;{% endif %}"
