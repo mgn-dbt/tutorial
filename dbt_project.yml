@@ -39,11 +39,10 @@ models:
         required_tests: {"unique.*|not_null": 2}
     marts:
       +materialized: table
-      +grants:
-        select: "{{ ['lecteur'] if target.type == 'postgres' else [] }}"
 
 on-run-end:
-  - "{% if target.type == 'postgres' %}grant usage on schema {{ target.schema }} to lecteur;{% endif %}"
+  - "{% do grant_select(schema=target.schema, role='lecteur') %}"
+
 
 ### dbt emet un warning sur les seeds desactivés s'ils contiennent des tests
 seeds:
