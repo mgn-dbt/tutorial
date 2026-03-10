@@ -1,19 +1,20 @@
 Bienvenue dans le depot du tutorial DBT
 
 ### Modules installés sous vscode:
-- Better Jinja                    samuelcolvin.jinjahtml
-- BigQuery Driver for SQLTools    evidence.sqltools-bigquery-driver
-- dbt                             dbtlabsinc.dbt
-- GitHub Copilot                  github.copilot
-- GitHub Copilot Chat             github.copilot-chat
-- sqlfluff                        sqlfluff.vscode-sqlfluff
-- SQLTools                        mtxr.sqltools
-- YAML                            redhat.vscode-yaml (1.19.1)
+- Better Jinja                          samuelcolvin.jinjahtml
+- BigQuery Driver for SQLTools          evidence.sqltools-bigquery-driver
+- SQLTools PostgreSQL/Cockroach Driver  mtxr.sqltools-driver-pg
+- dbt                                   dbtlabsinc.dbt
+- GitHub Copilot                        github.copilot
+- GitHub Copilot Chat                   github.copilot-chat
+- sqlfluff                              sqlfluff.vscode-sqlfluff
+- SQLTools                              mtxr.sqltools
+- YAML                                  redhat.vscode-yaml (1.19.1)
 
 
 NB : SQLTools a besoin de Nodejs pour fonctionner.<BR>
 Le dossier de configuration de SQLTools se trouve ici :<BR>
-C:\Users\\<user\>\AppData\Local\vscode-sqltools
+$env:LOCALAPPDATA\vscode-sqltools
 
 C:\Users\\<user\>\AppData\Local\vscode-sqltools\Data\> npm list
 ```
@@ -34,9 +35,9 @@ cafile=<chemin_vers>/cacert.pem
 ```json
 {
     "dbt.dbtPath": "<chemin_vers>\\.local\\bin\\dbt.exe",
+    // dbt core ne marche pas avec dbt vscode extention : unsupported dbt version
     "sqlfluff.executablePath": "<chemin_vers>\\python\\venvs\\sqlfluff\\Scripts\\sqlfluff.exe",
-    "sqlfluff.linter.run": "onSave",
-    "python.pythonPath": "<chemin_vers>\\python\\venvs\\sqlfluff\\bin\\python",
+    
     "sqltools.connections": [
         {
             "name": "BigQuery",
@@ -45,9 +46,34 @@ cafile=<chemin_vers>/cacert.pem
             "previewLimit": 50,
             "driver": "BigQuery",
             "keyfile": "<chemin_vers>\\dbt-jaffle-shop-xxxxxx-yyyyyyyyyyyy.json"
-        }
+        },
+        {
+            "pgOptions": {
+                "ssl": {
+                    "rejectUnauthorized": true,
+                    "ca": "C:\\Users\\<user\>\\SCOOP\\persist\\ssl\\CA\\certs\\ca.cert.pem",
+                    "cert": "C:\\Users\\<user\>\\SCOOP\\persist\\ssl\\CA\\certs\\server.cert.pem",
+                }
+            },
+            "ssh": "Disabled",
+            "previewLimit": 50,
+            "server": "localhost",
+            "driver": "PostgreSQL",
+            "name": "pg",
+            "connectString": "postgres://jaffle:jaffle@localhost:5432/jaffle_shop?sslmode=verify-ca"
+        },
     ],
     "sqltools.useNodeRuntime": true,
+    "redhat.telemetry.enabled": false,
+    "github.copilot.enable": {
+        "*": false,
+        "plaintext": false,
+        "markdown": false,
+        "scminput": false,
+        "yaml": true,
+        "jinja-sql": true
+    },
+    "chat.viewSessions.orientation": "stacked",
 }
 ```
 
