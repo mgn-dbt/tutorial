@@ -3,7 +3,7 @@ version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: 'default'
+profile: default
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
@@ -40,37 +40,29 @@ models:
     marts:
       +materialized: table
 
-### dbt emet un warning sur les seeds desactivés s'ils contiennent des tests
+on-run-end:
+  - "{% do grant_select(schema=target.schema, role='lecteur') %}"
+
+
+### beware dbt sends warning for deactivated seeds that contains tests
 seeds:
   jaffle_shop:
     +persist_docs:
       relation: true
       columns: true
-    autre:
-      +schema: seeds_autre
-      +tags: 'autre'
-      +enabled: true
     marts:
       +tags: 'marts'
       +enabled: true
-    raw:
-      +schema: seeds_raw
-      +tags: 'raw'
-      # Ces seeds ne doivent être actifs que pour charger les tables definitives
-      # Le post_hook de ces seeds créée les tables definitives
-      # La compilation plante a cause de la gestion de la transaction
-      # https://docs.getdbt.com/reference/resource-configs/pre-hook-post-hook#transaction-behavior
-      # dbt seed --select raw --full-refresh --vars '{"load_source_data": "True"}'  [--profile pg]
-      +enabled: "{{ var('load_source_data', 'False') | as_bool }}"
+
 
 # Configuration for dbt Cloud
 dbt-cloud:
   project-id: 70471823535774
 
 vars:
-  # pour dbt_date
+  # for dbt_date
   'dbt_date:time_zone': 'Europe/Paris'
-  # pour staging/autre/stg_autre__orders et staging/autre/stg_autre__locations
+  # for staging/autre/stg_autre__orders and staging/autre/stg_autre__locations
   truncate_timespan_to: "{{ dbt.current_timestamp() }}"
 
 # BigQuery specific flags

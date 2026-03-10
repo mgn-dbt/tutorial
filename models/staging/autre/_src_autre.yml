@@ -1,6 +1,6 @@
 sources:
   - name: autre
-    schema: seeds_autre
+    schema: dbt_raw_autre
     description: big query autre dataset
     tables:
       - name: customers

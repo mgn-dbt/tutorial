@@ -4,6 +4,7 @@
         "samuelcolvin.jinjahtml",
         "sqltools.sqltools",
         "evidence.sqltools-bigquery-driver",
+        "mtxr.sqltools-driver-pg",
         "redhat.vscode-yaml",
         "sqlfluff.sqlfluff-vscode"
     ]
