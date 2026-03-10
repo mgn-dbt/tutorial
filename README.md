@@ -1,9 +1,9 @@
 Welcome to my DBT tutorial repository
 
-I tried to make the dbt tutorial work with BigQuery and PostgreSql.
+I tried to make the dbt tutorial work with BigQuery and PostgreSql.<br>
 Even the Semantic Layer but not with great success.
 
-BigQuery with Dbt Fusion and the dbt vscode extension (also working in dbt cloud).
+BigQuery with Dbt Fusion and the dbt vscode extension (also working in dbt cloud).<br>
 PostgreSql with Dbt core in sqlfluff venv (cf further in this page).
 
 I use SCOOP under windows.
@@ -44,15 +44,16 @@ Data@ C:\Users\<user>\AppData\Local\vscode-sqltools\Data
 `-- google-auth-library@9.14.1
 ```
 
-NB : Beware zscaler.<BR>
-The 2 zscaler certificates must be included in the cacert.pem certificate store.<BR>
+NB : Beware zscaler.<br>
+The 2 zscaler certificates must be included in the cacert.pem certificate store.<br>
 cf C:\Users\\<user\>\\.npmrc
 ```
 cafile=<path_to>/cacert.pem
 ```
 
 
-### vscode user configuration (C:\Users\<user>\SCOOP\apps\vscode\current\data\user-data\User\profiles\xxxxxxxx\settings.json)
+### vscode user configuration<br>
+(C:\Users\<user>\SCOOP\apps\vscode\current\data\user-data\User\profiles\xxxxxxxx\settings.json)
 ```json
 {
     "dbt.dbtPath": "C:\\Users\\<user>\\.local\\bin\\dbt.exe",
@@ -101,7 +102,7 @@ cafile=<path_to>/cacert.pem
 
 ### Python venvs
 
-NB : SQLFluff requires Python and dbt to work.<BR>
+NB : SQLFluff requires Python and dbt to work.<br>
 Packages installed in the sqlfluff venv:
 ```
 python -m venv <path_to>\venvs\sqlfluff
@@ -125,18 +126,16 @@ dbt-autofix deprecations --json --all
 dbt-autofix deprecations --semantic-layer
 ```
 
-Autofix helped migrate SL Legacy spec to the new spec.
-cf models\marts\autre\_mdl_autre.yml
+Autofix helped migrate SL Legacy spec to the new spec.<br>
+cf models\marts\autre\_mdl_autre.yml<br>
 I must left commented "filter" and "saved_queries" because dbt cloud don't understand them.
 
-NB : dbt fusion install process updates file Microsoft.PowerShell_profile.ps1 :<BR>
-cf $env:USERPROFILE\Documents\Powershell\Microsoft.PowerShell_profile.ps1
+NB : dbt fusion install process updates file Microsoft.PowerShell_profile.ps1 :<br>
+cf $env:USERPROFILE\Documents\Powershell\Microsoft.PowerShell_profile.ps1<br>
 It ensure dbt fusion binary is in PATH and dbtf alias is created.
 
-Fusion update: 
+Fusion update: <br>
 dbtf system update
-
-
 
 
 ### Profiles.yml file
@@ -169,7 +168,8 @@ pg:
       sslrootcert: C:\Users\<user>\SCOOP\persist\ssl\CA\certs\ca.cert.pem
 ```
 
-### Environment variables (corresponds with var defined in dbt cloud)
+### Environment variables <br>
+(corresponds with var defined in dbt cloud)
 $env:DBT_ENV_NAME='dev'
 
 
