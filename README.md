@@ -1,6 +1,10 @@
-Bienvenue dans le depot du tutorial DBT
+Welcome to my DBT tutorial repository
 
-### Modules installés sous vscode:
+I tried to make the dbt tutorial to work with BQ and PG.
+
+### Modules installed in vscode
+
+```
 - Better Jinja                          samuelcolvin.jinjahtml
 - BigQuery Driver for SQLTools          evidence.sqltools-bigquery-driver
 - SQLTools PostgreSQL/Cockroach Driver  mtxr.sqltools-driver-pg
@@ -10,10 +14,10 @@ Bienvenue dans le depot du tutorial DBT
 - sqlfluff                              sqlfluff.vscode-sqlfluff
 - SQLTools                              mtxr.sqltools
 - YAML                                  redhat.vscode-yaml (1.19.1)
+```
 
-
-NB : SQLTools a besoin de Nodejs pour fonctionner.<BR>
-Le dossier de configuration de SQLTools se trouve ici :<BR>
+NB : SQLTools requires Node.js to work.<br>
+The SQLTools configuration folder is located here:<br>
 $env:LOCALAPPDATA\vscode-sqltools
 
 C:\Users\\<user\>\AppData\Local\vscode-sqltools\Data\> npm list
@@ -23,20 +27,20 @@ Data@ C:\Users\<user>\AppData\Local\vscode-sqltools\Data
 `-- google-auth-library@9.14.1
 ```
 
-NB : Attention a zscaler.<BR>
-Les 2 certificats de zscaler doivent être inclus dans le magasin de certificats cacert.pem.<BR>
+NB : Beware zscaler.<BR>
+The 2 zscaler certificates must be included in the cacert.pem certificate store.<BR>
 cf C:\Users\\<user\>\\.npmrc
 ```
-cafile=<chemin_vers>/cacert.pem
+cafile=<path_to>/cacert.pem
 ```
 
 
 ### vscode configuration
 ```json
 {
-    "dbt.dbtPath": "<chemin_vers>\\.local\\bin\\dbt.exe",
-    // dbt core ne marche pas avec dbt vscode extention : unsupported dbt version
-    "sqlfluff.executablePath": "<chemin_vers>\\python\\venvs\\sqlfluff\\Scripts\\sqlfluff.exe",
+    "dbt.dbtPath": "<path_to>\\.local\\bin\\dbt.exe",
+    // dbt core does not work with dbt vscode extension: unsupported dbt version
+    "sqlfluff.executablePath": "<path_to>\\python\\venvs\\sqlfluff\\Scripts\\sqlfluff.exe",
     
     "sqltools.connections": [
         {
@@ -45,14 +49,14 @@ cafile=<chemin_vers>/cacert.pem
             "location": "us",
             "previewLimit": 50,
             "driver": "BigQuery",
-            "keyfile": "<chemin_vers>\\dbt-jaffle-shop-xxxxxx-yyyyyyyyyyyy.json"
+            "keyfile": "<path_to>\\dbt-jaffle-shop-xxxxxx-yyyyyyyyyyyy.json"
         },
         {
             "pgOptions": {
                 "ssl": {
                     "rejectUnauthorized": true,
-                    "ca": "C:\\Users\\<user\>\\SCOOP\\persist\\ssl\\CA\\certs\\ca.cert.pem",
-                    "cert": "C:\\Users\\<user\>\\SCOOP\\persist\\ssl\\CA\\certs\\server.cert.pem",
+                    "ca": "C:\\Users\\<user>\\SCOOP\\persist\\ssl\\CA\\certs\\ca.cert.pem",
+                    "cert": "C:\\Users\\<user>\\SCOOP\\persist\\ssl\\CA\\certs\\server.cert.pem",
                 }
             },
             "ssh": "Disabled",
@@ -60,6 +64,7 @@ cafile=<chemin_vers>/cacert.pem
             "server": "localhost",
             "driver": "PostgreSQL",
             "name": "pg",
+            // pg in SSL mode with server certificate verification only
             "connectString": "postgres://jaffle:jaffle@localhost:5432/jaffle_shop?sslmode=verify-ca"
         },
     ],
@@ -77,20 +82,20 @@ cafile=<chemin_vers>/cacert.pem
 }
 ```
 
-NB : SQLFluff a besoin de Python et dbt pour fonctionner.<BR>
-Packages installés dans le venv sqlfluff :
+NB : SQLFluff requires Python and dbt to function.<BR>
+Packages installed in the sqlfluff venv:
 ```
 python -m venv <chemin_vers>\venvs\sqlfluff
 <chemin_vers>\venvs\sqlfluff\Scripts\activate.ps1
 python.exe -m pip install --upgrade pip
 pip install sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery pip_system_certs
 (pip_system_certs pour zscaler, en remplacement de certifi qui n'est plus maintenu)
-Ne pas installer :
+Dont't install :
 pip install dbt-metricflow dbt-metricflow[dbt-bigquery]
-car ils provoquent une descente de version dbt pour la compatibilite
+because they cause a DBT version downgrade for compatibility
 ```
 
-Pour utiliser autofix, il est recommandé de faire un deuxième venv
+To use autofix, it is recommended to do a second venv
 ```
 python -m venv <chemin_vers>\venvs\autofix
 <chemin_vers>\venvs\autofix\Scripts\activate.ps1
@@ -101,12 +106,42 @@ dbt-autofix deprecations --json --all
 dbt-autofix deprecations --semantic-layer
 ```
 
-NB : dbt fusion doit etre mentionné dans le PATH pour pouvoir être utilisé dans le terminal.<BR>
-Mise à jour : dbt system update (dans le dossier de l'executable)
+NB : dbt fusion must be listed in the PATH to be used in the terminal.<BR>
+Update: dbt system update (in the executable's folder)
 
 json schema cf https://github.com/dbt-labs/dbt-jsonschema
 cf https://docs.getdbt.com/docs/about-dbt-extension
 
+
+### Profiles.yml file
+```yaml
+default:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      threads: 4
+      project: dbt-jaffle-shop-xxxxxx
+      dataset: dbt_<user>
+      method: service-account
+      keyfile: C:\Users\<user>\.dbt\dbt-jaffle-shop-xxxxxx-yyyyyyyyyyyy.json
+      location: US
+pg:
+  target: dev
+  outputs:
+    dev:
+      dbname: jaffle_shop
+      host: localhost
+      password: jaffle
+      port: 5432
+      schema: dbt_<user>
+      search_path: dbt_<user>,public
+      threads: 1
+      type: postgres
+      user: jaffle
+      sslmode: verify-ca
+      sslrootcert: C:\Users\<user>\SCOOP\persist\ssl\CA\certs\ca.cert.pem
+```
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)

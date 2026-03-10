@@ -44,7 +44,7 @@ on-run-end:
   - "{% do grant_select(schema=target.schema, role='lecteur') %}"
 
 
-### dbt emet un warning sur les seeds desactivés s'ils contiennent des tests
+### beware dbt sends warning for deactivated seeds that contains tests
 seeds:
   jaffle_shop:
     +persist_docs:
@@ -60,9 +60,9 @@ dbt-cloud:
   project-id: 70471823535774
 
 vars:
-  # pour dbt_date
+  # for dbt_date
   'dbt_date:time_zone': 'Europe/Paris'
-  # pour staging/autre/stg_autre__orders et staging/autre/stg_autre__locations
+  # for staging/autre/stg_autre__orders and staging/autre/stg_autre__locations
   truncate_timespan_to: "{{ dbt.current_timestamp() }}"
 
 # BigQuery specific flags
