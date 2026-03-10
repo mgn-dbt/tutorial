@@ -169,12 +169,13 @@ pg:
 ```
 
 ### Environment variables <br>
-(corresponds with var defined in dbt cloud)
+(corresponds with var defined in dbt cloud)<br>
 $env:DBT_ENV_NAME='dev'
 
 
 ### JSON
-json schema cf https://github.com/dbt-labs/dbt-jsonschema
+json schema <br>
+cf https://github.com/dbt-labs/dbt-jsonschema<br>
 cf https://docs.getdbt.com/docs/about-dbt-extension
 
 
