@@ -1,6 +1,8 @@
 Welcome to my DBT tutorial repository
 
-I tried to make the dbt tutorial to work with BQ and PG.
+I tried to make the dbt tutorial work with BigQuery and PostgreSql.
+I use SCOOP under windows.
+Tables data is loaded separately cf https://github.com/mgn-dbt/external
 
 ### Modules installed in vscode
 
@@ -35,12 +37,11 @@ cafile=<path_to>/cacert.pem
 ```
 
 
-### vscode configuration
+### vscode user configuration (C:\Users\<user>\SCOOP\apps\vscode\current\data\user-data\User\profiles\xxxxxxxx\settings.json)
 ```json
 {
-    "dbt.dbtPath": "<path_to>\\.local\\bin\\dbt.exe",
-    // dbt core does not work with dbt vscode extension: unsupported dbt version
-    "sqlfluff.executablePath": "<path_to>\\python\\venvs\\sqlfluff\\Scripts\\sqlfluff.exe",
+    "dbt.dbtPath": "C:\\Users\\<user>\\.local\\bin\\dbt.exe",
+    "sqlfluff.executablePath": "C:\\Users\\<user>\\SCOOP\\persist\\python\\venvs\\sqlfluff\\Scripts\\sqlfluff.exe",
     
     "sqltools.connections": [
         {
@@ -85,8 +86,8 @@ cafile=<path_to>/cacert.pem
 NB : SQLFluff requires Python and dbt to function.<BR>
 Packages installed in the sqlfluff venv:
 ```
-python -m venv <chemin_vers>\venvs\sqlfluff
-<chemin_vers>\venvs\sqlfluff\Scripts\activate.ps1
+python -m venv <path_to>\venvs\sqlfluff
+<path_to>\venvs\sqlfluff\Scripts\activate.ps1
 python.exe -m pip install --upgrade pip
 pip install sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery pip_system_certs
 (pip_system_certs pour zscaler, en remplacement de certifi qui n'est plus maintenu)
@@ -97,8 +98,8 @@ because they cause a DBT version downgrade for compatibility
 
 To use autofix, it is recommended to do a second venv
 ```
-python -m venv <chemin_vers>\venvs\autofix
-<chemin_vers>\venvs\autofix\Scripts\activate.ps1
+python -m venv <path_to>\venvs\autofix
+<path_to>\venvs\autofix\Scripts\activate.ps1
 python.exe -m pip install --upgrade pip
 pip install dbt-autofix pip_system_certs
 
