@@ -47,7 +47,7 @@ Data@ C:\Users\<user>\AppData\Local\vscode-sqltools\Data
 ```
 
 NB : Beware zscaler.<br>
-The 2 zscaler certificates must be included in the cacert.pem certificate store.<br>
+The 2 zscaler certificates must be included in the cacert.pem npm certificate store.<br>
 cf $env:USERPROFILE\\.npmrc
 ```
 cafile=<path_to>/cacert.pem
@@ -133,11 +133,11 @@ Autofix helped migrate SL Legacy spec to the new spec.<br>
 cf models\marts\autre\_mdl_autre.yml<br>
 I must left commented "filter" and "saved_queries" because dbt cloud don't understand them.
 
-NB : dbt fusion install process updates file Microsoft.PowerShell_profile.ps1 :<br>
+NB : dbt fusion install process updates the file Microsoft.PowerShell_profile.ps1 :<br>
 cf $env:USERPROFILE\Documents\Powershell\Microsoft.PowerShell_profile.ps1<br>
 It ensure dbt fusion binary is in PATH and dbtf alias is created.
 
-Fusion update: <br>
+Fusion update can be done by command line or by vscode himself : <br>
 dbtf system update
 
 
@@ -171,6 +171,9 @@ pg:
       sslmode: verify-ca
       sslrootcert: C:\Users\<user>\SCOOP\persist\ssl\CA\certs\ca.cert.pem
 ```
+
+BigQuery profile must be named "default" for Dbt Cloud.
+
 
 ### Environment variables
 
