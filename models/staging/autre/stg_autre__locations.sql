@@ -13,12 +13,17 @@ renamed as (
         ---------- timestamp
         {%- set dt_regex -%}
             regexp_replace({{ dbt.cast('opened_at', dbt.type_string()) }},
-            '^(\\d{4}-\\d{2}-\\d{2})T(\\d{2}:\\d{2}:\\d{2}).*',
-            '\\1T')
+            '^(\\d{4}-\\d{2}-\\d{2}).*',
+            '\\1')
         {%- endset -%}
         {{ dbt.cast(dt_regex, 'date') }} as opened_at
     from source
 )
 
 select * from renamed
-where opened_at <= {{ var('truncate_timespan_to') }}
+where
+    opened_at <= {% if target.type == 'bigquery' -%}
+        DATE({{ var('truncate_timespan_to') }})
+{%- else -%}
+        {{ var('truncate_timespan_to') }}
+{%- endif %}
