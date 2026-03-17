@@ -14,9 +14,9 @@ renamed as (
         {%- set dt_regex -%}
             regexp_replace({{ dbt.cast('opened_at', dbt.type_string()) }},
             '^(\\d{4}-\\d{2}-\\d{2})T(\\d{2}:\\d{2}:\\d{2}).*',
-            '\\1T\\2')
+            '\\1T')
         {%- endset -%}
-        {{ dbt.cast(dt_regex, dbt.type_timestamp()) }} as opened_at
+        {{ dbt.cast(dt_regex, 'date') }} as opened_at
     from source
 )
 

@@ -10,8 +10,10 @@ renamed as (
         store_id as location_id,
         customer as customer_id,
         ---------- properties
-        ({{ dbt.cast('order_total', dbt.type_int()) }} / 100.0) as order_total,
-        ({{ dbt.cast('tax_paid', dbt.type_int()) }} / 100.0) as tax_paid,
+        {{ cents_to_dollars('subtotal') }} as subtotal,
+        {{ cents_to_dollars('tax_paid') }} as tax_paid,
+        {{ cents_to_dollars('order_total') }} as order_total,
+
         ---------- timestamps
         {%- set dt_regex -%}
             regexp_replace({{ dbt.cast('ordered_at', dbt.type_string()) }},

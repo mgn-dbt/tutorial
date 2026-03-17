@@ -11,7 +11,7 @@ renamed as (
         sku as product_id,
         ---------- properties
         name as supply_name,
-        ({{ dbt.cast('cost', dbt.type_int()) }} / 100.0) as supply_cost,
+        {{ cents_to_dollars('cost') }} as supply_cost,
         {{ dbt.cast('perishable', dbt.type_boolean()) }} as is_perishable_supply
     from source
 )
