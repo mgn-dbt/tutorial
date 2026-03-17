@@ -16,6 +16,14 @@ models:
         data_tests:
           - not_null
           - unique
+      - name: order_id
+        description: The corresponding order each order item belongs to
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_autre__orders')
+                field: order_id
 
   - name: stg_autre__orders
     description: Order data with basic cleaning and transformation applied, one row per order.
@@ -25,6 +33,10 @@ models:
         data_tests:
           - not_null
           - unique
+    data_tests:
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "order_total - tax_paid = subtotal"
 
   - name: stg_autre__products
     description: Product (food and drink items that can be ordered) data with basic cleaning and transformation applied, one row per product.

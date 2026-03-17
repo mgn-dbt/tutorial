@@ -11,7 +11,8 @@ renamed as (
         name as product_name,
         type as product_type,
         description as product_description,
-        ({{ dbt.cast('price', dbt.type_int()) }}/ 100.0) as product_price,
+        {{ cents_to_dollars('price') }} as product_price,
+
         ---------- derived
         case
             when type = 'jaffle' then 1

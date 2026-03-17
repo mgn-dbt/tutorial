@@ -37,21 +37,38 @@ models:
       +materialized: view
       +meta:
         required_tests: {"unique.*|not_null": 2}
+      autre:
+        +tags: 'autre'
+      jaffle_shop:
+        +tags: 'learn'
+      stripe:
+        +tags: 'learn'
     marts:
       +materialized: table
+      autre:
+        +tags: 'autre'
+      finance:
+        +tags: 'learn'
+      intermediate:
+        +tags: 'learn'
+      marketing:
+        +tags: 'learn'
+# dbt run -s tag:autre
+# dbt run -s tag:learn
 
 on-run-end:
   - "{% do grant_select(schema=target.schema, role='lecteur') %}"
 
 
 ### beware dbt sends warning for deactivated seeds that contains tests
+# for marketing mart
 seeds:
   jaffle_shop:
     +persist_docs:
       relation: true
       columns: true
     marts:
-      +tags: 'marts'
+      +tags: 'learn'
       +enabled: true
 
 
@@ -63,7 +80,7 @@ vars:
   # for dbt_date
   'dbt_date:time_zone': 'Europe/Paris'
   # for staging/autre/stg_autre__orders and staging/autre/stg_autre__locations
-  truncate_timespan_to: "{{ dbt.current_timestamp() }}"
+  'truncate_timespan_to': "{{ dbt.current_timestamp() }}"
 
 # BigQuery specific flags
 # https://docs.getdbt.com/reference/global-configs/behavior-changes
