@@ -53,6 +53,7 @@ cf $env:USERPROFILE\\.npmrc
 cafile=<path_to>/cacert.pem
 ```
 
+$env:LOCALAPPDATA\.certifi\cacert.pem ??
 
 ### vscode user configuration
 
