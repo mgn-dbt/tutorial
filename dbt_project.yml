@@ -61,13 +61,14 @@ on-run-end:
 
 
 ### beware dbt sends warning for deactivated seeds that contains tests
+# for marketing mart
 seeds:
   jaffle_shop:
     +persist_docs:
       relation: true
       columns: true
     marts:
-      +tags: 'marts'
+      +tags: 'learn'
       +enabled: true
 
 
