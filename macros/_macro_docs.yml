@@ -12,9 +12,6 @@ macros:
       - name: column_name
         type: string
         description: The amount in cents to be converted to dollars.
-      - name: decimal_places
-        type: integer
-        description: The number of decimal places to round to (default is 2).
 
   - name: clean_stale_models
     description: >

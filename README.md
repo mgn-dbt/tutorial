@@ -6,7 +6,7 @@ Even the Semantic Layer but not with great success.
 BigQuery with Dbt Fusion and the dbt vscode extension (also working in dbt cloud).<br>
 PostgreSql with Dbt core in sqlfluff venv (cf further in this page).
 
-I used SCOOP under windows.
+I used SCOOP under windows with no admin rights.
 ```
 Excerpt from "scoop list" :
 openssl-light    3.6.1        main
@@ -18,7 +18,7 @@ vscode           1.110.1      extras
 ```
 
 Tables data is loaded separately cf https://github.com/mgn-dbt/external<br>
-Seeds are not for loading high volume of data.<br>
+Seeds are not for loading data but lookup tables.<br>
 So this other project is a small aberration.
 
 ### Modules installed in vscode
@@ -112,10 +112,10 @@ Packages installed in the sqlfluff venv:
 python -m venv <path_to>\venvs\sqlfluff
 <path_to>\venvs\sqlfluff\Scripts\activate.ps1
 python.exe -m pip install --upgrade pip
-pip install sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery dbt-postgres certifi pip_system_certs
+pip install sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery dbt-postgres dbt-duckdb pip_system_certs
 (pip_system_certs for zscaler, replacing certifi which is no longer maintained)
 
-Dont't install dbt-metricflow and dbt-metricflow[dbt-bigquery]
+Dont't install dbt-metricflow, dbt-metricflow[dbt-bigquery], dbt-metricflow[dbt-duckdb]
 because they cause a DBT version downgrade for compatibility
 ```
 

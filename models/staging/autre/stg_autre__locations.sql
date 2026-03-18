@@ -22,8 +22,4 @@ renamed as (
 
 select * from renamed
 where
-    opened_at <= {% if target.type == 'bigquery' -%}
-        DATE({{ var('truncate_timespan_to') }})
-{%- else -%}
-        {{ var('truncate_timespan_to') }}
-{%- endif %}
+    opened_at <= {{ ensure_bq_date(var('truncate_timespan_to')) }}
