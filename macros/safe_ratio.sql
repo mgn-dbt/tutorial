@@ -1,4 +1,4 @@
--- macros/safe_ratio.sql
+
 {% macro safe_ratio(numerator, denominator, default_value=0) %}
     case
         when {{ denominator }} is null

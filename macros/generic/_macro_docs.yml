@@ -1,0 +1,33 @@
+macros:
+  - name: test_not_null_in_env
+    description: >
+      This macro is generic test not_null that only runs in a specified environment. 
+      If no environment is specified, it will run in all environments.
+    arguments:
+      - name: model
+        type: ref
+        description: The model to test.
+      - name: column_name
+        type: string
+        description: The column to test.
+      - name: env
+        type: string
+        description: The environment in which to run the test.
+
+  - name: test_avg_greater_than
+    description: >
+      This macro is generic test avg_greater_than 
+      that checks if the average of a column is greater than a specified limit
+    arguments:
+      - name: model
+        type: ref
+        description: The model to test.
+      - name: column_name
+        type: string
+        description: The column to test.
+      - name: group_by_column
+        type: string
+        description: The column to group by.
+      - name: limit
+        type: number
+        description: The limit for the average. Default is 1.

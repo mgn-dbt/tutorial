@@ -6,11 +6,6 @@
     {{ return(adapter.dispatch('cents_to_dollars')(column_name)) }}
 {%- endmacro %}
 
-{% macro default__cents_to_dollars(column_name) -%}
-    -- implicite casting to float, then dividing by 100 and rounding to 2 decimal places
-    round( 1.0 * {{ column_name }} / 100, 2)
-{%- endmacro %}
-
 {% macro postgres__cents_to_dollars(column_name) -%}
     -- float8
     ({{ column_name }}::numeric(16, 2) / 100)

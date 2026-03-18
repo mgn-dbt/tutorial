@@ -18,7 +18,7 @@ vscode           1.110.1      extras
 ```
 
 Tables data is loaded separately cf https://github.com/mgn-dbt/external<br>
-Seeds are not for loading data but lookup tables.<br>
+Seeds are not for loading data but lookup tables or mock data for tests.<br>
 So this other project is a small aberration.
 
 ### Modules installed in vscode

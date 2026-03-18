@@ -1,3 +1,4 @@
+
 {% macro is_same_table(table_name_A, table_name_B, columns_to_compare) %}
     (
         select

@@ -1,4 +1,4 @@
--- macros/incremental_filter.sql
+
 {%- macro incremental_filter(timestamp_column, interval_days=0) -%}
     {%- if is_incremental() -%}
         {{ timestamp_column }} >= (
