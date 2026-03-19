@@ -31,8 +31,6 @@ clean-targets:         # directories to be removed by `dbt clean`
 
 models:
   jaffle_shop:
-    +meta:
-      required_docs: true
     staging:
       +materialized: view
       +meta:
@@ -44,6 +42,8 @@ models:
       stripe:
         +tags: 'learn'
     marts:
+      +meta:
+        required_docs: true
       +materialized: table
       autre:
         +tags: 'autre'
@@ -55,6 +55,8 @@ models:
         +tags: 'learn'
 # dbt run -s tag:autre
 # dbt run -s tag:learn
+# dbt run-operation required_tests
+# dbt run-operation required_docs
 
 on-run-end:
   - "{% do grant_select(schema=target.schema, role='lecteur') %}"
@@ -69,8 +71,10 @@ seeds:
       columns: true
     marts:
       +tags: 'learn'
-      +enabled: true
-
+    tests:
+      +tags: 'tests'
+# dbt seed --full-refresh -s "tag:tests"
+# dbt seed --full-refresh -s "tag:learn"
 
 # Configuration for dbt Cloud
 dbt-cloud:
@@ -88,3 +92,10 @@ flags:
   bigquery_use_batch_source_freshness: true
   require_generic_test_arguments_property: true
   require_unique_project_resource_names: true
+
+# It's important to follow the correct YAML naming conventions for the configs in your dbt_project.yml file 
+# to ensure dbt can process them properly. This is especially true for resource types with more than one word.
+#
+# Use dashes (-) when configuring resource types with multiple words in your dbt_project.yml file.
+# Use underscore (_) when configuring resource types with multiple words for YAML files other than the dbt_project.yml file.
+#  ex: saved-queries (dbt_project.yml) => saved_queries (property file)

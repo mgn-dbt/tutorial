@@ -5,6 +5,7 @@ Welcome to my repository on DBT tutorials
 After following tutorials in https://learn.getdbt.com/learn<br>
 I tried to make the dbt tutorial work with BigQuery and PostgreSql.<br>
 I intend to test duckdb but later.<br>
+cf https://docs.getdbt.com/reference/dbt-jinja-functions/cross-database-macros
 
 - BigQuery with Dbt Fusion and the dbt vscode extension (also working in dbt cloud).<br>
 - PostgreSql with Dbt core in sqlfluff venv (cf further in this page).<br>
@@ -226,6 +227,9 @@ pip install sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery dbt-postgres d
 
 Dont't install dbt-metricflow, dbt-metricflow[dbt-bigquery], dbt-metricflow[dbt-duckdb]
 because they cause a DBT version downgrade for compatibility
+
+Use "dbt sl" instead of "mf" command.
+Beware BigQuery date/timestamp comparison incompatibility in SL context.
 ```
 
 To use autofix, it is recommended to create a second venv

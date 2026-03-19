@@ -1,0 +1,3 @@
+seeds:
+  - name: test_locations
+    description: mock data for testing compare table

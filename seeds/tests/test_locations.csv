@@ -1,0 +1,7 @@
+"location_id","location_name","tax_rate","opened_at"
+"4b6c2304-2b9e-41e4-942a-cf11a1819378","Philadelphia",0.06,"2016-09-01"
+"40e6ddd6-b8f6-4e17-8bd6-5e53966809d2","Brooklyn",0.04,"2017-03-12"
+"1ce7ac35-d296-4e34-89c4-bf92aa2fe751","Chicago",0.0625,"2018-04-29"
+"39b38c24-679d-4217-b676-a4a0e64c8477","San Francisco",0.075,"2018-05-09"
+"09fdfbaf-3ec6-408d-93f4-1efc535d9938","New Orleans",0.04,"2019-03-10"
+"da506490-1e2f-4fe8-8426-f1eee65af28a","Los Angeles",0.08,"2019-09-13"

@@ -1,11 +1,15 @@
-
+{#
+dbt run-operation is_same_table --args "{table_name_A: 'stg_autre__locations', table_name_B: 'test_locations', columns_to_compare: 'location_id,location_name,tax_rate,opened_at'}"
+#}
 {% macro is_same_table(table_name_A, table_name_B, columns_to_compare) %}
+
+    {% set query %}
     (
         select
             '{{ table_name_A }}' AS in_table
             , {{ columns_to_compare }}
         from {{ ref(table_name_A) }}
-        except
+        {{ dbt.except() }}
         select
             '{{ table_name_A }}' AS in_table
             , {{ columns_to_compare }} 
@@ -13,18 +17,30 @@
             {{ ref(table_name_B) }}
     )
 
-    union 
+    union all
 
     (
         select
             '{{ table_name_B }}' AS in_table
             , {{ columns_to_compare }}
         from {{ ref(table_name_B) }}
-        except
+        {{ dbt.except() }}
         select
             '{{ table_name_B }}' AS in_table
             , {{ columns_to_compare }} 
         from 
             {{ ref(table_name_A) }}
     )
+    {% endset %}
+
+    {% if execute %}
+        {% set results = run_query(query) %}
+        {% set nb_differences = results|length %}
+        {% if nb_differences > 0 %}
+            {{ log('The tables are different based on the columns compared. ' ~ nb_differences // 2 ~ ' differences', info=True) }}
+        {% else %}
+            {{ log('The tables are the same based on the columns compared.', info=True) }}
+        {% endif %}
+    {% endif %}
+
 {% endmacro %}
