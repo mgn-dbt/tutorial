@@ -7,8 +7,8 @@ I tried to make the dbt tutorial work with BigQuery and PostgreSql.<br>
 I intend to test duckdb but later.<br>
 cf https://docs.getdbt.com/reference/dbt-jinja-functions/cross-database-macros
 
-- BigQuery with Dbt Fusion and the dbt vscode extension (also working in dbt cloud).<br>
-- PostgreSql with Dbt core in sqlfluff venv (cf further in this page).<br>
+- BigQuery with Dbt Fusion and the dbt vscode extension (also working in dbt cloud).
+- PostgreSql with Dbt core in sqlfluff venv (cf further in this page).
 
 To go full circle, I tried to make the project work under DBT Fusion, DBT cloud and DBT core.<br>
 
@@ -32,10 +32,10 @@ So this other project is an exception (not to be followed).
 
 # Modules installed in vscode
 
-CF .vscode/extensions.json
+Cf .vscode/extensions.json
 
 NB : SQLTools requires Node.js to work.<br>
-The SQLTools configuration folder is located here:<br>
+The SQLTools configuration folder is located here:
 ```powershell
 $env:LOCALAPPDATA\vscode-sqltools
 ```
@@ -49,7 +49,7 @@ Data@ C:\Users\<user>\AppData\Local\vscode-sqltools\Data
 ```
 
 NB : Beware zscaler.<br>
-The 2 zscaler certificates must be included in the cacert.pem npm certificate store.<br>
+The 2 zscaler certificates must be included in the cacert.pem npm certificate store.
 ```powershell
 Cf $env:USERPROFILE\.npmrc
 
@@ -249,7 +249,6 @@ dbt-autofix deprecations --semantic-layer
 
 Autofix helped migrate SL Legacy spec to the new spec.<br>
 cf models\marts\autre\_mdl_autre.yml<br>
-I must left commented "filter" and "saved_queries" because it seems dbt cloud don't understand them.
 
 
 # DBT
@@ -264,7 +263,8 @@ dbtf system update
 Beware package-lock.yml file, dbt fusion upgrade it with a bad format for dbt cloud.<br>
 So keep dbt cloud version of package-lock.json for compatibility.
 
-# Semantic Layer
+# Semantic Layer (SL)
+
 In dbt-cloud (dbt studio) the entity name is used as column name.
 Choosing arbitrary name for entity means an invalid query.
 
