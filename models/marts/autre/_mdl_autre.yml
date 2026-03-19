@@ -303,14 +303,6 @@ models:
         agg: sum
         expr: order_total
 
-      # est-ce nécessaire d'avoir une copie d'un metric pour pouvoir faire des metrics cumulatives dessus ?
-      # cree par autofix
-      - name: m_order_total_1
-        type: simple
-        agg: sum
-        expr: order_total
-        hidden: true
-
       - name: m_order_total_food
         label: order_total_food
         description: Sum of orders value
@@ -383,8 +375,8 @@ models:
         type: simple
         agg: count_distinct
         expr: customer_id
-        # filter: |
-        #   {{ Dimension('customer_id__customer_type') }} = 'new'
+        filter: |
+          {{ Dimension('customer_id__customer_type') }} = 'new'
 
       - name: m_order_amount
         label: order_amount
@@ -399,8 +391,8 @@ models:
         type: simple
         agg: sum
         expr: order_cost
-        filter: |
-          {{ Dimension('order_id__is_food_order') }} = True
+        # filter: |
+        #   {{ Dimension('order_id__is_food_order') }} = True
 
       - name: m_tax_paid
         description: The total tax paid on each order.
@@ -410,7 +402,7 @@ models:
         #hidden: true
 
 
-# Cross‑model metrics (not simple ones)
+# Cross-model metrics (not simple ones)
 # cf https://docs.getdbt.com/docs/build/latest-metrics-spec
 metrics:
 # RATIO METRICS
@@ -472,9 +464,8 @@ saved_queries:
         - m_max_order_amount
         - m_cumulative_order_amount
       group_by:
-        - TimeDimension('metric_time', 'day')   # ???
+        - TimeDimension('metric_time', 'day')
     exports:
       - name: order_metrics
         config:
           export_as: table
-          # schema: faith_tests_exports

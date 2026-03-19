@@ -261,18 +261,23 @@ Fusion upgrade can be done by command line or by vscode himself : <br>
 dbtf system update
 
 Beware package-lock.yml file, dbt fusion upgrade it with a bad format for dbt cloud.<br>
-So keep dbt cloud version of package-lock.json for compatibility.
+After "dbt deps" rollback package-lock.json.
+Keep dbt cloud version of package-lock.json for compatibility.
+Bug ???
 
 # Semantic Layer (SL)
 
 In dbt-cloud (dbt studio) the entity name is used as column name.
 Choosing arbitrary name for entity means an invalid query.
+Bug ???
 
 Commands<br>
 ```
 dbt sl validate
 dbt sl list metrics
-
+dbt sl list dimensions --metrics m_large_order
+dbt sl list entities --metrics m_large_order
+dbt sl list saved-queries
 ```
 
 # Environment variables
