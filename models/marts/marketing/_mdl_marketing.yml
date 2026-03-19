@@ -27,7 +27,7 @@ models:
       - name: lifetime_value
         description: Total value of all customer's orders
         data_tests: 
-          - assert_dollars_spent_greater_than_one:
+          - avg_greater_than:
               arguments:
                 group_by_column: customer_id
 

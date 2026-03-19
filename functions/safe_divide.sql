@@ -1,3 +1,4 @@
+{# adaptation for postgresql #}
 {% if target.type == 'postgres' %}
 select case
 	  when denominator = 0 then null

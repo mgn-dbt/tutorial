@@ -13,6 +13,10 @@ models:
                 warn_if: ">=10"
                 # store_failures: true
           - not_null
+          # dbt test --select stg_stripe__payments
+          #- not_null_in_env:
+          #    arguments: 
+          #      env: prod
       - name: order_id
         description: order FK
         data_tests:
