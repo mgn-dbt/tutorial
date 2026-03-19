@@ -11,7 +11,6 @@ I intend to test duckdb but later.<br>
 
 To go full circle, I tried to make the project work under DBT Fusion, DBT cloud and DBT core.<br>
 
-
 I use SCOOP under Windows and Powershell with no admin rights.<br>
 (I know. This could be better under Linux)
 
@@ -133,7 +132,7 @@ pg:
       sslrootcert: C:\Users\<user>\SCOOP\persist\ssl\CA\certs\ca.cert.pem
 ```
 
-BigQuery profile must be named "default" for DBT Cloud.
+BigQuery profile must be named "default" for dbt cloud.
 
 
 # Postgresql
@@ -144,7 +143,7 @@ cf https://learn.microsoft.com/en-us/azure/application-gateway/self-signed-certi
 
 Here is my PG security configuration :
 
-## postgresql.conf
+### postgresql.conf
 ```
 listen_addresses = '*'
 password_encryption = scram-sha-256
@@ -155,7 +154,7 @@ ssl_cert_file = 'C:\\Users\\<user>\\SCOOP\\persist\\ssl\\CA\\certs\\server.cert.
 ssl_key_file = 'C:\\Users\\<user>\\SCOOP\\persist\\ssl\\CA\\private\\server.key.pem'
 ```
 
-## pg_hba.conf
+### pg_hba.conf
 ```
 # TYPE      DATABASE        USER            ADDRESS                 METHOD
 #host    all             all             127.0.0.1/32            trust
@@ -242,7 +241,7 @@ dbt-autofix deprecations --semantic-layer
 
 Autofix helped migrate SL Legacy spec to the new spec.<br>
 cf models\marts\autre\_mdl_autre.yml<br>
-I must left commented "filter" and "saved_queries" because dbt cloud don't understand them.
+I must left commented "filter" and "saved_queries" because it seems dbt cloud don't understand them.
 
 
 # DBT FUSION
@@ -253,6 +252,9 @@ It ensure dbt fusion binary is in PATH and dbtf alias is created.
 
 Fusion upgrade can be done by command line or by vscode himself : <br>
 dbtf system update
+
+Beware package-lock.yml file, dbt fusion upgrade it with a bad format for dbt cloud.<br>
+So keep dbt cloud version of package-lock.json for compatibility.
 
 
 # Environment variables
