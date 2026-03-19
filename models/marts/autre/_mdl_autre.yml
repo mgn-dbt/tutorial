@@ -383,8 +383,8 @@ models:
         type: simple
         agg: count_distinct
         expr: customer_id
-        filter: |
-          {{ Dimension('customer_id__customer_type') }} = 'new'
+        # filter: |
+        #   {{ Dimension('customer_id__customer_type') }} = 'new'
 
       - name: m_order_amount
         label: order_amount
