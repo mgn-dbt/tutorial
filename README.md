@@ -36,10 +36,13 @@ CF .vscode/extensions.json
 
 NB : SQLTools requires Node.js to work.<br>
 The SQLTools configuration folder is located here:<br>
+```powershell
 $env:LOCALAPPDATA\vscode-sqltools
-
-$env:LOCALAPPDATA\vscode-sqltools\Data\> npm list
 ```
+
+```powershell
+$env:LOCALAPPDATA\vscode-sqltools\Data> npm list
+
 Data@ C:\Users\<user>\AppData\Local\vscode-sqltools\Data
 +-- @google-cloud/bigquery@7.9.0
 `-- google-auth-library@9.14.1
@@ -47,8 +50,9 @@ Data@ C:\Users\<user>\AppData\Local\vscode-sqltools\Data
 
 NB : Beware zscaler.<br>
 The 2 zscaler certificates must be included in the cacert.pem npm certificate store.<br>
-cf $env:USERPROFILE\\.npmrc
-```
+```powershell
+Cf $env:USERPROFILE\.npmrc
+
 cafile=<path_to>/cacert.pem
 ```
 
@@ -103,7 +107,6 @@ cafile=<path_to>/cacert.pem
 
 
 # Profiles.yml
-
 ```yaml
 default:
   target: dev
@@ -211,8 +214,9 @@ GRANT ALL ON SCHEMA dbt_<user> TO jaffle;
 ```
 
 ### solve pgadmin 4 certificate error
+```powershell
 & "<path_to>\postgresql\18.3\pgAdmin 4\python\python.exe" -m pip install pip_system_certs
-
+```
 
 # Python venvs
 
@@ -248,7 +252,7 @@ cf models\marts\autre\_mdl_autre.yml<br>
 I must left commented "filter" and "saved_queries" because it seems dbt cloud don't understand them.
 
 
-# DBT FUSION
+# DBT
 
 NB : dbt fusion installation process updates the file Microsoft.PowerShell_profile.ps1 :<br>
 cf $env:USERPROFILE\Documents\Powershell\Microsoft.PowerShell_profile.ps1<br>
@@ -260,12 +264,23 @@ dbtf system update
 Beware package-lock.yml file, dbt fusion upgrade it with a bad format for dbt cloud.<br>
 So keep dbt cloud version of package-lock.json for compatibility.
 
+# Semantic Layer
+In dbt-cloud (dbt studio) the entity name is used as column name.
+Choosing arbitrary name for entity means an invalid query.
+
+Commands<br>
+```
+dbt sl validate
+dbt sl list metrics
+
+```
 
 # Environment variables
 
 (corresponds with var defined in dbt cloud)<br>
+```powershell
 $env:DBT_ENV_NAME='dev'
-
+```
 
 # JSON
 

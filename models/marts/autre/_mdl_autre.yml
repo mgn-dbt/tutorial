@@ -21,10 +21,6 @@ models:
           type: categorical
           name: customer_name
           label: Customer Name
-          #is_partition: true|false # optional
-          #validity_params: [optional]
-            #start_time: [optional, required if validity_params is provided, indicates the column name for the start time of the record's validity period] 
-            #end_time: [optional, required if validity_params is provided, indicates the column name for the end time of the record's validity period]
 
       - name: count_lifetime_orders
         description: Total number of orders a customer has ever placed.
@@ -307,6 +303,14 @@ models:
         agg: sum
         expr: order_total
 
+      # est-ce nécessaire d'avoir une copie d'un metric pour pouvoir faire des metrics cumulatives dessus ?
+      # cree par autofix
+      - name: m_order_total_1
+        type: simple
+        agg: sum
+        expr: order_total
+        hidden: true
+
       - name: m_order_total_food
         label: order_total_food
         description: Sum of orders value
@@ -395,8 +399,8 @@ models:
         type: simple
         agg: sum
         expr: order_cost
-        # filter: |
-        #   {{ Dimension('order_id__is_food_order') }} = True
+        filter: |
+          {{ Dimension('order_id__is_food_order') }} = True
 
       - name: m_tax_paid
         description: The total tax paid on each order.
@@ -405,75 +409,72 @@ models:
         expr: tax_paid
         #hidden: true
 
+
+# Cross‑model metrics (not simple ones)
+# cf https://docs.getdbt.com/docs/build/latest-metrics-spec
+metrics:
 # RATIO METRICS
-      - name: m_food_order_pct
-        label: food_order_pct
-        description: The food cost as the % of the total order
-        type: ratio
-        numerator: m_food_order_amount
-        denominator: m_order_total
+  - name: m_food_order_pct
+    label: food_order_pct
+    description: The food cost as the % of the total order
+    type: ratio
+    numerator: m_food_order_amount
+    denominator: m_order_total
 
 # DERIVED METRICS
-      - name: m_food_order_pct_cumulative
-        label: food_order_as_percent_of_total_order_amount
-        description: Food order total as a % of total order amount
-        type: derived
-        expr: m_food_order_pct * 100
-        input_metrics:
-          - name: m_food_order_pct
+  - name: m_food_order_pct_cumulative
+    label: food_order_as_percent_of_total_order_amount
+    description: Food order total as a % of total order amount
+    type: derived
+    expr: m_food_order_pct * 100
+    input_metrics:
+      - name: m_food_order_pct
 
-      - name: m_food_order_gross_profit
-        label: food_order_gross_profit
-        description: The gross profit for each food order
-        type: derived
-        expr: revenue - cost
-        input_metrics:
-          - name: m_order_total_food
-            alias: revenue
-          - name: m_order_amount_food
-            alias: cost
+  - name: m_food_order_gross_profit
+    label: food_order_gross_profit
+    description: The gross profit for each food order
+    type: derived
+    expr: revenue - cost
+    input_metrics:
+      - name: m_order_total_food
+        alias: revenue
+      - name: m_order_amount_food
+        alias: cost
 
-# CUMULATIVE METRICS 
-      - name: m_order_total_1
-        description: The total amount for each order including taxes.
-        type: simple
-        agg: sum
-        expr: order_total
-        hidden: true
+# CUMULATIVE METRICS
+  - name: m_cumulative_order_amount
+    label: cumulative_order_amount
+    description: The cumulative value of all orders
+    type: cumulative
+    input_metric: m_order_total
 
-      - name: m_cumulative_order_amount
-        label: cumulative_order_amount
-        description: The cumulative value of all orders
-        type: cumulative
-        input_metric: m_order_total_1
+  - name: m_cumulative_order_amount_l1m
+    label: cumulative_order_amount_l1m
+    description: Trailing 1 month cumulative order amount
+    type: cumulative
+    input_metric: m_order_total
+    window: 1 month
 
-      - name: m_cumulative_order_amount_l1m
-        label: cumulative_order_amount_l1m
-        description: Trailing 1 month cumulative order amount
-        type: cumulative
-        input_metric: m_order_total_1
-        window: 1 month
-
-      - name: m_cumulative_order_amount_mtd
-        label: cumulative_order_amount_mtd
-        description: The month to date value of all orders
-        type: cumulative
-        input_metric: m_order_total_1
-        grain_to_date: month
+  - name: m_cumulative_order_amount_mtd
+    label: cumulative_order_amount_mtd
+    description: The month to date value of all orders
+    type: cumulative
+    input_metric: m_order_total
+    grain_to_date: month
 
 ################################################################################
-# saved_queries:
-#   - name: order_metrics
-#     description: testing out order metrics in one table
-#     query_params:
-#       metrics:
-#         - m_min_order_amount
-#         - m_max_order_amount
-#         - m_cumulative_order_amount
-#       group_by:
-#         - TimeDimension('metric_time', 'day')
-#     exports:
-#       - name: order_metrics
-#         config:
-#           export_as: table
-#           # schema: faith_tests_exports
+saved_queries:
+  - name: order_metrics
+    description: testing out order metrics in one table
+    query_params:
+      metrics:
+        - m_min_order_amount
+        - m_max_order_amount
+        - m_cumulative_order_amount
+      group_by:
+        - TimeDimension('metric_time', 'day')   # ???
+    exports:
+      - name: order_metrics
+        config:
+          export_as: table
+          # schema: faith_tests_exports
