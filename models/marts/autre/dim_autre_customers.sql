@@ -9,13 +9,13 @@ orders as (
 ),
 
 order_items as (
-    select * from {{ ref('order_items') }}
+    select * from {{ ref('fct_autre_order_items') }}
 ),
 
 order_summary as (
 
     select
-        orders.customer_id,
+        orders.order_customer_id,
 
         count(distinct orders.order_id) as count_lifetime_orders,
         count(distinct orders.order_id) > 1 as is_repeat_buyer,
@@ -25,7 +25,7 @@ order_summary as (
         sum(orders.order_total) as lifetime_spend
 
     from orders
-    left join order_items on orders.order_id = order_items.order_id
+    left join order_items on orders.order_id = order_items.order_item_order_id
     group by 1
 
 ),
@@ -33,7 +33,8 @@ order_summary as (
 joined as (
 
     select
-        customers.*,
+        customers.customer_id,
+        customers.customer_name,
         order_summary.count_lifetime_orders,
         order_summary.first_ordered_at,
         order_summary.last_ordered_at,
@@ -46,7 +47,7 @@ joined as (
         end as customer_type
 
     from customers
-    left join order_summary on customers.customer_id = order_summary.customer_id
+    left join order_summary on customers.customer_id = order_summary.order_customer_id
 
 )
 

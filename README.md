@@ -12,6 +12,7 @@ cf https://docs.getdbt.com/reference/dbt-jinja-functions/cross-database-macros
 
 To go full circle, I tried to make the project work under DBT Fusion, DBT cloud and DBT core.<br>
 
+
 I use SCOOP under Windows and Powershell with no admin rights.<br>
 (I know. This could be better under Linux)
 
@@ -279,6 +280,11 @@ dbt sl list dimensions --metrics m_large_order
 dbt sl list entities --metrics m_large_order
 dbt sl list saved-queries
 ```
+
+New SL doesn't work with dbt core.
+Apparently, dbt core still works with legacy SL.
+So sqlfluff complain about SL syntax when saving _mdl_autre.yml.
+
 
 # Environment variables
 

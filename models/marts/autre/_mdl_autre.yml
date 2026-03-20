@@ -102,7 +102,7 @@ models:
 
 
 ################################################################################
-  - name: order_items
+  - name: fct_autre_order_items
     description: |
       Order items data mart, offering key details for each individual item within an order. 
       One row per order item.
@@ -118,7 +118,7 @@ models:
           name: order_item_id
           label: Order Item
 
-      - name: order_id
+      - name: order_item_order_id
         description: FK linking to the orders mart, representing the order this item belongs to.
         data_tests:
           - relationships:
@@ -127,14 +127,14 @@ models:
                 field: order_id
         entity:
           type: foreign
-          name: order_id   # le nom order est un mot reserve du sql
+          name: order_item_order_id   # le nom order est un mot reserve du sql
           label: Order
 
-      - name: product_id
+      - name: order_item_product_id
         description: FK linking to the products dimension, representing the product that was ordered.
         entity:
           type: foreign
-          name: product_id
+          name: order_item_product_id
           label: product
 
       - name: product_price
@@ -219,7 +219,7 @@ models:
           name: order_id
           label: Order
 
-      - name: customer_id
+      - name: order_customer_id
         description: FK linking to the customers dimension, representing the customer who placed the order.
         data_tests:
           - relationships:
@@ -228,14 +228,14 @@ models:
                 field: customer_id
         entity:
           type: foreign
-          name: customer_id
+          name: order_customer_id
           label: Customer
 
-      - name: location_id
+      - name: order_location_id
         description: FK linking to the locations dimension, representing the location the order was placed at.
         entity:
           type: foreign
-          name: location_id
+          name: order_location_id
           label: Location
 
       - name: order_total
@@ -309,15 +309,15 @@ models:
         type: simple
         agg: sum
         expr: order_total
-        # filter: |
-        #   {{ Dimension('order_id__is_food_order') }} = True
+        filter: |
+          {{ Dimension('order_id__is_food_order') }} = True
 
       - name: m_locations_with_orders
         label: locations_with_orders
         description: The number of locations that have orders.
         type: simple
         agg: count_distinct
-        expr: location_id
+        expr: order_location_id
 
       - name: m_order_value_p99
         label: order value p99
@@ -345,8 +345,8 @@ models:
         type: simple
         agg: sum
         expr: 1
-        # filter: |
-        #   {{ Dimension('order_id__order_total') }} >= 20
+        filter: |
+          {{ Dimension('order_id__order_total') }} >= 20
 
       - name: m_food_order_amount
         label: food_order_amount
@@ -374,9 +374,9 @@ models:
         label: New Customers
         type: simple
         agg: count_distinct
-        expr: customer_id
-        filter: |
-          {{ Dimension('customer_id__customer_type') }} = 'new'
+        expr: order_customer_id
+        # filter: |
+        #   {{ Dimension('customer_id__customer_type') }} = 'new'
 
       - name: m_order_amount
         label: order_amount
@@ -391,8 +391,8 @@ models:
         type: simple
         agg: sum
         expr: order_cost
-        # filter: |
-        #   {{ Dimension('order_id__is_food_order') }} = True
+        filter: |
+          {{ Dimension('order_id__is_food_order') }} = True
 
       - name: m_tax_paid
         description: The total tax paid on each order.
@@ -419,7 +419,7 @@ metrics:
     description: Food order total as a % of total order amount
     type: derived
     expr: m_food_order_pct * 100
-    input_metrics:
+    input_metrics: 
       - name: m_food_order_pct
 
   - name: m_food_order_gross_profit
