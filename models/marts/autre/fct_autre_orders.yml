@@ -1,207 +1,4 @@
 models:
-  - name: dim_autre_customers
-    description: |
-      Customer overview data mart, offering key details for each unique customer. 
-      One row per customer.
-
-    columns:
-      - name: customer_id
-        description: PK for the customers mart, representing a unique customer.
-        data_tests:
-          - not_null
-          - unique
-        entity:
-          type: primary
-          name: customer_id
-          label: Customer
-
-      - name: customer_name
-        description: Customer full name.
-        dimension:
-          type: categorical
-          name: customer_name
-          label: Customer Name
-
-      - name: count_lifetime_orders
-        description: Total number of orders a customer has ever placed.
-
-      - name: first_ordered_at
-        description: The timestamp when a customer placed their first order.
-        dimension:
-          type: time
-          name: first_ordered_at
-          label: first order date
-        granularity: day
-
-      - name: last_ordered_at
-        description: The timestamp of a customer's most recent order.
-        dimension:
-          type: time
-          name: last_ordered_at
-          label: most recent order date
-        granularity: day
-
-      - name: lifetime_spend_pretax
-        description: The sum of all the pre-tax subtotals of every order a customer has placed.
-      - name: lifetime_spend
-        description: The sum of all the order totals (including tax) that a customer has ever placed.
-      - name: customer_type
-        description: |
-          Options are 'new' or 'returning', indicating if a customer has ordered more than once 
-          or has only placed their first order to date.
-        data_tests:
-          - accepted_values:
-              arguments:
-                values: ["new", "returning"]
-        dimension:
-          type: categorical
-          name: customer_type
-          label: Customer Type
-
-    semantic_model:
-      enabled: true
-      name: dim_autre_customers
-
-    agg_time_dimension: first_ordered_at
-
-    metrics:
-      - name: m_customers
-        label: customers
-        description: Count of customers
-        type: simple
-        agg: count_distinct
-        expr: customer_id
-
-      - name: m_customers_with_orders
-        label: customers_with_orders
-        description: Unique count of customers placing orders
-        type: simple
-        agg: count_distinct
-        expr: case when count_lifetime_orders = 0 then '0' else customer_id end
-
-      - name: m_count_lifetime_orders
-        description: Total count of orders per customer.
-        type: simple
-        agg: sum
-        expr: count_lifetime_orders
-        #hidden: true
-
-      - name: m_lifetime_spend_pretax
-        description: Customer lifetime spend before taxes.
-        type: simple
-        agg: sum
-        expr: lifetime_spend_pretax
-        #hidden: true
-
-      - name: m_lifetime_spend
-        description: Gross customer lifetime spend inclusive of taxes.
-        type: simple
-        agg: sum
-        expr: lifetime_spend
-        #hidden: true
-
-
-################################################################################
-  - name: fct_autre_order_items
-    description: |
-      Order items data mart, offering key details for each individual item within an order. 
-      One row per order item.
-
-    columns:
-      - name: order_item_id
-        description: PK for the order items mart, representing a unique item within an order.
-        data_tests:
-          - not_null
-          - unique
-        entity:
-          type: primary
-          name: order_item_id
-          label: Order Item
-
-      - name: order_item_order_id
-        description: FK linking to the orders mart, representing the order this item belongs to.
-        data_tests:
-          - relationships:
-              arguments:
-                to: ref('fct_autre_orders')
-                field: order_id
-        entity:
-          type: foreign
-          name: order_item_order_id   # le nom order est un mot reserve du sql
-          label: Order
-
-      - name: order_item_product_id
-        description: FK linking to the products dimension, representing the product that was ordered.
-        entity:
-          type: foreign
-          name: order_item_product_id
-          label: product
-
-      - name: product_price
-        description: The number of this specific product that was ordered.
-      - name: supply_cost
-        description: The price of a single unit of this product without tax.
-      - name: is_food_item
-        description: A boolean indicating if this item is a food item.
-        dimension: 
-          type: categorical
-          name: is_food_item 
-          label: food item
-
-      - name: is_drink_item
-        description: A boolean indicating if this item is a drink item.
-        dimension: 
-          type: categorical
-          name: is_drink_item
-          label: drink item
-
-      - name: ordered_at
-        description: The timestamp the order containing this item was placed at.
-
-      - name: ordered_at_date
-        description: The day the order containing this item was placed at.
-        dimension:
-          type: time
-          name: ordered_at_date
-          label: ordered_at_date
-        granularity: day
-
-    semantic_model:
-      enabled: true
-      name: order_items
-
-    agg_time_dimension: ordered_at_date
-
-    metrics:
-      - name: m_revenue
-        description: |
-          The revenue generated for each order item. 
-          Revenue is calculated as a sum of revenue associated with each product in an order.
-        type: simple
-        agg: sum
-        expr: product_price
-        #hidden: true
-
-      - name: m_food_revenue
-        description: |
-          The revenue generated for each order item. 
-          Revenue is calculated as a sum of revenue associated with each product in an order.
-        type: simple
-        agg: sum
-        expr: case when is_food_item = 1 then product_price else 0 end
-        #hidden: true
-
-      - name: m_drink_revenue
-        description: |
-          The revenue generated for each order item. 
-          Revenue is calculated as a sum of revenue associated with each product in an order.
-        type: simple
-        agg: sum
-        expr: case when is_drink_item = 1 then product_price else 0 end
-        #hidden: true
-
-
-################################################################################
   - name: fct_autre_orders
     description: |
       Order overview data mart, offering key details for each order inlcluding 
@@ -303,12 +100,36 @@ models:
         agg: sum
         expr: order_total
 
+      - name: m_order_count
+        label: order_count
+        description: Count of orders
+        type: simple
+        agg: count
+        expr: order_id
+
+      # cf dim_autre_customers
+      # - name: m_customers_with_orders
+      #   label: customers_with_orders
+      #   description: Distinct count of customers placing orders
+      #   type: simple
+      #   agg: count_distinct
+      #   expr: order_customer_id
+
       - name: m_order_total_food
         label: order_total_food
         description: Sum of orders value
         type: simple
         agg: sum
         expr: order_total
+        filter: |
+          {{ Dimension('order_id__is_food_order') }} = True
+
+      - name: m_order_amount_food
+        label: order_amount_food
+        description: The cost of fulfilling each order
+        type: simple
+        agg: sum
+        expr: order_cost
         filter: |
           {{ Dimension('order_id__is_food_order') }} = True
 
@@ -369,15 +190,6 @@ models:
         agg: min
         expr: order_total
 
-      - name: m_new_customer
-        description: Unique count of new customers.
-        label: New Customers
-        type: simple
-        agg: count_distinct
-        expr: order_customer_id
-        # filter: |
-        #   {{ Dimension('customer_id__customer_type') }} = 'new'
-
       - name: m_order_amount
         label: order_amount
         description: The cost of fulfilling each order
@@ -385,22 +197,12 @@ models:
         agg: sum
         expr: order_cost
 
-      - name: m_order_amount_food
-        label: order_amount_food
-        description: The cost of fulfilling each order
-        type: simple
-        agg: sum
-        expr: order_cost
-        filter: |
-          {{ Dimension('order_id__is_food_order') }} = True
-
       - name: m_tax_paid
         description: The total tax paid on each order.
         type: simple
         agg: sum
         expr: tax_paid
         #hidden: true
-
 
 # Cross-model metrics (not simple ones)
 # cf https://docs.getdbt.com/docs/build/latest-metrics-spec

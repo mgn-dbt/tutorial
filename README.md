@@ -230,8 +230,8 @@ python.exe -m pip install --upgrade pip
 pip install sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery dbt-postgres dbt-duckdb pip_system_certs
 (pip_system_certs for zscaler, replacing certifi which is no longer maintained)
 
-Dont't install dbt-metricflow, dbt-metricflow[dbt-bigquery], dbt-metricflow[dbt-duckdb]
-because they cause a DBT version downgrade for compatibility
+Installing dbt-metricflow, dbt-metricflow[dbt-bigquery], dbt-metricflow[dbt-duckdb]
+causes a DBT version downgrade for compatibility
 
 Use "dbt sl" instead of "mf" command.
 Beware BigQuery date/timestamp comparison incompatibility in SL context.
@@ -250,6 +250,12 @@ dbt-autofix deprecations --semantic-layer
 
 Autofix helped migrate SL Legacy spec to the new spec.<br>
 cf models\marts\autre\_mdl_autre.yml<br>
+
+SL legacy spec come from
+https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/main/models/metrics
+SL new spec
+https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/fusion_spec/models/marts
+
 
 
 # DBT
@@ -283,7 +289,7 @@ dbt sl list saved-queries
 
 New SL doesn't work with dbt core.
 Apparently, dbt core still works with legacy SL.
-So sqlfluff complain about SL syntax when saving _mdl_autre.yml.
+So sqlfluff complain about SL syntax.
 
 
 # Environment variables
