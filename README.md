@@ -275,11 +275,26 @@ After "dbt deps" rollback package-lock.json.
 Keep dbt cloud version of package-lock.json for compatibility.
 Bug ???
 
+
 # Semantic Layer (SL)
 
-In dbt-cloud (dbt studio) the entity name is used as column name.
-Choosing arbitrary name for entity means an invalid query.
-Bug ???
+New SL doesn't work well with dbt core.
+
+```
+dbt compile
+
+Compilation Error
+  Could not render {{ Dimension('customers__customer_type') }} = 'new': 'Dimension' is undefined
+BUG ??
+https://github.com/dbt-labs/dbt-core/issues/7864
+
+
+mf validate-configs
+
+ERROR: with metric `m_food_order_gross_profit`  - Unable to query metric `m_food_order_gross_profit`
+Derived metric uses 2 input metrics. mf translates only one.
+BUG ??
+```
 
 Commands<br>
 ```
@@ -289,24 +304,12 @@ dbt sl list dimensions --metrics m_large_order
 dbt sl list entities --metrics m_large_order
 dbt sl list saved-queries
 
+Add [--compile] to verify SQL query
 dbt sl query --metrics m_revenue --group-by metric_time --order-by -metric_time
 dbt sl query --metrics m_new_customers --group-by metric_time --order-by -metric_time
-dbt sl query --compile --metrics m_new_customers --group-by metric_time --order-by -metric_time
-dbt sl query --compile --metrics m_new_customers --group-by metric_time__week --order-by -metric_time__week
-```
-
-New SL doesn't work well with dbt core.
-sqlfluff complain about SL syntax.
-```
-Dimension('customer__customer_type') }} = 'new': 'Dimension' is undefined
-BUG ??
-
-
-mf validate-configs
-
-ERROR: with metric `m_food_order_gross_profit`  - Unable to query metric `m_food_order_gross_profit`
-mf takes only one input metric !
-BUG ??
+dbt sl query --metrics m_new_customers --group-by metric_time --order-by -metric_time
+dbt sl query --metrics m_new_customers --group-by metric_time__week --order-by -metric_time__week
+dbt sl query --metrics m_food_revenue --group-by metric_time,order_items__is_food_item --limit 10 --order-by -metric_time --where "order_items__is_food_item = 1"
 ```
 
 
