@@ -12,14 +12,14 @@ models:
           - unique
         entity:
           type: primary
-          name: customer_id
+          name: customer
           label: Customer
 
       - name: customer_name
         description: Customer full name.
         dimension:
           type: categorical
-          name: customer_name
+          #name: customer_name
           label: Customer Name
 
       - name: count_lifetime_orders
@@ -29,7 +29,7 @@ models:
         description: The timestamp when a customer placed their first order.
         dimension:
           type: time
-          name: first_ordered_at
+          #name: first_ordered_at
           label: first order date
         granularity: day
 
@@ -37,7 +37,7 @@ models:
         description: The timestamp of a customer's most recent order.
         dimension:
           type: time
-          name: last_ordered_at
+          #name: last_ordered_at
           label: most recent order date
         granularity: day
 
@@ -55,7 +55,7 @@ models:
                 values: ["new", "returning"]
         dimension:
           type: categorical
-          name: customer_type
+          #name: customer_type
           label: Customer Type
 
     semantic_model:
@@ -77,7 +77,15 @@ models:
         description: Unique count of customers placing orders
         type: simple
         agg: count_distinct
-        expr: case when count_lifetime_orders = 0 then '0' else customer_id end
+        expr: case when count_lifetime_orders = 0 then null else customer_id end
+
+      - name: m_new_customers
+        label: new_customers
+        description: new customers with orders
+        type: simple
+        agg: count_distinct
+        expr: customer_id
+        filter: "{{ Dimension('customer__customer_type') }} = 'new'"
 
       - name: m_count_lifetime_orders
         description: Total count of orders per customer.
@@ -99,17 +107,4 @@ models:
         agg: sum
         expr: lifetime_spend
         #hidden: true
-
-# Cross-model metrics (not simple ones)
-# cf https://docs.getdbt.com/docs/build/latest-metrics-spec
-metrics:
-  - name: m_new_customer
-    label: New customers with orders
-    description: Unique count of new customers.
-    type: derived
-    input_metrics: 
-      - name: m_customers_with_orders
-    expr: m_customers_with_orders
-    filter: |
-      {{ Dimension('customer_id__customer_type') }} = 'new'
 

@@ -230,12 +230,15 @@ python.exe -m pip install --upgrade pip
 pip install sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery dbt-postgres dbt-duckdb pip_system_certs
 (pip_system_certs for zscaler, replacing certifi which is no longer maintained)
 
-Installing dbt-metricflow, dbt-metricflow[dbt-bigquery], dbt-metricflow[dbt-duckdb]
+Installing dbt-metricflow, dbt-metricflow[dbt-bigquery], dbt-metricflow[dbt-postgres], dbt-metricflow[dbt-duckdb]
 causes a DBT version downgrade for compatibility
 
-Use "dbt sl" instead of "mf" command.
-Beware BigQuery date/timestamp comparison incompatibility in SL context.
+Use "dbt sl" 
+Use "mf" only with dbt core.
 ```
+
+PostgreSQL works only in SQLFluff venv !
+
 
 To use autofix, it is recommended to create a second venv
 ```
@@ -248,12 +251,12 @@ dbt-autofix deprecations --json --all
 dbt-autofix deprecations --semantic-layer
 ```
 
-Autofix helped migrate SL Legacy spec to the new spec.<br>
-cf models\marts\autre\_mdl_autre.yml<br>
+Autofix can help in migrating SL Legacy spec to the new spec.<br>
 
-SL legacy spec come from
+
+SL legacy spec example
 https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/main/models/metrics
-SL new spec
+SL new spec example
 https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/fusion_spec/models/marts
 
 
@@ -285,11 +288,26 @@ dbt sl list metrics
 dbt sl list dimensions --metrics m_large_order
 dbt sl list entities --metrics m_large_order
 dbt sl list saved-queries
+
+dbt sl query --metrics m_revenue --group-by metric_time --order-by -metric_time
+dbt sl query --metrics m_new_customers --group-by metric_time --order-by -metric_time
+dbt sl query --compile --metrics m_new_customers --group-by metric_time --order-by -metric_time
+dbt sl query --compile --metrics m_new_customers --group-by metric_time__week --order-by -metric_time__week
 ```
 
-New SL doesn't work with dbt core.
-Apparently, dbt core still works with legacy SL.
-So sqlfluff complain about SL syntax.
+New SL doesn't work well with dbt core.
+sqlfluff complain about SL syntax.
+```
+Dimension('customer__customer_type') }} = 'new': 'Dimension' is undefined
+BUG ??
+
+
+mf validate-configs
+
+ERROR: with metric `m_food_order_gross_profit`  - Unable to query metric `m_food_order_gross_profit`
+mf takes only one input metric !
+BUG ??
+```
 
 
 # Environment variables

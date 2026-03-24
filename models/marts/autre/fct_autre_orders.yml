@@ -13,7 +13,7 @@ models:
           - unique
         entity:
           type: primary
-          name: order_id
+          name: orders
           label: Order
 
       - name: order_customer_id
@@ -25,21 +25,21 @@ models:
                 field: customer_id
         entity:
           type: foreign
-          name: order_customer_id
+          #name: order_customer_id
           label: Customer
 
       - name: order_location_id
         description: FK linking to the locations dimension, representing the location the order was placed at.
         entity:
           type: foreign
-          name: order_location_id
+          #name: order_location_id
           label: Location
 
       - name: order_total
         description: The total amount of the order in USD including tax.
         dimension:
           type: categorical
-          name: order_total
+          #name: order_total
           label: order total
 
       - name: ordered_at
@@ -49,7 +49,7 @@ models:
         description: The day the order was placed at.
         dimension:
           type: time
-          name: ordered_at_date
+          #name: ordered_at_date
           label: ordered at date
         granularity: day
 
@@ -76,14 +76,14 @@ models:
         description: A boolean indicating if this order include any food items.
         dimension:
           type: categorical
-          name: is_food_order
+          #name: is_food_order
           label: food order boolean
 
       - name: is_drink_order
         description: A boolean indicating if this order include any drink items.
         dimension:
           type: categorical
-          name: is_drink_order
+          #name: is_drink_order
           label: drink order boolean
 
     semantic_model:
@@ -108,12 +108,12 @@ models:
         expr: order_id
 
       # cf dim_autre_customers
-      # - name: m_customers_with_orders
-      #   label: customers_with_orders
-      #   description: Distinct count of customers placing orders
-      #   type: simple
-      #   agg: count_distinct
-      #   expr: order_customer_id
+      - name: m_customers_with_orders_bis
+        label: customers_with_orders_bis
+        description: Distinct count of customers placing orders
+        type: simple
+        agg: count_distinct
+        expr: order_customer_id
 
       - name: m_order_total_food
         label: order_total_food
@@ -121,8 +121,7 @@ models:
         type: simple
         agg: sum
         expr: order_total
-        filter: |
-          {{ Dimension('order_id__is_food_order') }} = True
+        filter: "{{ Dimension('orders__is_food_order') }} = True"
 
       - name: m_order_amount_food
         label: order_amount_food
@@ -130,8 +129,7 @@ models:
         type: simple
         agg: sum
         expr: order_cost
-        filter: |
-          {{ Dimension('order_id__is_food_order') }} = True
+        filter: "{{ Dimension('orders__is_food_order') }} = True"
 
       - name: m_locations_with_orders
         label: locations_with_orders
@@ -166,8 +164,7 @@ models:
         type: simple
         agg: sum
         expr: 1
-        filter: |
-          {{ Dimension('order_id__order_total') }} >= 20
+        filter: "{{ Dimension('orders__order_total') }} >= 20"
 
       - name: m_food_order_amount
         label: food_order_amount
@@ -228,12 +225,12 @@ metrics:
     label: food_order_gross_profit
     description: The gross profit for each food order
     type: derived
-    expr: revenue - cost
+    expr: (m_revenue - m_cost)
     input_metrics:
       - name: m_order_total_food
-        alias: revenue
+        alias: m_revenue
       - name: m_order_amount_food
-        alias: cost
+        alias: m_cost
 
 # CUMULATIVE METRICS
   - name: m_cumulative_order_amount

@@ -12,7 +12,7 @@ models:
           - unique
         entity:
           type: primary
-          name: order_item_id
+          name: order_item
           label: Order Item
 
       - name: order_item_order_id
@@ -24,14 +24,14 @@ models:
                 field: order_id
         entity:
           type: foreign
-          name: order_item_order_id
+          #name: order_item_order_id
           label: Order
 
       - name: order_item_product_id
         description: FK linking to the products dimension, representing the product that was ordered.
         entity:
           type: foreign
-          name: order_item_product_id
+          #name: order_item_product_id
           label: product
 
       - name: product_price
@@ -42,14 +42,14 @@ models:
         description: A boolean indicating if this item is a food item.
         dimension: 
           type: categorical
-          name: is_food_item 
+          #name: is_food_item 
           label: food item
 
       - name: is_drink_item
         description: A boolean indicating if this item is a drink item.
         dimension: 
           type: categorical
-          name: is_drink_item
+          #name: is_drink_item
           label: drink item
 
       - name: ordered_at
@@ -59,7 +59,7 @@ models:
         description: The day the order containing this item was placed at.
         dimension:
           type: time
-          name: ordered_at_date
+          #name: ordered_at_date
           label: ordered_at_date
         granularity: day
 

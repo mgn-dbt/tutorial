@@ -5,7 +5,9 @@
     "editor.renderWhitespace": "all",
     // the vscode-dbt docs say you may need this
     "editor.quickSuggestions": {
-        "strings": true
+        "other": "off",
+        "comments": "off",
+        "strings": "on",
     },
     "files.associations": {
         "*.sql": "jinja-sql",
