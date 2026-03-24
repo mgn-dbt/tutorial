@@ -12,7 +12,7 @@ models:
           - unique
         entity:
           type: primary
-          name: customer
+          name: customers
           label: Customer
 
       - name: customer_name
@@ -85,7 +85,7 @@ models:
         type: simple
         agg: count_distinct
         expr: customer_id
-        filter: "{{ Dimension('customer__customer_type') }} = 'new'"
+        filter: "{{ Dimension('customers__customer_type') }} = 'new'"
 
       - name: m_count_lifetime_orders
         description: Total count of orders per customer.

@@ -25,14 +25,14 @@ models:
                 field: customer_id
         entity:
           type: foreign
-          #name: order_customer_id
+          name: f_customers
           label: Customer
 
       - name: order_location_id
         description: FK linking to the locations dimension, representing the location the order was placed at.
         entity:
           type: foreign
-          #name: order_location_id
+          name: f_locations
           label: Location
 
       - name: order_total
