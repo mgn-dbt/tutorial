@@ -103,9 +103,8 @@ models:
         agg: count
         expr: order_id
 
-      # cf dim_autre_customers
-      - name: m_customers_with_orders_bis
-        label: customers_with_orders_bis
+      - name: m_customers_with_orders
+        label: customers_with_orders
         description: Distinct count of customers placing orders
         type: simple
         agg: count_distinct
@@ -126,6 +125,14 @@ models:
         agg: sum
         expr: order_cost
         filter: "{{ Dimension('orders__is_food_order') }} = True"
+
+      - name: m_large_order
+        label: Large Orders
+        description: Count of orders with order total over 20.
+        type: simple
+        agg: sum
+        expr: 1
+        filter: "{{ Dimension('orders__order_total') }} >= 20"
 
       - name: m_locations_with_orders
         label: locations_with_orders
@@ -154,13 +161,6 @@ models:
       #   percentile: 0.99
       #   percentile_type: discrete
 
-      - name: m_large_order
-        label: Large Orders
-        description: Count of orders with order total over 20.
-        type: simple
-        agg: sum
-        expr: 1
-        filter: "{{ Dimension('orders__order_total') }} >= 20"
 
       - name: m_food_order_amount
         label: food_order_amount

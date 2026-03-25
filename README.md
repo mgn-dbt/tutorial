@@ -101,8 +101,7 @@ cafile=<path_to>/cacert.pem
         "scminput": false,
         "yaml": true,
         "jinja-sql": true
-    },
-    "chat.viewSessions.orientation": "stacked",
+    }
 }
 ```
 

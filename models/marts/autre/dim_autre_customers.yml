@@ -86,15 +86,14 @@ models:
         agg: sum
         expr: lifetime_spend
 
-# a voir : le decompe peut fait dans fct_autre_orders
-      - name: m_customers_with_orders
-        label: customers_with_orders
-        description: Unique count of customers placing orders
+      - name: m_customers_with_lifetime_orders
+        label: customers_with_lifetime_orders
+        description: Unique count of customers with lifetime orders
         type: simple
         agg: count_distinct
         expr: case when count_lifetime_orders = 0 then null else customer_id end
 
-# a voir : devrait se baser sur m_customers_with_orders
+# a voir : devrait se baser sur m_customers_with_orders dans fct_autre_orders
       - name: m_new_customers
         label: new_customers
         description: new customers with orders

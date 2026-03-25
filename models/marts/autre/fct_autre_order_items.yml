@@ -13,7 +13,7 @@ models:
         entity:
           type: primary
           name: order_items
-          label: Order Item
+          label: Order Items
 
       - name: order_item_order_id
         description: FK linking to the orders mart, representing the order this item belongs to.
@@ -25,14 +25,14 @@ models:
         entity:
           type: foreign
           name: f_orders
-          label: Order
+          label: Orders
 
       - name: order_item_product_id
         description: FK linking to the products dimension, representing the product that was ordered.
         entity:
           type: foreign
           name: f_products
-          label: Product
+          label: Products
 
       - name: product_price
         description: The number of this specific product that was ordered.
@@ -90,3 +90,20 @@ models:
         type: simple
         agg: sum
         expr: case when is_drink_item = 1 then product_price else 0 end
+
+      - name: m_supply_cost
+        description: |
+          The cost generated for each order item.
+        type: simple
+        agg: sum
+        expr: supply_cost
+
+## derived metrics
+metrics:
+  - name: m_gross_profit  
+    description: "The gross profit for each order"
+    type: derived
+    expr: m_revenue - m_supply_cost
+    input_metrics:
+      - name: m_revenue
+      - name: m_supply_cost
