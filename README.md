@@ -274,10 +274,10 @@ dbt-autofix deprecations --semantic-layer
 Autofix can help in migrating SL Legacy spec to the new spec.<br>
 
 
-SL legacy spec example
-https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/main/models/metrics
-SL new spec example
-https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/fusion_spec/models/marts
+SL legacy spec example<br>
+https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/main/models/metrics<br>
+SL new spec example<br>
+https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/fusion_spec/models/marts<br>
 
 
 
@@ -305,9 +305,9 @@ dbt core needs Legacy SL. => "mf" command<br>
 
 Commands (dbt core)
 ```
-mf validate-configs instead of validate
-Add [--explain] to verify SQL query instead of --compile
---order instead of --order-by
+mf validate-configs (instead of validate)
+Add [--explain] to verify SQL query instead of [--compile]
+--order (instead of --order-by)
 ```
 
 
