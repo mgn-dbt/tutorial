@@ -140,6 +140,28 @@ pg:
 BigQuery profile must be named "default" for dbt cloud.
 
 
+# Environment variables
+
+(corresponds with var defined in dbt cloud)<br>
+```powershell
+$env:DBT_ENV_NAME='dev'
+```
+
+# DBT
+
+NB : dbt fusion installation process updates the file Microsoft.PowerShell_profile.ps1 :<br>
+cf $env:USERPROFILE\Documents\Powershell\Microsoft.PowerShell_profile.ps1<br>
+It ensure dbt fusion binary is in PATH and dbtf alias is created.
+
+Fusion upgrade can be done by command line or by vscode himself : <br>
+dbtf system update
+
+Beware package-lock.yml file, dbt fusion upgrade it with a bad format for dbt cloud.<br>
+After "dbt deps" rollback package-lock.json.
+Keep dbt cloud version of package-lock.json for compatibility.
+Bug ???
+
+
 # Postgresql
 
 SSL/TLS certificate generation and configuration is not documented here.<br>
@@ -219,6 +241,7 @@ GRANT ALL ON SCHEMA dbt_<user> TO jaffle;
 & "<path_to>\postgresql\18.3\pgAdmin 4\python\python.exe" -m pip install pip_system_certs
 ```
 
+
 # Python venvs
 
 NB : SQLFluff requires Python and dbt to work.<br>
@@ -232,12 +255,9 @@ pip install sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery dbt-postgres d
 
 Installing dbt-metricflow, dbt-metricflow[dbt-bigquery], dbt-metricflow[dbt-postgres], dbt-metricflow[dbt-duckdb]
 causes a DBT version downgrade for compatibility
-
-Use "dbt sl" 
-Use "mf" only with dbt core.
 ```
 
-PostgreSQL works only in SQLFluff venv !
+PostgreSQL works only in SQLFluff venv (dbt core) !
 
 
 To use autofix, it is recommended to create a second venv
@@ -261,42 +281,11 @@ https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/fusion_spec/models
 
 
 
-# DBT
-
-NB : dbt fusion installation process updates the file Microsoft.PowerShell_profile.ps1 :<br>
-cf $env:USERPROFILE\Documents\Powershell\Microsoft.PowerShell_profile.ps1<br>
-It ensure dbt fusion binary is in PATH and dbtf alias is created.
-
-Fusion upgrade can be done by command line or by vscode himself : <br>
-dbtf system update
-
-Beware package-lock.yml file, dbt fusion upgrade it with a bad format for dbt cloud.<br>
-After "dbt deps" rollback package-lock.json.
-Keep dbt cloud version of package-lock.json for compatibility.
-Bug ???
-
-
 # Semantic Layer (SL)
 
-New SL doesn't work well with dbt core.
+New SL works only with dbt fusion and dbt cloud. => "dbt sl" command<br>
 
-```
-dbt compile
-
-Compilation Error
-  Could not render {{ Dimension('customers__customer_type') }} = 'new': 'Dimension' is undefined
-BUG ??
-https://github.com/dbt-labs/dbt-core/issues/7864
-
-
-mf validate-configs
-
-ERROR: with metric `m_food_order_gross_profit`  - Unable to query metric `m_food_order_gross_profit`
-Derived metric uses 2 input metrics. mf translates only one.
-BUG ??
-```
-
-Commands<br>
+Commands
 ```
 dbt sl validate
 dbt sl list metrics
@@ -312,13 +301,15 @@ dbt sl query --metrics m_new_customers --group-by metric_time__week --order-by -
 dbt sl query --metrics m_food_revenue --group-by metric_time,order_items__is_food_item --limit 10 --order-by -metric_time --where "order_items__is_food_item = 1"
 ```
 
+dbt core needs Legacy SL. => "mf" command<br>
 
-# Environment variables
-
-(corresponds with var defined in dbt cloud)<br>
-```powershell
-$env:DBT_ENV_NAME='dev'
+Commands (dbt core)
 ```
+mf validate-configs instead of validate
+Add [--explain] to verify SQL query instead of --compile
+--order instead of --order-by
+```
+
 
 # JSON
 

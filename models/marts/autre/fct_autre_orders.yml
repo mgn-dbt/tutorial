@@ -39,7 +39,6 @@ models:
         description: The total amount of the order in USD including tax.
         dimension:
           type: categorical
-          #name: order_total
           label: order total
 
       - name: ordered_at
@@ -49,7 +48,6 @@ models:
         description: The day the order was placed at.
         dimension:
           type: time
-          #name: ordered_at_date
           label: ordered at date
         granularity: day
 
@@ -76,14 +74,12 @@ models:
         description: A boolean indicating if this order include any food items.
         dimension:
           type: categorical
-          #name: is_food_order
           label: food order boolean
 
       - name: is_drink_order
         description: A boolean indicating if this order include any drink items.
         dimension:
           type: categorical
-          #name: is_drink_order
           label: drink order boolean
 
     semantic_model:

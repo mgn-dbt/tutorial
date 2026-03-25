@@ -13,13 +13,12 @@ models:
         entity:
           type: primary
           name: customers
-          label: Customer
+          label: Customers
 
       - name: customer_name
         description: Customer full name.
         dimension:
           type: categorical
-          #name: customer_name
           label: Customer Name
 
       - name: count_lifetime_orders
@@ -29,7 +28,6 @@ models:
         description: The timestamp when a customer placed their first order.
         dimension:
           type: time
-          #name: first_ordered_at
           label: first order date
         granularity: day
 
@@ -37,7 +35,6 @@ models:
         description: The timestamp of a customer's most recent order.
         dimension:
           type: time
-          #name: last_ordered_at
           label: most recent order date
         granularity: day
 
@@ -55,7 +52,6 @@ models:
                 values: ["new", "returning"]
         dimension:
           type: categorical
-          #name: customer_type
           label: Customer Type
 
     semantic_model:
@@ -72,6 +68,25 @@ models:
         agg: count_distinct
         expr: customer_id
 
+      - name: m_count_lifetime_orders
+        description: Total count of orders per customer.
+        type: simple
+        agg: sum
+        expr: count_lifetime_orders
+
+      - name: m_lifetime_spend_pretax
+        description: Customer lifetime spend before taxes.
+        type: simple
+        agg: sum
+        expr: lifetime_spend_pretax
+
+      - name: m_lifetime_spend
+        description: Gross customer lifetime spend inclusive of taxes.
+        type: simple
+        agg: sum
+        expr: lifetime_spend
+
+# a voir : le decompe peut fait dans fct_autre_orders
       - name: m_customers_with_orders
         label: customers_with_orders
         description: Unique count of customers placing orders
@@ -79,6 +94,7 @@ models:
         agg: count_distinct
         expr: case when count_lifetime_orders = 0 then null else customer_id end
 
+# a voir : devrait se baser sur m_customers_with_orders
       - name: m_new_customers
         label: new_customers
         description: new customers with orders
@@ -86,25 +102,3 @@ models:
         agg: count_distinct
         expr: customer_id
         filter: "{{ Dimension('customers__customer_type') }} = 'new'"
-
-      - name: m_count_lifetime_orders
-        description: Total count of orders per customer.
-        type: simple
-        agg: sum
-        expr: count_lifetime_orders
-        #hidden: true
-
-      - name: m_lifetime_spend_pretax
-        description: Customer lifetime spend before taxes.
-        type: simple
-        agg: sum
-        expr: lifetime_spend_pretax
-        #hidden: true
-
-      - name: m_lifetime_spend
-        description: Gross customer lifetime spend inclusive of taxes.
-        type: simple
-        agg: sum
-        expr: lifetime_spend
-        #hidden: true
-
