@@ -10,7 +10,7 @@ order_items as (
 
 order_items_summary as (
     select
-        order_items.order_item_order_id,
+        order_items.order_id,
 
         sum(supply_cost) as order_cost,
         sum(is_food_item) as count_food_items,
@@ -24,8 +24,8 @@ compute_booleans as (
     select
 
         orders.order_id,
-        orders.customer_id as order_customer_id,
-        orders.location_id as order_location_id,
+        orders.customer_id,
+        orders.location_id,
         orders.subtotal,
         orders.tax_paid,
         orders.order_total,
@@ -36,7 +36,7 @@ compute_booleans as (
         order_items_summary.order_cost
 
     from orders
-    left join order_items_summary on orders.order_id = order_items_summary.order_item_order_id
+    left join order_items_summary on orders.order_id = order_items_summary.order_id
 )
 
 select * from compute_booleans

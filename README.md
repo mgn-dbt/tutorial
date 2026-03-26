@@ -64,8 +64,8 @@ cafile=<path_to>/cacert.pem
 ```json
 {
     "dbt.dbtPath": "C:\\Users\\<user>\\.local\\bin\\dbt.exe",
+    // dbt core doesn't work with "dbt vscode extention" : unsupported dbt version
     "sqlfluff.executablePath": "C:\\Users\\<user>\\SCOOP\\persist\\python\\venvs\\sqlfluff\\Scripts\\sqlfluff.exe",
-    
     "sqltools.connections": [
         {
             "name": "BigQuery",
@@ -102,6 +102,7 @@ cafile=<path_to>/cacert.pem
         "yaml": true,
         "jinja-sql": true
     }
+    //https://code.visualstudio.com/docs/copilot/ai-powered-suggestions
 }
 ```
 
@@ -257,6 +258,14 @@ causes a DBT version downgrade for compatibility
 ```
 
 PostgreSQL works only in SQLFluff venv (dbt core) !
+SQLFluff venv must be activated to work with PostgreSQL
+```
+$($env:SCOOP)\persist\python\venvs\sqlfluff\Scripts\Activate.ps1
+```
+
+The project must be adapted a little.<br>
+There is a Git branch called develop_pg for PostgreSQL<br>
+https://github.com/mgn-dbt/tutorial/tree/develop_pg
 
 
 To use autofix, it is recommended to create a second venv
@@ -308,6 +317,11 @@ mf validate-configs (instead of validate)
 Add [--explain] to verify SQL query instead of [--compile]
 --order (instead of --order-by)
 ```
+
+Beware entity names :<br>
+Entities (primary/foreign) must have the same name between models for automatic join to operate.<br>
+For convenience entities begin with "e_".<br>
+https://docs.getdbt.com/docs/build/join-logic
 
 
 # JSON

@@ -11,11 +11,11 @@ models:
           - not_null
           - unique
         entity:
+          name: e_order_item
           type: primary
-          name: order_items
-          label: Order Items
+          label: Order Item
 
-      - name: order_item_order_id
+      - name: order_id
         description: FK linking to the orders mart, representing the order this item belongs to.
         data_tests:
           - relationships:
@@ -23,16 +23,16 @@ models:
                 to: ref('fct_autre_orders')
                 field: order_id
         entity:
+          name: e_order
           type: foreign
-          name: f_orders
-          label: Orders
+          label: Order
 
-      - name: order_item_product_id
+      - name: product_id
         description: FK linking to the products dimension, representing the product that was ordered.
         entity:
+          name: e_product
           type: foreign
-          name: f_products
-          label: Products
+          label: Product
 
       - name: product_price
         description: The number of this specific product that was ordered.
@@ -67,7 +67,7 @@ models:
     agg_time_dimension: ordered_at_date
 
     metrics:
-      - name: m_revenue
+      - name: revenue
         description: |
           The revenue generated for each order item. 
           Revenue is calculated as a sum of revenue associated with each product in an order.
@@ -75,7 +75,7 @@ models:
         agg: sum
         expr: product_price
 
-      - name: m_food_revenue
+      - name: food_revenue
         description: |
           The revenue generated for each order item. 
           Revenue is calculated as a sum of revenue associated with each product in an order.
@@ -83,7 +83,7 @@ models:
         agg: sum
         expr: case when is_food_item = 1 then product_price else 0 end
 
-      - name: m_drink_revenue
+      - name: drink_revenue
         description: |
           The revenue generated for each order item. 
           Revenue is calculated as a sum of revenue associated with each product in an order.
@@ -91,7 +91,7 @@ models:
         agg: sum
         expr: case when is_drink_item = 1 then product_price else 0 end
 
-      - name: m_supply_cost
+      - name: supply_cost
         description: |
           The cost generated for each order item.
         type: simple
@@ -100,10 +100,11 @@ models:
 
 ## derived metrics
 metrics:
-  - name: m_gross_profit  
-    description: "The gross profit for each order"
+  - name: gross_profit
+    label: Gross Profit
+    description: The gross profit for each order
     type: derived
-    expr: m_revenue - m_supply_cost
+    expr: revenue - supply_cost
     input_metrics:
-      - name: m_revenue
-      - name: m_supply_cost
+      - name: revenue
+      - name: supply_cost

@@ -11,9 +11,9 @@ models:
           - not_null
           - unique
         entity:
+          name: e_customer
           type: primary
-          name: customers
-          label: Customers
+          label: Customer
 
       - name: customer_name
         description: Customer full name.
@@ -28,14 +28,14 @@ models:
         description: The timestamp when a customer placed their first order.
         dimension:
           type: time
-          label: first order date
+          label: First order date
         granularity: day
 
       - name: last_ordered_at
         description: The timestamp of a customer's most recent order.
         dimension:
           type: time
-          label: most recent order date
+          label: Most recent order date
         granularity: day
 
       - name: lifetime_spend_pretax
@@ -61,43 +61,48 @@ models:
     agg_time_dimension: first_ordered_at
 
     metrics:
-      - name: m_customers
-        label: customers
+      - name: customers
+        label: Customers
         description: Count of customers
         type: simple
         agg: count_distinct
         expr: customer_id
 
-      - name: m_count_lifetime_orders
+      - name: count_lifetime_orders
+        label: Count Lifetime Orders
         description: Total count of orders per customer.
         type: simple
         agg: sum
         expr: count_lifetime_orders
 
-      - name: m_lifetime_spend_pretax
+      - name: lifetime_spend_pretax
+        label: Lifetime Spend Pretax
         description: Customer lifetime spend before taxes.
         type: simple
         agg: sum
         expr: lifetime_spend_pretax
 
-      - name: m_lifetime_spend
+      - name: lifetime_spend
+        label: Lifetime Spend
         description: Gross customer lifetime spend inclusive of taxes.
         type: simple
         agg: sum
         expr: lifetime_spend
 
-      - name: m_customers_with_lifetime_orders
-        label: customers_with_lifetime_orders
+      - name: customers_with_lifetime_orders
+        label: Customers With Lifetime Orders
         description: Unique count of customers with lifetime orders
         type: simple
         agg: count_distinct
         expr: case when count_lifetime_orders = 0 then null else customer_id end
 
-# a voir : devrait se baser sur m_customers_with_orders dans fct_autre_orders
-      - name: m_new_customers
-        label: new_customers
-        description: new customers with orders
-        type: simple
-        agg: count_distinct
-        expr: customer_id
-        filter: "{{ Dimension('customers__customer_type') }} = 'new'"
+# Cross-model metrics (not simple ones)
+metrics:
+  - name: new_customers
+    label: New Customers With Orders
+    description: new customers with orders
+    type: derived
+    expr: customers_with_orders
+    input_metrics: 
+      - name: customers_with_orders
+    filter: "{{ Dimension('e_customer__customer_type') }} = 'new'"

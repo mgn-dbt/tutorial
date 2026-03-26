@@ -15,7 +15,7 @@ order_items as (
 order_summary as (
 
     select
-        orders.order_customer_id,
+        orders.customer_id,
 
         count(distinct orders.order_id) as count_lifetime_orders,
         count(distinct orders.order_id) > 1 as is_repeat_buyer,
@@ -25,7 +25,7 @@ order_summary as (
         sum(orders.order_total) as lifetime_spend
 
     from orders
-    left join order_items on orders.order_id = order_items.order_item_order_id
+    left join order_items on orders.order_id = order_items.order_id
     group by 1
 
 ),
@@ -47,7 +47,7 @@ joined as (
         end as customer_type
 
     from customers
-    left join order_summary on customers.customer_id = order_summary.order_customer_id
+    left join order_summary on customers.customer_id = order_summary.customer_id
 
 )
 

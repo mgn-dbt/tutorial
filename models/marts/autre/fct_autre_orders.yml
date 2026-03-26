@@ -12,11 +12,11 @@ models:
           - not_null
           - unique
         entity:
+          name: e_order
           type: primary
-          name: orders
           label: Order
 
-      - name: order_customer_id
+      - name: customer_id
         description: FK linking to the customers dimension, representing the customer who placed the order.
         data_tests:
           - relationships:
@@ -24,15 +24,15 @@ models:
                 to: ref('stg_autre__customers')
                 field: customer_id
         entity:
+          name: e_customer
           type: foreign
-          name: f_customers
           label: Customer
 
-      - name: order_location_id
+      - name: location_id
         description: FK linking to the locations dimension, representing the location the order was placed at.
         entity:
+          name: e_location
           type: foreign
-          name: f_locations
           label: Location
 
       - name: order_total
@@ -89,60 +89,60 @@ models:
     agg_time_dimension: ordered_at_date
 
     metrics:
-      - name: m_order_total
-        label: order_total
+      - name: order_total
+        label: Order Total
         description: Sum of orders value
         type: simple
         agg: sum
         expr: order_total
 
-      - name: m_order_count
-        label: order_count
+      - name: order_count
+        label: Order Count
         description: Count of orders
         type: simple
         agg: count
         expr: order_id
 
-      - name: m_customers_with_orders
-        label: customers_with_orders
+      - name: customers_with_orders
+        label: Customers with Orders
         description: Distinct count of customers placing orders
         type: simple
         agg: count_distinct
-        expr: order_customer_id
+        expr: customer_id
 
-      - name: m_order_total_food
-        label: order_total_food
+      - name: order_total_food
+        label: Order Total Food
         description: Sum of orders value
         type: simple
         agg: sum
         expr: order_total
-        filter: "{{ Dimension('orders__is_food_order') }} = True"
+        filter: "{{ Dimension('e_order__is_food_order') }} = True"
 
-      - name: m_order_amount_food
-        label: order_amount_food
+      - name: order_amount_food
+        label: Order Amount Food
         description: The cost of fulfilling each order
         type: simple
         agg: sum
         expr: order_cost
-        filter: "{{ Dimension('orders__is_food_order') }} = True"
+        filter: "{{ Dimension('e_order__is_food_order') }} = True"
 
-      - name: m_large_order
+      - name: large_order
         label: Large Orders
         description: Count of orders with order total over 20.
         type: simple
         agg: sum
         expr: 1
-        filter: "{{ Dimension('orders__order_total') }} >= 20"
+        filter: "{{ Dimension('e_order__order_total') }} >= 20"
 
-      - name: m_locations_with_orders
-        label: locations_with_orders
+      - name: locations_with_orders
+        label: Locations with Orders
         description: The number of locations that have orders.
         type: simple
         agg: count_distinct
-        expr: order_location_id
+        expr: location_id
 
-      - name: m_order_value_p99
-        label: order value p99
+      - name: order_value_p99
+        label: Order Value P99
         description: The 99th percentile of each order
         type: simple
         agg: percentile
@@ -161,92 +161,91 @@ models:
       #   percentile: 0.99
       #   percentile_type: discrete
 
-
-      - name: m_food_order_amount
-        label: food_order_amount
+      - name: food_order_amount
+        label: Food Order Amount
         description: Sum order amount for food orders.
         type: simple
         agg: sum
         expr: case when is_food_order then order_total else 0 end
 
-      - name: m_max_order_amount
-        label: max_order_amount
+      - name: max_order_amount
+        label: Max Order Amount
         description: The highest order value for a given period
         type: simple
         agg: max
         expr: order_total
 
-      - name: m_min_order_amount
-        label: min_order_amount
+      - name: min_order_amount
+        label: Min Order Amount
         description: The lowest order value for a given period
         type: simple
         agg: min
         expr: order_total
 
-      - name: m_order_amount
-        label: order_amount
+      - name: order_amount
+        label: Order Amount
         description: The cost of fulfilling each order
         type: simple
         agg: sum
         expr: order_cost
 
-      - name: m_tax_paid
+      - name: tax_paid
+        label: Tax Paid
         description: The total tax paid on each order.
         type: simple
         agg: sum
         expr: tax_paid
-        #hidden: true
 
 # Cross-model metrics (not simple ones)
 # cf https://docs.getdbt.com/docs/build/latest-metrics-spec
 metrics:
 # RATIO METRICS
-  - name: m_food_order_pct
-    label: food_order_pct
+  - name: food_order_pct
+    label: Food Order Pct
     description: The food cost as the % of the total order
     type: ratio
-    numerator: m_food_order_amount
-    denominator: m_order_total
+    numerator: food_order_amount
+    denominator: order_total
 
 # DERIVED METRICS
-  - name: m_food_order_pct_cumulative
-    label: food_order_as_percent_of_total_order_amount
+  - name: food_order_pct_cumulative
+    label: Food order as percent of total_order_amount
     description: Food order total as a % of total order amount
     type: derived
-    expr: m_food_order_pct * 100
+    expr: food_order_pct * 100
     input_metrics: 
-      - name: m_food_order_pct
+      - name: food_order_pct
 
-  - name: m_food_order_gross_profit
-    label: food_order_gross_profit
+  - name: food_order_gross_profit
+    label: Food Order Gross Profit
     description: The gross profit for each food order
     type: derived
-    expr: (m_revenue - m_cost)
+    expr: (a_revenue - a_cost)
     input_metrics:
-      - name: m_order_total_food
-        alias: m_revenue
-      - name: m_order_amount_food
-        alias: m_cost
+      - name: order_total_food
+        alias: a_revenue
+      - name: order_amount_food
+        alias: a_cost
 
 # CUMULATIVE METRICS
-  - name: m_cumulative_order_amount
-    label: cumulative_order_amount
+  - name: cumulative_order_amount
+    label: Cumulative Order Amount
     description: The cumulative value of all orders
     type: cumulative
-    input_metric: m_order_total
+    input_metric: order_total
 
-  - name: m_cumulative_order_amount_l1m
-    label: cumulative_order_amount_l1m
+  - name: cumulative_order_amount_l1m
+    label: Cumulative Order Amount L1M
     description: Trailing 1 month cumulative order amount
     type: cumulative
-    input_metric: m_order_total
+    input_metric: order_total
     window: 1 month
 
-  - name: m_cumulative_order_amount_mtd
-    label: cumulative_order_amount_mtd
+  - name: cumulative_order_amount_mtd
+    label: Cumulative Order Amount Month
     description: The month to date value of all orders
     type: cumulative
-    input_metric: m_order_total
+    input_metric: order_total
     grain_to_date: month
 
 ################################################################################
@@ -255,9 +254,9 @@ saved_queries:
     description: testing out order metrics in one table
     query_params:
       metrics:
-        - m_min_order_amount
-        - m_max_order_amount
-        - m_cumulative_order_amount
+        - min_order_amount
+        - max_order_amount
+        - cumulative_order_amount
       group_by:
         - TimeDimension('metric_time', 'day')
     exports:
