@@ -266,6 +266,8 @@ $($env:SCOOP)\persist\python\venvs\sqlfluff\Scripts\Activate.ps1
 The project must be adapted a little.<br>
 There is a Git branch called develop_pg for PostgreSQL<br>
 https://github.com/mgn-dbt/tutorial/tree/develop_pg
+dbt vscode still complain in "Problems" but the CLI in venv works.
+Sometimes Command Palette : "Developer: Reload window" solves glitches.
 
 
 To use autofix, it is recommended to create a second venv
@@ -298,16 +300,15 @@ Commands
 ```
 dbt sl validate
 dbt sl list metrics
-dbt sl list dimensions --metrics m_large_order
-dbt sl list entities --metrics m_large_order
+dbt sl list dimensions --metrics large_order
+dbt sl list entities --metrics large_order
 dbt sl list saved-queries
 
 Add [--compile] to verify SQL query
-dbt sl query --metrics m_revenue --group-by metric_time --order-by -metric_time
-dbt sl query --metrics m_new_customers --group-by metric_time --order-by -metric_time
-dbt sl query --metrics m_new_customers --group-by metric_time --order-by -metric_time
-dbt sl query --metrics m_new_customers --group-by metric_time__week --order-by -metric_time__week
-dbt sl query --metrics m_food_revenue --group-by metric_time,order_items__is_food_item --limit 10 --order-by -metric_time --where "order_items__is_food_item = 1"
+dbt sl query --metrics revenue --group-by metric_time --order-by -metric_time
+dbt sl query --metrics new_customers --group-by metric_time --order-by -metric_time
+dbt sl query --metrics new_customers --group-by metric_time__week --order-by -metric_time__week
+dbt sl query --metrics food_revenue --group-by metric_time,e_order_item__is_food_item --limit 10 --order-by -metric_time --where "e_order_item__is_food_item = 1"
 ```
 
 dbt core needs Legacy SL. => "mf" command<br>
@@ -323,6 +324,62 @@ Beware entity names :<br>
 Entities (primary/foreign) must have the same name between models for automatic join to operate.<br>
 For convenience entities begin with "e_".<br>
 https://docs.getdbt.com/docs/build/join-logic
+
+
+"mf" versus "dbt sl" :<br>
+dbt sl query --metrics new_customers --group-by metric_time --order-by -metric_time --compile
+```sql
+SELECT
+  metric_time__day
+  , customers_with_orders AS new_customers
+FROM (
+  SELECT
+    metric_time__day
+    , COUNT(DISTINCT customers_with_orders) AS customers_with_orders
+  FROM (
+    SELECT
+      DATETIME_TRUNC(fct_autre_orders_src_10000.ordered_at_date, day) AS metric_time__day
+      , dim_autre_customers_src_10000.customer_type AS e_customer__customer_type
+      , fct_autre_orders_src_10000.customer_id AS customers_with_orders
+    FROM `dbt-jaffle-shop-481313`.`dbt_mguedon`.`fct_autre_orders` fct_autre_orders_src_10000
+    LEFT OUTER JOIN
+      `dbt-jaffle-shop-481313`.`dbt_mguedon`.`dim_autre_customers` dim_autre_customers_src_10000
+    ON
+      fct_autre_orders_src_10000.customer_id = dim_autre_customers_src_10000.customer_id
+  ) subq_6
+  WHERE e_customer__customer_type = 'new'
+  GROUP BY
+    metric_time__day
+) subq_10
+ORDER BY metric_time__day DESC
+```
+
+mf query --metrics new_customers --group-by metric_time --order -metric_time --explain
+```sql
+SELECT
+  metric_time__day
+  , customers_with_orders AS new_customers
+FROM (
+  SELECT
+    metric_time__day
+    , COUNT(DISTINCT customers_with_orders) AS customers_with_orders
+  FROM (
+    SELECT
+      dim_autre_customers_src_10000.customer_type AS e_customer__customer_type
+      , DATE_TRUNC('day', fct_autre_orders_src_10000.ordered_at_date) AS metric_time__day
+      , fct_autre_orders_src_10000.customer_id AS customers_with_orders
+    FROM `dbt-jaffle-shop-481313`.`dbt_mguedon`.`fct_autre_orders` fct_autre_orders_src_10000
+    LEFT OUTER JOIN
+      `dbt-jaffle-shop-481313`.`dbt_mguedon`.`dim_autre_customers` dim_autre_customers_src_10000
+    ON
+      fct_autre_orders_src_10000.customer_id = dim_autre_customers_src_10000.customer_id
+  ) subq_5
+  WHERE e_customer__customer_type = 'new'
+  GROUP BY
+    metric_time__day
+) subq_9
+ORDER BY metric_time__day DESC
+```
 
 
 # JSON
