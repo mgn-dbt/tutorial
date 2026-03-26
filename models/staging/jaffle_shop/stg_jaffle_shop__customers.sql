@@ -6,8 +6,8 @@ source as (
 transformed as (
     select
         id as customer_id,
-        last_name, --surname,
-        first_name, --givenname,
+        last_name,
+        first_name,
 
         initcap({{ dbt.concat(["first_name", "' '", "last_name"]) }}) as full_name
 

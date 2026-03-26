@@ -1,0 +1,110 @@
+models:
+  - name: fct_autre_order_items
+    description: |
+      Order items data mart, offering key details for each individual item within an order. 
+      One row per order item.
+
+    columns:
+      - name: order_item_id
+        description: PK for the order items mart, representing a unique item within an order.
+        data_tests:
+          - not_null
+          - unique
+        entity:
+          name: e_order_item
+          type: primary
+          label: Order Item
+
+      - name: order_id
+        description: FK linking to the orders mart, representing the order this item belongs to.
+        # data_tests:        entity + relationship tests => bug ?
+        #   - relationships:
+        #       arguments:
+        #         to: ref('fct_autre_orders')
+        #         field: order_id
+        entity:
+          name: e_order
+          type: foreign
+          label: Order
+
+      - name: product_id
+        description: FK linking to the products dimension, representing the product that was ordered.
+        entity:
+          name: e_product
+          type: foreign
+          label: Product
+
+      - name: product_price
+        description: The number of this specific product that was ordered.
+      - name: supply_cost
+        description: The price of a single unit of this product without tax.
+      - name: is_food_item
+        description: A boolean indicating if this item is a food item.
+        dimension: 
+          type: categorical
+          label: food item
+
+      - name: is_drink_item
+        description: A boolean indicating if this item is a drink item.
+        dimension: 
+          type: categorical
+          label: drink item
+
+      - name: ordered_at
+        description: The timestamp the order containing this item was placed at.
+
+      - name: ordered_at_date
+        description: The day the order containing this item was placed at.
+        dimension:
+          type: time
+          label: ordered_at_date
+        granularity: day
+
+    semantic_model:
+      enabled: true
+      name: fct_autre_order_items
+
+    agg_time_dimension: ordered_at_date
+
+    metrics:
+      - name: revenue
+        description: |
+          The revenue generated for each order item. 
+          Revenue is calculated as a sum of revenue associated with each product in an order.
+        type: simple
+        agg: sum
+        expr: product_price
+
+      - name: food_revenue
+        description: |
+          The revenue generated for each order item. 
+          Revenue is calculated as a sum of revenue associated with each product in an order.
+        type: simple
+        agg: sum
+        expr: case when is_food_item = 1 then product_price else 0 end
+
+      - name: drink_revenue
+        description: |
+          The revenue generated for each order item. 
+          Revenue is calculated as a sum of revenue associated with each product in an order.
+        type: simple
+        agg: sum
+        expr: case when is_drink_item = 1 then product_price else 0 end
+
+      - name: supply_cost
+        description: |
+          The cost generated for each order item.
+        type: simple
+        agg: sum
+        expr: supply_cost
+
+## derived metrics
+metrics:
+  - name: gross_profit
+    label: Gross Profit
+    description: The gross profit for each order
+    type: derived
+    expr: (revenue - supply_cost)
+    input_metrics:
+      - name: revenue
+      - name: supply_cost

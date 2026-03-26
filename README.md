@@ -5,11 +5,13 @@ Welcome to my repository on DBT tutorials
 After following tutorials in https://learn.getdbt.com/learn<br>
 I tried to make the dbt tutorial work with BigQuery and PostgreSql.<br>
 I intend to test duckdb but later.<br>
+cf https://docs.getdbt.com/reference/dbt-jinja-functions/cross-database-macros
 
-- BigQuery with Dbt Fusion and the dbt vscode extension (also working in dbt cloud).<br>
-- PostgreSql with Dbt core in sqlfluff venv (cf further in this page).<br>
+- BigQuery with Dbt Fusion and the dbt vscode extension (also working in dbt cloud).
+- PostgreSql with Dbt core in sqlfluff venv (cf further in this page).
 
 To go full circle, I tried to make the project work under DBT Fusion, DBT cloud and DBT core.<br>
+
 
 I use SCOOP under Windows and Powershell with no admin rights.<br>
 (I know. This could be better under Linux)
@@ -31,23 +33,27 @@ So this other project is an exception (not to be followed).
 
 # Modules installed in vscode
 
-CF .vscode/extensions.json
+Cf .vscode/extensions.json
 
 NB : SQLTools requires Node.js to work.<br>
-The SQLTools configuration folder is located here:<br>
+The SQLTools configuration folder is located here:
+```powershell
 $env:LOCALAPPDATA\vscode-sqltools
-
-$env:LOCALAPPDATA\vscode-sqltools\Data\> npm list
 ```
+
+```powershell
+$env:LOCALAPPDATA\vscode-sqltools\Data> npm list
+
 Data@ C:\Users\<user>\AppData\Local\vscode-sqltools\Data
 +-- @google-cloud/bigquery@7.9.0
 `-- google-auth-library@9.14.1
 ```
 
 NB : Beware zscaler.<br>
-The 2 zscaler certificates must be included in the cacert.pem npm certificate store.<br>
-cf $env:USERPROFILE\\.npmrc
-```
+The 2 zscaler certificates must be included in the cacert.pem npm certificate store.
+```powershell
+Cf $env:USERPROFILE\.npmrc
+
 cafile=<path_to>/cacert.pem
 ```
 
@@ -58,8 +64,8 @@ cafile=<path_to>/cacert.pem
 ```json
 {
     "dbt.dbtPath": "C:\\Users\\<user>\\.local\\bin\\dbt.exe",
+    // dbt core doesn't work with "dbt vscode extention" : unsupported dbt version
     "sqlfluff.executablePath": "C:\\Users\\<user>\\SCOOP\\persist\\python\\venvs\\sqlfluff\\Scripts\\sqlfluff.exe",
-    
     "sqltools.connections": [
         {
             "name": "BigQuery",
@@ -95,14 +101,13 @@ cafile=<path_to>/cacert.pem
         "scminput": false,
         "yaml": true,
         "jinja-sql": true
-    },
-    "chat.viewSessions.orientation": "stacked",
+    }
+    //https://code.visualstudio.com/docs/copilot/ai-powered-suggestions
 }
 ```
 
 
 # Profiles.yml
-
 ```yaml
 default:
   target: dev
@@ -133,6 +138,28 @@ pg:
 ```
 
 BigQuery profile must be named "default" for dbt cloud.
+
+
+# Environment variables
+
+(corresponds with var defined in dbt cloud)<br>
+```powershell
+$env:DBT_ENV_NAME='dev'
+```
+
+# DBT
+
+NB : dbt fusion installation process updates the file Microsoft.PowerShell_profile.ps1 :<br>
+cf $env:USERPROFILE\Documents\Powershell\Microsoft.PowerShell_profile.ps1<br>
+It ensure dbt fusion binary is in PATH and dbtf alias is created.
+
+Fusion upgrade can be done by command line or by vscode himself : <br>
+dbtf system update
+
+Beware package-lock.yml file, dbt fusion upgrade it with a bad format for dbt cloud.<br>
+After "dbt deps" rollback package-lock.json.
+Keep dbt cloud version of package-lock.json for compatibility.
+Bug ???
 
 
 # Postgresql
@@ -210,7 +237,9 @@ GRANT ALL ON SCHEMA dbt_<user> TO jaffle;
 ```
 
 ### solve pgadmin 4 certificate error
+```powershell
 & "<path_to>\postgresql\18.3\pgAdmin 4\python\python.exe" -m pip install pip_system_certs
+```
 
 
 # Python venvs
@@ -224,9 +253,22 @@ python.exe -m pip install --upgrade pip
 pip install sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery dbt-postgres dbt-duckdb pip_system_certs
 (pip_system_certs for zscaler, replacing certifi which is no longer maintained)
 
-Dont't install dbt-metricflow, dbt-metricflow[dbt-bigquery], dbt-metricflow[dbt-duckdb]
-because they cause a DBT version downgrade for compatibility
+Installing dbt-metricflow, dbt-metricflow[dbt-bigquery], dbt-metricflow[dbt-postgres], dbt-metricflow[dbt-duckdb]
+causes a DBT version downgrade for compatibility
 ```
+
+PostgreSQL works only in SQLFluff venv (dbt core) !
+SQLFluff venv must be activated to work with PostgreSQL
+```
+$($env:SCOOP)\persist\python\venvs\sqlfluff\Scripts\Activate.ps1
+```
+
+The project must be adapted a little.<br>
+There is a Git branch called develop_pg for PostgreSQL<br>
+https://github.com/mgn-dbt/tutorial/tree/develop_pg
+dbt vscode still complain in "Problems" but the CLI in venv works.
+Sometimes Command Palette : "Developer: Reload window" solves glitches.
+
 
 To use autofix, it is recommended to create a second venv
 ```
@@ -239,28 +281,105 @@ dbt-autofix deprecations --json --all
 dbt-autofix deprecations --semantic-layer
 ```
 
-Autofix helped migrate SL Legacy spec to the new spec.<br>
-cf models\marts\autre\_mdl_autre.yml<br>
-I must left commented "filter" and "saved_queries" because it seems dbt cloud don't understand them.
+Autofix can help in migrating SL Legacy spec to the new spec.<br>
 
 
-# DBT FUSION
-
-NB : dbt fusion installation process updates the file Microsoft.PowerShell_profile.ps1 :<br>
-cf $env:USERPROFILE\Documents\Powershell\Microsoft.PowerShell_profile.ps1<br>
-It ensure dbt fusion binary is in PATH and dbtf alias is created.
-
-Fusion upgrade can be done by command line or by vscode himself : <br>
-dbtf system update
-
-Beware package-lock.yml file, dbt fusion upgrade it with a bad format for dbt cloud.<br>
-So keep dbt cloud version of package-lock.json for compatibility.
+SL legacy spec example<br>
+https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/main/models/metrics<br>
+https://github.com/dbt-labs/jaffle-sl-template/tree/main/models/marts/customer360<br>
+SL new spec example<br>
+https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/fusion_spec/models/marts<br>
 
 
-# Environment variables
 
-(corresponds with var defined in dbt cloud)<br>
-$env:DBT_ENV_NAME='dev'
+# Semantic Layer (SL)
+
+New SL works only with dbt fusion and dbt cloud. => "dbt sl" command<br>
+
+Commands
+```
+dbt sl validate
+dbt sl list metrics
+dbt sl list dimensions --metrics large_order
+dbt sl list entities --metrics large_order
+dbt sl list saved-queries
+
+Add [--compile] to verify SQL query
+dbt sl query --metrics revenue --group-by metric_time --order-by -metric_time
+dbt sl query --metrics new_customers --group-by metric_time --order-by -metric_time
+dbt sl query --metrics new_customers --group-by metric_time__week --order-by -metric_time__week
+dbt sl query --metrics food_revenue --group-by metric_time,e_order_item__is_food_item --limit 10 --order-by -metric_time --where "e_order_item__is_food_item = 1"
+```
+
+dbt core needs Legacy SL. => "mf" command<br>
+
+Commands (dbt core)
+```
+mf validate-configs (instead of validate)
+Add [--explain] to verify SQL query instead of [--compile]
+--order (instead of --order-by)
+```
+
+Beware entity names :<br>
+Entities (primary/foreign) must have the same name between models for automatic join to operate.<br>
+For convenience entities begin with "e_".<br>
+https://docs.getdbt.com/docs/build/join-logic
+
+
+"mf" versus "dbt sl" :<br>
+dbt sl query --metrics new_customers --group-by metric_time --order-by -metric_time --compile
+```sql
+SELECT
+  metric_time__day
+  , customers_with_orders AS new_customers
+FROM (
+  SELECT
+    metric_time__day
+    , COUNT(DISTINCT customers_with_orders) AS customers_with_orders
+  FROM (
+    SELECT
+      DATETIME_TRUNC(fct_autre_orders_src_10000.ordered_at_date, day) AS metric_time__day
+      , dim_autre_customers_src_10000.customer_type AS e_customer__customer_type
+      , fct_autre_orders_src_10000.customer_id AS customers_with_orders
+    FROM `dbt-jaffle-shop-481313`.`dbt_mguedon`.`fct_autre_orders` fct_autre_orders_src_10000
+    LEFT OUTER JOIN
+      `dbt-jaffle-shop-481313`.`dbt_mguedon`.`dim_autre_customers` dim_autre_customers_src_10000
+    ON
+      fct_autre_orders_src_10000.customer_id = dim_autre_customers_src_10000.customer_id
+  ) subq_6
+  WHERE e_customer__customer_type = 'new'
+  GROUP BY
+    metric_time__day
+) subq_10
+ORDER BY metric_time__day DESC
+```
+
+mf query --metrics new_customers --group-by metric_time --order -metric_time --explain
+```sql
+SELECT
+  metric_time__day
+  , customers_with_orders AS new_customers
+FROM (
+  SELECT
+    metric_time__day
+    , COUNT(DISTINCT customers_with_orders) AS customers_with_orders
+  FROM (
+    SELECT
+      dim_autre_customers_src_10000.customer_type AS e_customer__customer_type
+      , DATE_TRUNC('day', fct_autre_orders_src_10000.ordered_at_date) AS metric_time__day
+      , fct_autre_orders_src_10000.customer_id AS customers_with_orders
+    FROM `dbt-jaffle-shop-481313`.`dbt_mguedon`.`fct_autre_orders` fct_autre_orders_src_10000
+    LEFT OUTER JOIN
+      `dbt-jaffle-shop-481313`.`dbt_mguedon`.`dim_autre_customers` dim_autre_customers_src_10000
+    ON
+      fct_autre_orders_src_10000.customer_id = dim_autre_customers_src_10000.customer_id
+  ) subq_5
+  WHERE e_customer__customer_type = 'new'
+  GROUP BY
+    metric_time__day
+) subq_9
+ORDER BY metric_time__day DESC
+```
 
 
 # JSON

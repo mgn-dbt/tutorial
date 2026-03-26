@@ -5,7 +5,7 @@ orders as (
 ),
 
 order_items as (
-    select * from {{ ref('order_items') }}
+    select * from {{ ref('fct_autre_order_items') }}
 ),
 
 order_items_summary as (
@@ -23,7 +23,13 @@ order_items_summary as (
 compute_booleans as (
     select
 
-        orders.*,
+        orders.order_id,
+        orders.customer_id,
+        orders.location_id,
+        orders.subtotal,
+        orders.tax_paid,
+        orders.order_total,
+        orders.ordered_at,
         {{ dbt.cast('orders.ordered_at', 'date') }} as ordered_at_date,
         order_items_summary.count_food_items > 0 as is_food_order,
         order_items_summary.count_drink_items > 0 as is_drink_order,
