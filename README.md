@@ -265,9 +265,11 @@ $($env:SCOOP)\persist\python\venvs\sqlfluff\Scripts\Activate.ps1
 
 The project must be adapted a little.<br>
 There is a Git branch called develop_pg for PostgreSQL<br>
-https://github.com/mgn-dbt/tutorial/tree/develop_pg
-dbt vscode still complain in "Problems" but the CLI in venv works.
-Sometimes Command Palette : "Developer: Reload window" solves glitches.
+https://github.com/mgn-dbt/tutorial/tree/develop_pg<br>
+
+dbt vscode still complain in "Problems".<br>
+Of course, in models "Preview CTE" doesn't work.<br>
+But the dbt core CLI in venv works.
 
 
 To use autofix, it is recommended to create a second venv
