@@ -284,6 +284,7 @@ Autofix can help in migrating SL Legacy spec to the new spec.<br>
 
 SL legacy spec example<br>
 https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/main/models/metrics<br>
+https://github.com/dbt-labs/jaffle-sl-template/tree/main/models/marts/customer360<br>
 SL new spec example<br>
 https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/fusion_spec/models/marts<br>
 
