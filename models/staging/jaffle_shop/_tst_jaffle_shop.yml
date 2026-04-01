@@ -23,7 +23,11 @@ unit_tests:
     # overrides with dbt internal macro dont work in fusion (dbt.current_timestamp)
     overrides:
       macros:
-        my_current_timestamp: "{% if target.type == 'postgres' %}timestamp '2024-01-15'{% else %}timestamp('2024-01-15'){% endif %}"
+        my_current_timestamp: "
+          {% if target.type == 'postgres' %}timestamp '2024-01-15'
+          {% elif target.type == 'bigquery' %}timestamp('2024-01-15')
+          {% elif target.type == 'duckdb' %}'2024-01-15'
+          {% endif %}"
     given:
       - input: source('jaffle_shop',  'orders')
         rows:
