@@ -42,4 +42,5 @@
             "dependencies.yml"
         ]
     },
+    "terminal.integrated.defaultProfile.windows": "Pwsh",
 }
