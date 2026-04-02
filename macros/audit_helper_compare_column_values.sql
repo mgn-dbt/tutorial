@@ -1,4 +1,6 @@
--- to use this macro, replace the table references and primary key and dbt run-operation audit_helper_compare_column_values
+-- to use this macro, replace the table references and primary key and 
+-- dbt run-operation audit_helper_compare_column_values
+
 {% macro audit_helper_compare_column_values() %}
 {%- set columns_to_compare=adapter.get_columns_in_relation(ref('fct_orders__deprecated'))  -%}
 

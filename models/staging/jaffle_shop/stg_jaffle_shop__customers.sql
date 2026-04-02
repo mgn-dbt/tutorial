@@ -8,8 +8,8 @@ transformed as (
         id as customer_id,
         last_name,
         first_name,
-
-        initcap({{ dbt.concat(["first_name", "' '", "last_name"]) }}) as full_name
+        {%- set chaine = dbt.concat(["first_name", "' '", "last_name"]) -%}
+        {{ my_initcap( chaine ) }} as full_name -- noqa: disable=all
 
     from source
 )

@@ -12,7 +12,8 @@
     "files.associations": {
         "*.sql": "jinja-sql",
     },
-    "sqlfluff.linter.run": "onSave",
+    // sqlfluff isn't compatible with SL new spec
+    "sqlfluff.linter.run": "off",
     //
     // we specify which jsonschema we want
     "yaml.schemaStore.enable": false,
@@ -41,4 +42,5 @@
             "dependencies.yml"
         ]
     },
+    "terminal.integrated.defaultProfile.windows": "Pwsh",
 }

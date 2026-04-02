@@ -14,3 +14,7 @@
 {% macro bigquery__cents_to_dollars(column_name, scale) %}
     round(cast(({{ column_name }} / 100) as numeric), {{ scale }})
 {% endmacro %}
+
+{% macro default__cents_to_dollars(column_name, scale) %}
+    round({{ column_name }} / 100.0, {{ scale }})
+{% endmacro %}

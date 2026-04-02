@@ -17,7 +17,7 @@ models:
 
       - name: order_id
         description: FK linking to the orders mart, representing the order this item belongs to.
-        # data_tests:        entity + relationship tests => bug ?
+        # data_tests:        entity + relationship tests => bug dbt cloud ?
         #   - relationships:
         #       arguments:
         #         to: ref('fct_autre_orders')

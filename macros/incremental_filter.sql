@@ -5,7 +5,7 @@
             select coalesce(
                 {#- { dbt.dateadd("day", - interval_days, "max(" ~ timestamp_column ~ ")") }, #}
                 max({{ timestamp_column }}) - {{ interval_days }},
-                {{ dbt.date(1900,1,1) }})
+                {{ my_make_date(1900,1,1) }})
             from {{ this }} )
     {%- else -%}
         1=1

@@ -8,6 +8,12 @@ days_spine as (
                 start_date="'2000-01-01'::date",
                 end_date="'2030-01-01'::date"
         ) }}
+    {% elif target.type == 'duckdb' %}
+        {{ dbt.date_spine(
+                datepart="day",
+                start_date="'2000-01-01'::timestamp",
+                end_date="'2030-01-01'::timestamp"
+        ) }}
     {% elif target.type == 'bigquery' %}
         select cast(date_day as date) as date_day
         from ({{ dbt.date_spine(

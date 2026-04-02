@@ -4,7 +4,8 @@
     2. finds objects that are > 1 week old (no longer maintained)
     3. generates automated drop statements
     4. has the ability to execute those drop statements
-
+    
+    dbt run-operation clean_stale_models --args '{"database": "my_database", "schema": "my_schema", "days": 30}'
 #}
 
 {% macro clean_stale_models(database=target.database, schema=target.schema, days=7, dry_run=True) %}

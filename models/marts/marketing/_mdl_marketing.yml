@@ -32,10 +32,14 @@ models:
                 group_by_column: customer_id
 
       - name: employee_id
-        description: Identifier of the employee associated with the customer
+        description: |
+          Identifier of the employee associated with the customer
+          seed
 
 #      - name: email
-#        description: Customer's email address. PII.
+#        description: |
+#          email address of the employee associated with the customer
+#          seed
 
       - name: number_of_orders
         description: Count of the number of orders a customer has placed
