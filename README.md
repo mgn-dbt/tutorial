@@ -91,8 +91,25 @@ cafile=<path_to>/cacert.pem
         "scminput": false,
         "yaml": true,
         "jinja-sql": true
-    }
+    },
     //https://code.visualstudio.com/docs/copilot/ai-powered-suggestions
+    "terminal.integrated.profiles.windows": {
+        "PowerShell": null,
+        "Command Prompt": null,
+        "Git Bash": null,
+        "Pwsh_vdbt": {
+            "path": "pwsh.exe",
+            "args": [
+                "-noexit",
+                "-nologo",
+                "-file",
+                "C:\\Users\\<user>\\SCOOP\\persist\\python\\venvs\\sqlfluff\\Scripts\\Activate.ps1"
+            ]
+        },
+        "Pwsh": {
+            "path": "pwsh.exe"
+        },
+    },
 }
 ```
 
