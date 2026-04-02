@@ -108,8 +108,8 @@ After "dbt deps" rollback package-lock.json.<br>
 Keep dbt cloud version of package-lock.json for compatibility.<br>
 Bug ???
 
-I put generic tests under macros/generic instead of tests/generic for convenience.<br>
-They are macros so it's seems their right place.
+I put generic tests under "macros/generic" instead of "tests/generic" for convenience.<br>
+They are macros so it seems their right place.
 
 
 # Environment variables
