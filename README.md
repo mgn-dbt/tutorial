@@ -167,10 +167,7 @@ causes a DBT version downgrade for compatibility
 ```
 
 PostgreSQL or Duckdb works only in SQLFluff venv (dbt core) !<br>
-SQLFluff venv must be activated to work with PostgreSQL or Duckdb
-```
-$($env:SCOOP)\persist\python\venvs\sqlfluff\Scripts\Activate.ps1
-```
+It means using Pwsh_vdbt terminal.
 
 
 To use autofix, it is recommended to create a second venv
