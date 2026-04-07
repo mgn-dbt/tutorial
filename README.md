@@ -13,6 +13,7 @@ Cf https://docs.getdbt.com/reference/dbt-jinja-functions/cross-database-macros
 I tried to make the code as generic as possible.<br>
 VSCode extension is made to work with dbt fusion.<br>
 But it can be used to edit dbt core projects if you restrict to CLI in terminal.
+(Problems are mentioned by sqlfluff)
 
 There is a Git branch called develop for BigQuery<br>
 https://github.com/mgn-dbt/tutorial/tree/develop
@@ -26,7 +27,7 @@ https://github.com/mgn-dbt/tutorial/tree/develop_duck
 
 
 Table data is loaded separately cf https://github.com/mgn-dbt/external<br>
-Seeds are not for loading data but lookup tables or mock data for tests.<br>
+Seeds are not for loading real live data but lookup tables or mock data for tests.<br>
 So this other project is an exception (not to be followed).
 
 
@@ -69,8 +70,8 @@ cafile=<path_to>/cacert.pem
             "pgOptions": {
                 "ssl": {
                     "rejectUnauthorized": true,
-                    "ca": "C:\\Users\\<user>\\SCOOP\\persist\\ssl\\CA\\certs\\ca.cert.pem",
-                    "cert": "C:\\Users\\<user>\\SCOOP\\persist\\ssl\\CA\\certs\\server.cert.pem",
+                    "ca": "C:\\Users\\<user>\\SCOOP\\persist\\ssl\\mkcert\\rootCA.pem",
+                    "cert": "C:\\Users\\<user>\\SCOOP\\persist\\ssl\\mkcert\\server.cert.pem",
                 }
             },
             "ssh": "Disabled",
