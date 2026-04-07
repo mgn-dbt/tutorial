@@ -13,7 +13,7 @@ Cf https://docs.getdbt.com/reference/dbt-jinja-functions/cross-database-macros
 I tried to make the code as generic as possible.<br>
 VSCode extension is made to work with dbt fusion.<br>
 But it can be used to edit dbt core projects if you restrict to CLI in terminal.
-(Problems are mentioned by sqlfluff)
+
 
 There is a Git branch called develop for BigQuery<br>
 https://github.com/mgn-dbt/tutorial/tree/develop
@@ -24,11 +24,12 @@ https://github.com/mgn-dbt/tutorial/tree/develop_pg
 There is a Git branch called develop_duck for Duckdb<br>
 https://github.com/mgn-dbt/tutorial/tree/develop_duck
 
-
+Changing git branch (changing database) should be followed by closing/reopening terminal.<br>
+Cf customized terminals in the vscode user configuration settings
 
 Table data is loaded separately cf https://github.com/mgn-dbt/external<br>
 Seeds are not for loading real live data but lookup tables or mock data for tests.<br>
-So this other project is an exception (not to be followed).
+So this other project is a bit of an exception.
 
 
 # VSCode
@@ -85,6 +86,7 @@ cafile=<path_to>/cacert.pem
     ],
     "sqltools.useNodeRuntime": true,
     "redhat.telemetry.enabled": false,
+    //https://code.visualstudio.com/docs/copilot/ai-powered-suggestions
     "github.copilot.enable": {
         "*": false,
         "plaintext": false,
@@ -93,7 +95,7 @@ cafile=<path_to>/cacert.pem
         "yaml": true,
         "jinja-sql": true
     },
-    //https://code.visualstudio.com/docs/copilot/ai-powered-suggestions
+    // customized terminals
     "terminal.integrated.profiles.windows": {
         "PowerShell": null,
         "Command Prompt": null,
@@ -224,7 +226,7 @@ Add [--explain] to verify SQL query instead of [--compile]
 
 Beware entity names :<br>
 Entities must have the same name between primary model and foreign model for automatic join to operate.<br>
-For convenience entities begin with "e_".<br>
+For convenience my entities begin with "e_".<br>
 https://docs.getdbt.com/docs/build/join-logic
 
 
@@ -234,6 +236,7 @@ json schema <br>
 cf https://github.com/dbt-labs/dbt-jsonschema<br>
 cf https://docs.getdbt.com/docs/about-dbt-extension
 
+json schema applied is specified in .vscode/settings.json
 
 # Resources
 

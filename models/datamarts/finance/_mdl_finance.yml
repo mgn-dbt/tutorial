@@ -47,6 +47,12 @@ models:
 
   - name: fct_orders__deprecated
     description: Table pour comparer avec fct_orders, pour tester les tests de dbt_expectations
+    config:
+      meta:
+        required_docs: False
 
   - name: fct_customer_orders
     description: Commandes par client
+    config:
+      meta:
+        required_docs: False

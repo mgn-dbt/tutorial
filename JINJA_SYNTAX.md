@@ -1,6 +1,6 @@
-select 1 as one
+JINJA2 syntax
 
-{# scriplets jinja
+```
 -- practice setting basic variables!
 
 {% set my_cool_string = 'wow! cool!' %}
@@ -67,4 +67,5 @@ select 1 as one
 
 {{ websters_dict['word'] }} ({{ websters_dict['speech_part'] }}): defined as "{{ websters_dict['definition'] }}"
 
-#}
+```
+
