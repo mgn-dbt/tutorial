@@ -137,6 +137,7 @@ They are macros so it seems their right place.
 Corresponds with a variable defined in dbt cloud<br>
 ```powershell
 $env:DBT_ENV_NAME='dev'
+[Environment]::SetEnvironmentVariable("DBT_ENV_NAME", $env:DBT_ENV_NAME, [System.EnvironmentVariableTarget]::User)
 ```
 
 
@@ -192,7 +193,6 @@ https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/main/models/metric
 
 SL new spec example<br>
 https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/fusion_spec/models/marts
-
 
 
 # Semantic Layer (SL)
