@@ -3,7 +3,7 @@ version: '1.0.0'
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
-profile: default
+profile: pg
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be
@@ -77,20 +77,14 @@ seeds:
 # dbt seed --full-refresh -s "tag:tests"
 # dbt seed --full-refresh -s "tag:learn"
 
-# Configuration for dbt Cloud
-dbt-cloud:
-  project-id: 70471823535774
-
 vars:
   # for dbt_date
   'dbt_date:time_zone': 'Europe/Paris'
   # for staging/autre/stg_autre__orders and staging/autre/stg_autre__locations
   'truncate_timespan_to': "{{ dbt.current_timestamp() }}"
 
-# BigQuery specific flags
-# https://docs.getdbt.com/reference/global-configs/behavior-changes
+
 flags:
-  bigquery_use_batch_source_freshness: true
   require_generic_test_arguments_property: true
   require_unique_project_resource_names: true
 
