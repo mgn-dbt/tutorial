@@ -14,6 +14,7 @@ I tried to make the code as generic as possible.<br>
 VSCode extension is made to work with dbt fusion.<br>
 But it can be used to edit dbt core projects if you restrict to CLI in terminal.
 
+
 There is a Git branch called develop for BigQuery<br>
 https://github.com/mgn-dbt/tutorial/tree/develop
 
@@ -23,11 +24,12 @@ https://github.com/mgn-dbt/tutorial/tree/develop_pg
 There is a Git branch called develop_duck for Duckdb<br>
 https://github.com/mgn-dbt/tutorial/tree/develop_duck
 
-
+Changing git branch (changing database) should be followed by closing/reopening terminal.<br>
+Cf customized terminals in the vscode user configuration settings
 
 Table data is loaded separately cf https://github.com/mgn-dbt/external<br>
-Seeds are not for loading data but lookup tables or mock data for tests.<br>
-So this other project is an exception (not to be followed).
+Seeds are not for loading real live data but lookup tables or mock data for tests.<br>
+So this other project is a bit of an exception.
 
 
 # VSCode
@@ -69,8 +71,8 @@ cafile=<path_to>/cacert.pem
             "pgOptions": {
                 "ssl": {
                     "rejectUnauthorized": true,
-                    "ca": "C:\\Users\\<user>\\SCOOP\\persist\\ssl\\CA\\certs\\ca.cert.pem",
-                    "cert": "C:\\Users\\<user>\\SCOOP\\persist\\ssl\\CA\\certs\\server.cert.pem",
+                    "ca": "C:\\Users\\<user>\\SCOOP\\persist\\ssl\\mkcert\\rootCA.pem",
+                    "cert": "C:\\Users\\<user>\\SCOOP\\persist\\ssl\\mkcert\\server.cert.pem",
                 }
             },
             "ssh": "Disabled",
@@ -84,6 +86,7 @@ cafile=<path_to>/cacert.pem
     ],
     "sqltools.useNodeRuntime": true,
     "redhat.telemetry.enabled": false,
+    //https://code.visualstudio.com/docs/copilot/ai-powered-suggestions
     "github.copilot.enable": {
         "*": false,
         "plaintext": false,
@@ -92,7 +95,7 @@ cafile=<path_to>/cacert.pem
         "yaml": true,
         "jinja-sql": true
     },
-    //https://code.visualstudio.com/docs/copilot/ai-powered-suggestions
+    // customized terminals
     "terminal.integrated.profiles.windows": {
         "PowerShell": null,
         "Command Prompt": null,
@@ -129,11 +132,11 @@ I put generic tests under "macros/generic" instead of "tests/generic" for conven
 They are macros so it seems their right place.
 
 
-# Environment variables
+# Environment variable
 
-Corresponds with a variable defined in dbt cloud<br>
+This environment user variable corresponds with a variable defined in dbt cloud following tutorials<br>
 ```powershell
-$env:DBT_ENV_NAME='dev'
+[Environment]::SetEnvironmentVariable("DBT_ENV_NAME", 'dev', [System.EnvironmentVariableTarget]::User)
 ```
 
 
@@ -223,7 +226,7 @@ Add [--explain] to verify SQL query instead of [--compile]
 
 Beware entity names :<br>
 Entities must have the same name between primary model and foreign model for automatic join to operate.<br>
-For convenience entities begin with "e_".<br>
+For convenience my entities begin with "e_".<br>
 https://docs.getdbt.com/docs/build/join-logic
 
 
@@ -233,6 +236,7 @@ json schema <br>
 cf https://github.com/dbt-labs/dbt-jsonschema<br>
 cf https://docs.getdbt.com/docs/about-dbt-extension
 
+json schema applied is specified in .vscode/settings.json
 
 # Resources
 

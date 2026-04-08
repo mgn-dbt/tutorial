@@ -41,15 +41,16 @@ models:
         +tags: 'learn'
       stripe:
         +tags: 'learn'
-    marts:
+    intermediate:
+      +materialized: table
+      +tags: 'learn'
+    datamarts:
       +meta:
         required_docs: true
       +materialized: table
       autre:
         +tags: 'autre'
       finance:
-        +tags: 'learn'
-      intermediate:
         +tags: 'learn'
       marketing:
         +tags: 'learn'

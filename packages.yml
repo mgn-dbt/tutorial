@@ -4,7 +4,7 @@ packages:
   - package: dbt-labs/audit_helper
     version: 0.13.0
   - package: godatadriven/dbt_date
-    version: 0.17.1
+    version: 0.17.2
   - package: metaplane/dbt_expectations
     version: 0.10.10
   - git: https://github.com/tnightengale/dbt-meta-testing.git

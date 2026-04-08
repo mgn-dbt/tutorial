@@ -63,6 +63,8 @@ models:
         description: The sum of all the drink item prices without tax.
       - name: subtotal
         description: The sum total of both food and drink item prices without tax.
+      - name: tax_paid
+        description: The total tax paid on the order.
       - name: order_cost
         description: The sum of supply expenses to fulfill the order.
       - name: location_name
