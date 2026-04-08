@@ -12,14 +12,13 @@
     "files.associations": {
         "*.sql": "jinja-sql",
     },
-    // sqlfluff isn't compatible with SL new spec
-    "sqlfluff.linter.run": "off",
+    "sqlfluff.linter.run": "onSave",
     //
     // we specify which jsonschema we want
     "yaml.schemaStore.enable": false,
     //
     "yaml.schemas": {
-        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest_fusion/dbt_yml_files-latest-fusion.json": [
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/dbt_yml_files-latest.json": [
             "/**/*.yml",
             "!profiles.yml",
             "!dbt_project.yml",
@@ -29,18 +28,18 @@
             "!profile_template.yml",
             "!package-lock.yml"
         ],
-        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest_fusion/dbt_project-latest-fusion.json": [
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/dbt_project-latest.json": [
             "dbt_project.yml"
         ],
-        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest_fusion/selectors-latest-fusion.json": [
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/selectors-latest.json": [
             "selectors.yml"
         ],
-        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest_fusion/packages-latest-fusion.json": [
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/packages-latest.json": [
             "packages.yml"
         ],
-        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest_fusion/dependencies-latest-fusion.json": [
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/dependencies-latest.json": [
             "dependencies.yml"
         ]
     },
-    "terminal.integrated.defaultProfile.windows": "Pwsh",
+    "terminal.integrated.defaultProfile.windows": "Pwsh_vdbt",
 }
