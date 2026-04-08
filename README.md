@@ -119,7 +119,10 @@ cafile=<path_to>/cacert.pem
 
 # DBT
 
-NB : dbt fusion installation process updates the profile file Microsoft.PowerShell_profile.ps1 :<br>
+Fusion warns when an update is available.<br>
+New version available 2.0.0-preview.166 (run `dbt system update`)
+
+NB : Fusion installation process updates the profile file Microsoft.PowerShell_profile.ps1 :<br>
 cf $env:USERPROFILE\Documents\Powershell\Microsoft.PowerShell_profile.ps1<br>
 It ensure dbt fusion binary is in PATH and dbtf alias is created.
 
