@@ -39,8 +39,10 @@ equivalent a audit_helper.compare_relations
         {% set nb_differences = results|length %}
         {% if nb_differences > 0 %}
             {{ log('The tables are different based on the columns compared. ' ~ nb_differences // 2 ~ ' differences', info=True) }}
+            {% do return(False) %}
         {% else %}
             {{ log('The tables are the same based on the columns compared.', info=True) }}
+            {% do return(True) %}
         {% endif %}
     {% endif %}
 

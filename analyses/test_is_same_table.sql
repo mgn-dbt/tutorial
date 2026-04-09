@@ -1,16 +1,10 @@
-select 1 as one
-
-{# 
+--dbt show -s test_is_same_table
 
 {% set columns_to_compare = '
-    identifier::string
-    , name::string
-    , nb_ordered::number
-    , global_turnover::number
-    , global_profit::number
-    , hour::timestamp' 
+    location_id,
+    location_name,
+    tax_rate,
+    opened_at'
 %}
 
-{{ is_same_table('restaurants__benefit_orders_hourly', 'expect_restaurants__benefit_orders_hourly', columns_to_compare) }} 
-
-#}
+select {{ is_same_table('stg_autre__locations', 'test_locations', columns_to_compare) }} as same_table
