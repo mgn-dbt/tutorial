@@ -22,7 +22,7 @@ days_spine as (
                 end_date="'2030-01-01'"
         ) }}) as dt
     {% else %}
-        {{ exceptions.raise_compiler_error("Time spine not implemented for target type: " ~ target.type) }}
+        {{ exceptions.raise_not_implemented('Time spine not implemented for adapter '+adapter.type()) }}
     {% endif %}
 )
 
