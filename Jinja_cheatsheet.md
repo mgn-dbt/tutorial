@@ -1,10 +1,26 @@
-# dbt ❤ Jinja Cheatsheet
+# ❤ Jinja Cheatsheet ❤
+
+## Datatypes
+
+Cf https://documentation.bloomreach.com/engagement/docs/functions-on-data-types
 
 ## Variables
+
+### Basic
 ```
 {% set my_string = "example" %}
 
-List
+{% set multiline_text %}
+  Lorem ipsum dolor sit amet consectetur adipiscing elit. 
+  Quisque faucibus ex sapien vitae pellentesque sem placerat. 
+  In id cursus mi pretium tellus duis convallis. 
+  Tempus leo eu aenean sed diam urna tempor. 
+{% endset %}
+```
+
+### List (Ordered collection)
+```
+{% set empty_list = [] %}
 {% set my_list = ["apple", "lemon"] %}
 {{ my_list[0] }}
 {{ my_list[1] }}
@@ -12,12 +28,28 @@ List
 {% for fruit in my_list -%}
   My favorite fruit is the {{ fruit }}
 {%- endfor %}
-
-Dictionary
-{% set my_dict = {"WatchEvent": "watch_user_count", "ForkEvent": "fork_user_count"} %}
-{{ my_dict['WatchEvent'] }}
-{{ my_dict['ForkEvent'] }}
 ```
+Keep in mind that lists are indexed from 0
+
+### Dictionary
+```
+{% set my_dict = {"firstname": "john", "lastname": "doe"} %}
+my name is {{ my_dict['firstname'] }} {{ my_dict['lastname'] }}
+
+{% for key, value in my_dict.items() %}
+  {{ key }}: {{ value }}
+{% endfor %}
+```
+Keys must be unique and always have exactly one value
+
+### Tuple 
+```
+{% set singleton = ('a',) %}
+{% set my_tuple = ('a', 'b') %}
+```
+Tuples are like lists that cannot be modified (Immutable)
+
+
 
 ## Comments
 ```
@@ -56,6 +88,23 @@ Run macro
 dbt run-operation <macro> --args '{example: value}'
 ```
 
+Call a macro
+```
+{{ my_macro(param01, param02) }}
+```
+
+Call a macro and get return value
+```
+{% set some_var = my_macro(param01, param02, param03) %}
+```
+
+## Return
+```
+{% macro example() %}
+{{ return("Hello") }}
+{% endmacro %}
+```
+
 ## Cast variable
 
 \# To string
@@ -75,18 +124,18 @@ dbt run-operation <macro> --args '{example: value}'
 {% set my_list = ["apple", "lemon"] %}
 ```
 
-\# Check if my_list has more than 3 element
+\# Check if my_list has more than 3 elements
 ```
-{% if products|length > 3 %}
+{% if my_list|length > 3 %}
 ```
 
-## Manipulate objects
+## Adding elements to a List
 ```
 {% set numbers = [] %}
 
-{%- for i in range(1, 10) %}
-{%- do numbers.append(i) -%}
-{%- endfor %}
+{% for i in range(1, 10) %}
+{% do numbers.append(i) %}
+{% endfor %}
 ```
 
 ## Loop.last
@@ -100,7 +149,6 @@ To avoid trailing commas in loops use:
 
 |Input | Compiled |
 | :----------- | :----------- |
-| ----------- | ----------- |
 | -- Over list | SELECT |
 | {% set my_list = ['sales_x', 'sales_y'] %} | id, |
 | SELECT | SUM(sales_x), |
@@ -111,7 +159,9 @@ To avoid trailing commas in loops use:
 | {% endfor %} ||
 | FROM example ||
 | GROUP BY 1 ||
-| ----------- | ----------- |
+
+|Input | Compiled |
+| :----------- | :----------- |
 | -- Over dictionary | SELECT |
 | {% set payment_methods = {"type_0" : "bank_transfer", | order_id, |
 | "type_1" : "credit_card", | sum(CASE |
@@ -128,25 +178,15 @@ To avoid trailing commas in loops use:
 | GROUP BY 1 ||
 
 
-## Graph (dag)
-```
-{% macro example() %}
-
-{% if execute %}
-{% for node in graph.nodes.values() %}
-{% do log(node.unique_id ~ ", config: " ~ node.config, info=true) %}
-{% endfor %}
-{% endif %}
-
-{% endmacro %}
-```
-
 ## if | elif | else
 ```
 {% macro generate_schema_name() -%}
 {%- if target.name == 'dev' -%}
+  ...
 {%- elif target.name == 'prod' -%}
+  ...
 {%- else -%}
+  ...
 {%- endif -%}
 {%- endmacro %}
 ```
@@ -180,13 +220,16 @@ Usage:
 {% do results.print_table() %}
 ```
 
-## dbt_utils
+Cf https://docs.getdbt.com/reference/dbt-jinja-functions/run_query
 
-dbt_utils is a collection of reusable dbt macros
+Return a agate table object.<br>
+Cf <br>
+https://agate.readthedocs.io/en/latest/api/table.html<br>
+https://agate.readthedocs.io/en/latest/api/table.html#agate.Table.print_table<br>
+https://agate.readthedocs.io/en/latest/api/table.html#agate.Table.print_structure<br>
+https://agate.readthedocs.io/en/latest/api/table.html#agate.Table.print_html<br>
+https://agate.readthedocs.io/en/latest/api/table.html#agate.Table.print_csv
 
-Examples:
-- deduplicate - remove duplicates from a model
-- group_by - build a group by statement for (1..N)
 
 ## Trim whitespace
 ```
@@ -199,11 +242,9 @@ Examples:
 {{ log("Some text" ~ my_string, info=True) }}
 ```
 
-## Return
+## Print
 ```
-{% macro example() %}
-{{ return("Hello") }}
-{% endmacro %}
+{{ print("My Message") }}
 ```
 
 ## Environment variables
@@ -211,9 +252,25 @@ Examples:
 {{ env_var("VAR_NAME") }}
 ```
 
-## Print
+## Graph (dag)
 ```
-{{ print("My Message") }}
+{% macro example() %}
+
+{% if execute %}
+{% for node in graph.nodes.values() %}
+{% do log(node.unique_id ~ ", config: " ~ node.config, info=true) %}
+{% endfor %}
+{% endif %}
+
+{% endmacro %}
 ```
 
+Cf https://docs.getdbt.com/reference/dbt-jinja-functions/graph
 
+## dbt_utils
+
+dbt_utils is a collection of reusable dbt macros
+
+Examples:
+- deduplicate - remove duplicates from a model
+- group_by - build a group by statement for (1..N)
