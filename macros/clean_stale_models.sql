@@ -6,6 +6,26 @@
     4. has the ability to execute those drop statements
     
     dbt run-operation clean_stale_models --args '{"database": "my_database", "schema": "my_schema", "days": 30}'
+
+    cf dbt_internal_packages\dbt-adapters\macros\adapters\metadata.sql
+    get_tables_by_pattern_sql()
+
+    get_relation_last_modified(`dbt-jaffle-shop-481313.region-US.INFORMATION_SCHEMA.TABLE_STORAGE`, relations)
+
+    SELECT * FROM `dbt-jaffle-shop-481313.region-US.INFORMATION_SCHEMA.TABLE_STORAGE`;
+
+{%-
+        set info_schema_tb_store = api.Relation.create(
+            database=target.database,
+            schema="region-US.INFORMATION_SCHEMA",
+            identifier="TABLE_STORAGE",
+            quote_policy={database: true, schema: true, identifier: true},
+        )
+-%}
+
+https://github.com/dbt-labs/dbt-adapters/issues/1005
+https://medium.com/google-cloud/bigquery-information-schema-a6a852535cf1
+
 #}
 
 {% macro clean_stale_models(database=target.database, schema=target.schema, days=7, dry_run=True) %}
