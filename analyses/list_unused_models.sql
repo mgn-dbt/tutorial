@@ -1,8 +1,8 @@
---dbt show -s list_unused_models [--output yml] [--profile pg|duck_tuto]
+--dbt show -s list_unused_models [--output yml]
 
 {% if execute %}
     {%- set current_models = [] %}
-    {%- for node in graph.nodes.values() %}  {# | selectattr("resource_type", "equalto", "model") #}
+    {%- for node in graph.nodes.values() | selectattr("resource_type", "in", ["model", "seed", "snapshot"]) %}
         {%- do current_models.append(node.name) %}
     {%- endfor %}
 {% endif %}
