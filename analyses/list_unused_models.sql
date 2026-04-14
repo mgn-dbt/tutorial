@@ -1,25 +1,26 @@
---dbt show -s list_unused_models [--output yml]
+--dbt show -s list_unused_models
 
-{% if execute %}
-    {%- set current_models = [] %}
-    {%- for node in graph.nodes.values() | 
-        selectattr("resource_type", "in", ["model", "seed", "snapshot"]) %}
-        {%- do current_models.append(node.name) %}
-    {%- endfor %}
-{% endif %}
-
-{# les 4 sont communes #}
+with models_to_drop as (
 select
-    table_catalog,
-    table_schema,
-    table_name,
-    table_type
+    case 
+        when table_type = 'BASE TABLE' then 'TABLE'
+        when table_type = 'VIEW' then 'VIEW'
+    end as relation_type,
+    {{ dbt.concat(["table_catalog", "'.'", "table_schema", 
+        "'.'", "table_name"]) }} as relation_name
 from
     {{ from_info_schema('TABLES', target.schema) }}
-where UPPER(table_name) not in (
-    {%- for model in current_models -%}
-        '{{ model.upper() }}'
-        {# to avoid comma in the end of list #}
+where
+    UPPER(table_name) not in (
+    {%- for node in graph.nodes.values() | 
+        selectattr("resource_type", "in", ["model", "seed", "snapshot"]) %}
+        '{{ node.name.upper() }}'
         {%- if not loop.last -%},{% endif %}
-    {%- endfor -%}
+    {%- endfor %}
+    )
 )
+
+select 
+    {{ dbt.concat(["'DROP '", "relation_type", "' '", 
+        "relation_name", "';'"]) }} as drop_commands
+from models_to_drop
