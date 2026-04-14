@@ -2,22 +2,24 @@
 
 {% if execute %}
     {%- set current_models = [] %}
-    {%- for node in graph.nodes.values() | selectattr("resource_type", "in", ["model", "seed", "snapshot"]) %}
+    {%- for node in graph.nodes.values() | 
+        selectattr("resource_type", "in", ["model", "seed", "snapshot"]) %}
         {%- do current_models.append(node.name) %}
     {%- endfor %}
 {% endif %}
 
-SELECT {# les 4 sont communes #}
+{# les 4 sont communes #}
+select
     table_catalog,
     table_schema,
     table_name,
     table_type
-FROM
+from
     {{ from_info_schema('TABLES', target.schema) }}
-WHERE UPPER(table_name) NOT IN (
-{%- for model in current_models -%}
-    '{{ model.upper() }}'
-    {# to avoid comma in the end of list #}
-    {%- if not loop.last -%},{% endif %}
-{%- endfor -%}
+where UPPER(table_name) not in (
+    {%- for model in current_models -%}
+        '{{ model.upper() }}'
+        {# to avoid comma in the end of list #}
+        {%- if not loop.last -%},{% endif %}
+    {%- endfor -%}
 )
