@@ -5,13 +5,13 @@ macros:
       If no environment is specified, it will run in all environments.
     arguments:
       - name: model
-        type: ref
+        type: relation
         description: The model to test.
       - name: column_name
         type: string
         description: The column to test.
       - name: env
-        type: string
+        type: optional[string]
         description: The environment in which to run the test.
 
   - name: test_avg_greater_than
@@ -20,7 +20,7 @@ macros:
       that checks if the average of a column is greater than a specified limit
     arguments:
       - name: model
-        type: ref
+        type: relation
         description: The model to test.
       - name: column_name
         type: string
@@ -29,5 +29,5 @@ macros:
         type: string
         description: The column to group by.
       - name: limit
-        type: number
+        type: optional[integer]
         description: The limit for the average. Default is 1.
