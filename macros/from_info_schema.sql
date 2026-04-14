@@ -9,7 +9,9 @@ https://github.com/bbrewington/dbt-bigquery-information-schema/blob/main/dbt_big
     {%- else -%}
     `{{ target.database }}.region-{{ target.location|upper }}`.INFORMATION_SCHEMA.{{ info_schema_type|upper }}
     {%- endif -%}
+{% elif target.type == 'duckdb' %}
+    "system".information_schema.{{ info_schema_type|lower }}
 {% else %}
-    {{ dbt.information_schema_name(target.database) }}.{{ info_schema_type|upper }}
+    information_schema.{{ info_schema_type|lower }}
 {% endif %}
 {%- endmacro -%}
