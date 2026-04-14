@@ -98,12 +98,19 @@ Call a macro and get return value
 {% set some_var = my_macro(param01, param02, param03) %}
 ```
 
-## Return
+### Return
 ```
 {% macro example() %}
 {{ return("Hello") }}
 {% endmacro %}
 ```
+
+### Examples
+Concat take a list. All list element have to be strings.
+```
+{{ dbt.concat(["table_catalog", "'.'", "table_schema", "'.'", "table_name"]) }}
+```
+
 
 ## Cast variable
 
