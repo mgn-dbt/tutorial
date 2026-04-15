@@ -1,4 +1,6 @@
-
+{#
+This macro allows you to mock a source with a table in certain environments (e.g. dev).
+#}
 {% macro mockable_source(source_name, table_name, mock_table_name) %}
 
     {%- set target_name = target.name.lower() -%}

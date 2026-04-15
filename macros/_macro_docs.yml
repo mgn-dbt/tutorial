@@ -16,6 +16,14 @@ macros:
         type: integer
         description: The number of decimal places to round the result to.
 
+  - name: drop_unused_models
+    description: >
+      This macro generates SQL statements to drop unused models from the database.
+    arguments:
+      - name: dry_run
+        type: optional[boolean]
+        description: Whether to execute the drop commands or just print them.
+
 
 
   - name: from_info_schema
