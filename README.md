@@ -119,15 +119,32 @@ cafile=<path_to>/cacert.pem
 
 # DBT
 
-Fusion warns when an update is available.<br>
-New version available 2.0.0-preview.166 (run `dbt system update`)
+Beware upgrading dbt fusion or the dbt vscode extension.<br>
+Keep the dbt vscode extension version one release behind to avoid problems.
+
+You can choose the version you want.<br>
+Under the dbt vscode extension page : `Uninstall / Install Specific Version`
+
+To ensure compatibility, the language server version and the dbt fusion version should match.<br>
+So Install the dbt fusion version that match the language server.
+
+![dbt vscode extension](dbt_vscode_extension.png)
+
+```powershell
+& install.ps1 -Version "2.0.0-preview.164"
+```
+
+Check your PATH environment variable after using install.ps1.
+
 
 NB : Fusion installation process updates the profile file Microsoft.PowerShell_profile.ps1 :<br>
-cf $env:USERPROFILE\Documents\Powershell\Microsoft.PowerShell_profile.ps1<br>
-It ensure dbt fusion binary is in PATH and dbtf alias is created.
+Cf $env:USERPROFILE\Documents\Powershell\Microsoft.PowerShell_profile.ps1<br>
+or $env:USERPROFILE\Documents\WindowsPowershell\Microsoft.PowerShell_profile.ps1<br>
+It ensure dbtf alias is created.
+
 
 Beware package-lock.yml yaml file, dbt fusion upgrade it with a bad format for dbt cloud.<br>
-After "dbt deps" rollback package-lock.json.<br>
+After executing "dbt deps" under source control "Discard changes" for package-lock.json.<br>
 Keep dbt cloud version of package-lock.json for compatibility.<br>
 Bug ???
 
