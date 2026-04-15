@@ -97,15 +97,15 @@ macros:
       This macro calculates the ratio of two numbers while safely handling division by zero.
     arguments:
       - name: numerator
-        type: numeric
+        type: integer
         description: The numerator of the ratio.
       - name: denominator
-        type: numeric
+        type: integer
         description: >
           The denominator of the ratio. 
           If this is zero, the macro will return NULL to avoid division by zero errors.
       - name: default_value
-        type: optional[numeric]
+        type: optional[integer]
         description: >
           The value to return if the denominator is zero. 
           If not provided, the macro will return NULL by default.
