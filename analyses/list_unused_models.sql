@@ -6,8 +6,13 @@ select
         when table_type = 'BASE TABLE' then 'TABLE'
         when table_type = 'VIEW' then 'VIEW'
     end as relation_type,
-    {{ dbt.concat(["table_catalog", "'.'", "table_schema", 
-        "'.'", "table_name"]) }} as relation_name
+    {% if target.type == 'bigquery' -%}
+        {{ dbt.concat(["'`'", "table_catalog", "'.'", "table_schema", 
+            "'.'", "table_name", "'`'"]) }} as relation_name
+    {%- else -%}
+        {{ dbt.concat(["table_catalog", "'.'", "table_schema", 
+            "'.'", "table_name"]) }} as relation_name
+    {%- endif %}
 from
     {{ from_info_schema('TABLES', target.schema) }}
 where

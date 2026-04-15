@@ -3,6 +3,8 @@ packages:
     version: 1.3.3
   - package: dbt-labs/audit_helper
     version: 0.13.0
+  # - package: dbt-labs/dbt_project_evaluator
+  #   version: 1.2.4
   - package: godatadriven/dbt_date
     version: 0.17.2
   - package: metaplane/dbt_expectations
@@ -12,4 +14,3 @@ packages:
     # bug !! https://github.com/tnightengale/dbt-meta-testing/pull/33
     #  - package: tnightengale/dbt_meta_testing
     #    version: 0.3.6
-

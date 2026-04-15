@@ -38,6 +38,8 @@ So this other project is a bit of an exception.
 
 Cf .vscode/extensions.json
 
+Disable autoupdate for dbt and YAML extensions.
+
 NB : SQLTools requires Node.js to work.
 
 NB : Beware zscaler if you have it.
@@ -131,6 +133,7 @@ So Install the dbt fusion version that match the language server.
 ![dbt vscode extension](dbt_vscode_extension.png)
 
 ```powershell
+iwr -uri https://public.cdn.getdbt.com/fs/install/install.ps1 -OutFile install.ps1
 & install.ps1 -Version "2.0.0-preview.164"
 ```
 
@@ -146,7 +149,7 @@ It ensure dbtf alias is created.
 Beware package-lock.yml yaml file, dbt fusion upgrade it with a bad format for dbt cloud.<br>
 After executing "dbt deps" under source control "Discard changes" for package-lock.json.<br>
 Keep dbt cloud version of package-lock.json for compatibility.<br>
-Bug ???
+Bug or new format ???
 
 I put generic tests under "macros/generic" instead of "tests/generic" for convenience.<br>
 They are macros so it seems their right place.

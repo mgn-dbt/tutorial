@@ -83,6 +83,12 @@ vars:
   # for staging/autre/stg_autre__orders and staging/autre/stg_autre__locations
   'truncate_timespan_to': "{{ dbt.current_timestamp() }}"
 
+# dispatch:
+#   - macro_namespace: dbt
+#     search_order: ['dbt_project_evaluator', 'dbt']
+
+# dbt build --select package:dbt_project_evaluator
+# dbt build --select state:modified+ --exclude package:dbt_project_evaluator
 
 flags:
   require_generic_test_arguments_property: true
