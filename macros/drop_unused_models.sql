@@ -1,7 +1,7 @@
 {#
-Show drop commands
+* Show drop commands
 dbt run-operation drop_unused_models
-Show and execute drop commands
+* Show and execute drop commands
 dbt run-operation drop_unused_models --args "{dry_run: False}"
 #}
 

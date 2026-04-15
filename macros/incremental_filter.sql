@@ -1,4 +1,8 @@
-
+{# 
+This macro filters incremental data based on a timestamp column.
+An interval can be specified to reprocess data for a certain number of days 
+before the last timestamp in the existing table, to account for late-arriving data or updates.
+#}
 {%- macro incremental_filter(timestamp_column, interval_days=0) -%}
     {%- if is_incremental() -%}
         {{ timestamp_column }} >= (

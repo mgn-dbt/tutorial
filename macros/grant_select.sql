@@ -1,4 +1,6 @@
-
+{#
+This macro grants select privileges on all tables in a schema to a role.
+#}
 {% macro grant_select(schema=target.schema, role=target.role) %}
     {% if target.type == 'postgres' %}
         {% set sql %}
