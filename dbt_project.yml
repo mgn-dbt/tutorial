@@ -90,8 +90,6 @@ vars:
 # dbt build --select package:dbt_project_evaluator
 # dbt build --select state:modified+ --exclude package:dbt_project_evaluator
 
-# BigQuery specific flags
-# https://docs.getdbt.com/reference/global-configs/behavior-changes
 flags:
   require_generic_test_arguments_property: true
   require_unique_project_resource_names: true
