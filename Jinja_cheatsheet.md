@@ -111,6 +111,29 @@ Concat take a list. All list element have to be strings.
 {{ dbt.concat(["table_catalog", "'.'", "table_schema", "'.'", "table_name"]) }}
 ```
 
+Casts<br>
+Cf dbt_internal_packages\dbt-adapters\macros\utils\data_types.sql
+There is no dbt.type_date or dbt.type_datetime
+```
+{{ dbt.cast('orders.ordered_at', 'date') }}
+{{ dbt.cast('tax_rate', dbt.type_float()) }}
+{{ dbt.cast('opened_at', dbt.type_string()) }}
+{{ dbt.cast(dt_regex, dbt.type_timestamp()) }}
+{{ dbt.cast('perishable', dbt.type_boolean()) }}
+```
+
+date_diff
+```
+{{ dbt.datediff("order_date", my_current_timestamp(), "day") }}
+```
+
+Select distinct
+```
+{%- set payment_methods = dbt_utils.get_column_values(    
+    table=source('stripe','payment'),
+    column='paymentmethod') -%}
+```
+
 
 ## Cast variable
 
