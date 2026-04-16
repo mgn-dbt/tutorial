@@ -38,6 +38,8 @@ So this other project is a bit of an exception.
 
 Cf .vscode/extensions.json
 
+Disable autoupdate for dbt and YAML extensions.
+
 NB : SQLTools requires Node.js to work.
 
 NB : Beware zscaler if you have it.
@@ -119,14 +121,35 @@ cafile=<path_to>/cacert.pem
 
 # DBT
 
-NB : dbt fusion installation process updates the profile file Microsoft.PowerShell_profile.ps1 :<br>
-cf $env:USERPROFILE\Documents\Powershell\Microsoft.PowerShell_profile.ps1<br>
-It ensure dbt fusion binary is in PATH and dbtf alias is created.
+Beware upgrading dbt fusion or the dbt vscode extension.<br>
+Keep the dbt vscode extension version one release behind to avoid problems.
+
+You can choose the version you want.<br>
+Under the dbt vscode extension page : `Uninstall / Install Specific Version`
+
+To ensure compatibility, the language server version and the dbt fusion version should match.<br>
+So Install the dbt fusion version that match the language server.
+
+![dbt vscode extension](dbt_vscode_extension.png)
+
+```powershell
+iwr -uri https://public.cdn.getdbt.com/fs/install/install.ps1 -OutFile install.ps1
+& install.ps1 -Version "2.0.0-preview.164"
+```
+
+Check your PATH environment variable after using install.ps1.
+
+
+NB : Fusion installation process updates the profile file Microsoft.PowerShell_profile.ps1 :<br>
+Cf $env:USERPROFILE\Documents\Powershell\Microsoft.PowerShell_profile.ps1<br>
+or $env:USERPROFILE\Documents\WindowsPowershell\Microsoft.PowerShell_profile.ps1<br>
+It ensure dbtf alias is created.
+
 
 Beware package-lock.yml yaml file, dbt fusion upgrade it with a bad format for dbt cloud.<br>
-After "dbt deps" rollback package-lock.json.<br>
+After executing "dbt deps" under source control "Discard changes" for package-lock.json.<br>
 Keep dbt cloud version of package-lock.json for compatibility.<br>
-Bug ???
+Bug or new format ???
 
 I put generic tests under "macros/generic" instead of "tests/generic" for convenience.<br>
 They are macros so it seems their right place.

@@ -5,3 +5,4 @@ dbt_packages/
 logs/
 target/
 offline/
+macros/dev/
