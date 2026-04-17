@@ -26,13 +26,11 @@ order_supplies_summary as (
 
 joined as (
     select
-        order_items.order_item_id,
-        order_items.order_id,
-        order_items.product_id,
+        order_items.*,
         products.product_price,
-        order_supplies_summary.supply_cost,
         products.is_food_item,
         products.is_drink_item,
+        order_supplies_summary.supply_cost,
         orders.ordered_at,
         {{ dbt.cast('orders.ordered_at', 'date') }} as ordered_at_date
 

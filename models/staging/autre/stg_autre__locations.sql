@@ -13,8 +13,8 @@ renamed as (
         ---------- timestamp
         {%- set dt_regex -%}
             regexp_replace({{ dbt.cast('opened_at', dbt.type_string()) }},
-            '^(\\d{4}-\\d{2}-\\d{2}).*',
-            '\\1')
+                {% if target.type == 'bigquery' -%}r{% endif %}'^(\d{4}-\d{2}-\d{2}).*',
+                {% if target.type == 'bigquery' -%}r{% endif %}'\1')
         {%- endset -%}
         {{ dbt.cast(dt_regex, 'date') }} as opened_at
     from source

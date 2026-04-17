@@ -7,6 +7,7 @@ Cf https://documentation.bloomreach.com/engagement/docs/functions-on-data-types
 ## Variables
 
 ### Basic
+
 ```
 {% set my_string = "example" %}
 
@@ -19,6 +20,7 @@ Cf https://documentation.bloomreach.com/engagement/docs/functions-on-data-types
 ```
 
 ### List (Ordered collection)
+
 ```
 {% set empty_list = [] %}
 {% set my_list = ["apple", "lemon"] %}
@@ -32,6 +34,7 @@ Cf https://documentation.bloomreach.com/engagement/docs/functions-on-data-types
 Keep in mind that lists are indexed from 0
 
 ### Dictionary
+
 ```
 {% set my_dict = {"firstname": "john", "lastname": "doe"} %}
 my name is {{ my_dict['firstname'] }} {{ my_dict['lastname'] }}
@@ -43,6 +46,7 @@ my name is {{ my_dict['firstname'] }} {{ my_dict['lastname'] }}
 Keys must be unique and always have exactly one value
 
 ### Tuple 
+
 ```
 {% set singleton = ('a',) %}
 {% set my_tuple = ('a', 'b') %}
@@ -50,18 +54,20 @@ Keys must be unique and always have exactly one value
 Tuples are like lists that cannot be modified (Immutable)
 
 
-
 ## Comments
+
 ```
 {# Example comment #}
 ```
 
 ## Statements
+
 ```
 {% ... %} e.g.: loops, if
 ```
 
 ## Expressions
+
 ```
 {{ ... }} e.g.: ref
 ```
@@ -99,20 +105,29 @@ Call a macro and get return value
 ```
 
 ### Return
+
 ```
 {% macro example() %}
-{{ return("Hello") }}
+  {{ return("Hello") }}
+{% endmacro %}
+```
+
+Without output :
+```
+{% macro example() %}
+  {% do return("Hello") }
 {% endmacro %}
 ```
 
 ### Examples
+
 Concat take a list. All list element have to be strings.
 ```
 {{ dbt.concat(["table_catalog", "'.'", "table_schema", "'.'", "table_name"]) }}
 ```
 
 Casts<br>
-Cf dbt_internal_packages\dbt-adapters\macros\utils\data_types.sql
+Cf file://./dbt_internal_packages/dbt-adapters/macros/utils/data_types.sql<br>
 There is no dbt.type_date or dbt.type_datetime
 ```
 {{ dbt.cast('orders.ordered_at', 'date') }}
@@ -127,7 +142,7 @@ date_diff
 {{ dbt.datediff("order_date", my_current_timestamp(), "day") }}
 ```
 
-Select distinct
+Column values
 ```
 {%- set payment_methods = dbt_utils.get_column_values(    
     table=source('stripe','payment'),
@@ -150,16 +165,18 @@ Select distinct
 ```
 
 ## Length
+
 ```
 {% set my_list = ["apple", "lemon"] %}
 ```
 
-\# Check if my_list has more than 3 elements
+Check if my_list has more than 3 elements
 ```
 {% if my_list|length > 3 %}
 ```
 
 ## Adding elements to a List
+
 ```
 {% set numbers = [] %}
 
@@ -177,38 +194,42 @@ To avoid trailing commas in loops use:
 
 ## Loops
 
+* Over list
+
 |Input | Compiled |
 | :----------- | :----------- |
-| -- Over list | SELECT |
-| {% set my_list = ['sales_x', 'sales_y'] %} | id, |
-| SELECT | SUM(sales_x), |
-| id, | SUM(sales_y) |
-| {%- for col_name in my_list %} | FROM example |
-| SUM({{ col_name }}) | GROUP BY 1 |
-| {%- if not loop.last -%}, {%- endif -%} ||
-| {% endfor %} ||
+| {% set my_list = ['sales_x', 'sales_y'] %} ||
+| SELECT | SELECT |
+| id, | id, |
+| {%- for col_name in my_list %} | SUM(sales_x), |
+| SUM({{ col_name }}) | SUM(sales_y) |
+| {%- if not loop.last -%}, {%- endif -%} | FROM example |
+| {% endfor %} | GROUP BY 1 |
 | FROM example ||
 | GROUP BY 1 ||
 
+* Over dictionary
+
 |Input | Compiled |
 | :----------- | :----------- |
-| -- Over dictionary | SELECT |
-| {% set payment_methods = {"type_0" : "bank_transfer", | order_id, |
-| "type_1" : "credit_card", | sum(CASE |
-| "type_2" : "gift_card"} %} | WHEN payment_method = ’type_0’ |
-| SELECT | THEN amount END) AS bank_transfer_amt, |
-| order_id, | sum(CASE |
-| {%- for type, column_name in payment_methods.items()%} | WHEN payment_method = ‘type_1’ |
-| sum(CASE | THEN amount END) AS credit_card_amt, |
-| WHEN payment_method = ‘{{type}}' | sum(CASE |
-| THEN amount end) as {{ column_name }}_amt | WHEN payment_method = ‘type_2’ |
-| {%- if not loop.last -%}, {%- endif -%} | THEN amount END) AS gift_card_amt |
-| {%- endfor -%} | FROM example |
-| FROM example | GROUP BY 1 |
-| GROUP BY 1 ||
+| {% set payment_methods = {"type_0" : "bank_transfer", |  |
+| "type_1" : "credit_card", | SELECT |
+| "type_2" : "gift_card"} %} | order_id, |
+| SELECT | sum(CASE |
+| order_id, | WHEN payment_method = ’type_0’ |
+| {%- for type, column_name in payment_methods.items()%} | THEN amount END) AS bank_transfer_amt, |
+| sum(CASE | sum(CASE |
+| WHEN payment_method = ‘{{type}}' | WHEN payment_method = ‘type_1’ |
+| THEN amount end) as {{ column_name }}_amt | THEN amount END) AS credit_card_amt, |
+| {%- if not loop.last -%}, {%- endif -%} | sum(CASE |
+| {%- endfor -%} | WHEN payment_method = ‘type_2’ |
+| FROM example | THEN amount END) AS gift_card_amt |
+| GROUP BY 1 | FROM example |
+|| GROUP BY 1 |
 
 
 ## if | elif | else
+
 ```
 {% macro generate_schema_name() -%}
 {%- if target.name == 'dev' -%}
@@ -244,53 +265,85 @@ Usage:
 ...
 ```
 
+## Call statement
+
+Cf file://./dbt_internal_packages/dbt-adapters/macros/etc/statement.sql
+```
+{% macro run_query(sql) %}
+  {% call statement("run_query_statement", fetch_result=true, auto_begin=false) %}
+    {{ sql }}
+  {% endcall %}
+
+  {% do return(load_result("run_query_statement").table) %}
+{% endmacro %}
+```
+
+https://docs.getdbt.com/reference/dbt-jinja-functions/statement-blocks
+
+Load_result returns a result having 3 keys (response, data, table).<br>
+Table is a agate table<br>
+It can be transformed in text with print_table()<br>
+print_table(max_rows=None, max_columns=None) to print all rows and columns.
+
+cf <br>
+https://agate.readthedocs.io/en/latest/api/table.html<br>
+https://agate.readthedocs.io/en/latest/api/table.html#agate.Table.print_table
+
+
 ## Run query
+
 ```
 {% set results = run_query("select * from table") %}
-{% do results.print_table() %}
+{% do print(results.print_table()) %}
 ```
 
-Cf https://docs.getdbt.com/reference/dbt-jinja-functions/run_query
+https://docs.getdbt.com/reference/dbt-jinja-functions/run_query
 
-Return a agate table object.<br>
-Cf <br>
-https://agate.readthedocs.io/en/latest/api/table.html<br>
-https://agate.readthedocs.io/en/latest/api/table.html#agate.Table.print_table<br>
-https://agate.readthedocs.io/en/latest/api/table.html#agate.Table.print_structure<br>
-https://agate.readthedocs.io/en/latest/api/table.html#agate.Table.print_html<br>
-https://agate.readthedocs.io/en/latest/api/table.html#agate.Table.print_csv
+Run_query returns a agate table object (Cf call statement).
 
 
 ## Trim whitespace
+
 ```
 {%- ... %}  Strips before
 {%- ... -%} Strips before and after
 ```
 
-## Logging to Stdout
+## Logging
+
+write to both the log file and stdout
 ```
 {{ log("Some text" ~ my_string, info=True) }}
 ```
 
+write only to the log file
+```
+{{ log("Some text" ~ my_string) }}
+```
+
 ## Print
+
+print() function print messages to both the log file and standard output (stdout).
 ```
 {{ print("My Message") }}
 ```
 
 ## Environment variables
+
 ```
 {{ env_var("VAR_NAME") }}
 ```
 
 ## Graph (dag)
+
 ```
 {% macro example() %}
 
-{% if execute %}
-{% for node in graph.nodes.values() %}
-{% do log(node.unique_id ~ ", config: " ~ node.config, info=true) %}
-{% endfor %}
-{% endif %}
+  {% if execute %}
+    {% for node in graph.nodes.values() %}
+      {% do log(node.unique_id ~ ", config: " ~ node.config) %}
+    {% endfor %}
+  {% endif %}
 
 {% endmacro %}
 ```

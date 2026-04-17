@@ -17,8 +17,8 @@ renamed as (
         ---------- timestamps
         {%- set dt_regex -%}
             regexp_replace({{ dbt.cast('ordered_at', dbt.type_string()) }},
-            '^(\\d{4}-\\d{2}-\\d{2})\\s(\\d{2}:\\d{2}:\\d{2}).*',
-            '\\1T\\2')
+                {% if target.type == 'bigquery' -%}r{% endif %}'^(\d{4}-\d{2}-\d{2})\s(\d{2}:\d{2}:\d{2}).*',
+                {% if target.type == 'bigquery' -%}r{% endif %}'\1T\2')
         {%- endset -%}
         {{ dbt.cast(dt_regex, dbt.type_timestamp()) }} as ordered_at
     from source

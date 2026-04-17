@@ -33,8 +33,7 @@ order_summary as (
 joined as (
 
     select
-        customers.customer_id,
-        customers.customer_name,
+        customers.*,
         order_summary.count_lifetime_orders,
         order_summary.first_ordered_at,
         order_summary.last_ordered_at,
