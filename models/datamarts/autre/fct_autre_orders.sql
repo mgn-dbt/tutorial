@@ -23,13 +23,7 @@ order_items_summary as (
 compute_booleans as (
     select
 
-        orders.order_id,
-        orders.customer_id,
-        orders.location_id,
-        orders.subtotal,
-        orders.tax_paid,
-        orders.order_total,
-        orders.ordered_at,
+        orders.*,
         {{ dbt.cast('orders.ordered_at', 'date') }} as ordered_at_date,
         order_items_summary.count_food_items > 0 as is_food_order,
         order_items_summary.count_drink_items > 0 as is_drink_order,

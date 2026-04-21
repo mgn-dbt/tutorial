@@ -24,8 +24,6 @@ macros:
         type: optional[boolean]
         description: Whether to execute the drop commands or just print them.
 
-
-
   - name: from_info_schema
     description: >
       This macro generates a from clause forthe information schema.
@@ -99,6 +97,23 @@ macros:
       - name: day
         type: integer
         description: The day component of the date.
+
+  - name: my_regexp_replace
+    description: >
+      raw for bigquery regexp_replace function
+    arguments:
+      - name: source_value
+        type: string
+        description: The string to be searched and modified.
+      - name: regexp
+        type: string
+        description: The regular expression pattern to search for in the source_value.
+      - name: repl_str
+        type: string
+        description: The string to replace the matched pattern with.
+      - name: flags
+        type: optional[string]
+        description: The flags to use for the regular expression.
 
   - name: safe_ratio
     description: >
