@@ -242,6 +242,9 @@ To avoid trailing commas in loops use:
 {%- endmacro %}
 ```
 
+you can use "if variable" to test if a variable is defined, not empty and not false.
+
+
 ## Exceptions
 
 -- Warning
@@ -357,3 +360,19 @@ dbt_utils is a collection of reusable dbt macros
 Examples:
 - deduplicate - remove duplicates from a model
 - group_by - build a group by statement for (1..N)
+
+## adapter
+
+https://docs.getdbt.com/reference/dbt-jinja-functions/adapter
+
+* adapter.dispatch
+* adapter.get_missing_columns
+* adapter.expand_target_column_types
+* adapter.get_relation or load_relation
+* adapter.get_columns_in_relation
+* adapter.create_schema
+* adapter.drop_schema
+* adapter.drop_relation
+* adapter.rename_relation
+* adapter.quote
+

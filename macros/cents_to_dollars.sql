@@ -6,15 +6,18 @@
     {{ return(adapter.dispatch('cents_to_dollars')(column_name, scale)) }}
 {%- endmacro %}
 
-{% macro postgres__cents_to_dollars(column_name, scale) -%}
-    -- float8
+{#
+https://docs.cloud.google.com/bigquery/docs/reference/standard-sql/conversion_functions#cast_numeric
+#}
+{% macro bigquery__cents_to_dollars(column_name, scale) -%}
+    trunc(cast(({{ column_name }} / 100) as numeric), {{ scale }})
+{%- endmacro %}
+
+{#
+https://duckdb.org/docs/current/sql/data_types/numeric
+https://www.postgresql.org/docs/current/datatype-numeric.html#DATATYPE-NUMERIC-DECIMAL
+#}
+{% macro default__cents_to_dollars(column_name, scale) -%}
     ({{ column_name }}::numeric(16, {{ scale }}) / 100)
 {%- endmacro %}
 
-{% macro bigquery__cents_to_dollars(column_name, scale) %}
-    round(cast(({{ column_name }} / 100) as numeric), {{ scale }})
-{% endmacro %}
-
-{% macro default__cents_to_dollars(column_name, scale) %}
-    round({{ column_name }} / 100.0, {{ scale }})
-{% endmacro %}
