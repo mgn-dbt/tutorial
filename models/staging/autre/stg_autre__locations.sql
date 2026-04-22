@@ -10,14 +10,15 @@ renamed as (
         ---------- properties
         name as location_name,
         cast(tax_rate as {{ dbt.type_float() }}) as tax_rate,
-        ---------- timestamp
+        ---------- date
         cast(
             regexp_replace(
                 cast(opened_at as {{ dbt.type_string() }}),
                 {%- if target.type == 'bigquery' -%}{# bigquery raw text #}
                 r{%- endif %}'^(\d{4}-\d{2}-\d{2}).*',
-                '\\1')
-            as date) as opened_at
+                '\\1'
+            ) as date
+        ) as opened_at
     from source
 )
 
