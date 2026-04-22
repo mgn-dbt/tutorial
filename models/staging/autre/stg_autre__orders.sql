@@ -14,10 +14,13 @@ renamed as (
         {{ cents_to_dollars('tax_paid') }} as tax_paid,
         {{ cents_to_dollars('order_total') }} as order_total,
         ---------- timestamps
-        cast({{ my_regexp_replace(
-            'cast(ordered_at as ' ~ dbt.type_string() ~ ')',
-            '^(\d{4}-\d{2}-\d{2})\s(\d{2}:\d{2}:\d{2}).*',
-            '\1T\2') }} as {{ dbt.type_timestamp() }}) as ordered_at
+        cast(
+            regexp_replace(
+                cast(ordered_at as {{ dbt.type_string() }} ),
+                {%- if target.type == 'bigquery' -%}{# bigquery raw text #}
+                r{%- endif %}'^(\d{4}-\d{2}-\d{2})\s(\d{2}:\d{2}:\d{2}).*',
+                '\\1T\\2') 
+            as {{ dbt.type_timestamp() }}) as ordered_at
     from source
 )
 
