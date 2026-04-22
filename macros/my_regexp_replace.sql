@@ -9,8 +9,6 @@
     regexp_replace({{ source_value }}, r'{{ regexp }}', r'{{ repl_str }}')
 {%- endmacro %}
 
-{# others does not need to escape raw strings #}
 {% macro default__my_regexp_replace(source_value, regexp, repl_str, flags) -%}
     regexp_replace({{ source_value }}, '{{ regexp }}', '{{ repl_str }}', '{{ flags }}')
 {%- endmacro %}
-
