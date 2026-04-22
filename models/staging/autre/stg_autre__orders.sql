@@ -19,7 +19,8 @@ renamed as (
                 cast(ordered_at as {{ dbt.type_string() }} ),
                 {%- if target.type == 'bigquery' -%}{# bigquery raw text #}
                 r{%- endif %}'^(\d{4}-\d{2}-\d{2})\s(\d{2}:\d{2}:\d{2}).*',
-                '\\1T\\2'
+                {%- if target.type == 'bigquery' -%}{# bigquery raw text #}
+                r{%- endif %}'\1T\2'
             ) as {{ dbt.type_timestamp() }}
         ) as ordered_at
     from source

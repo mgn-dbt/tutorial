@@ -22,7 +22,7 @@ INT64 / INT64 -> FLOAT64
 round ou trunc FLOAT64 -> FLOAT64
 #}
 {% macro bigquery__cents_to_dollars(column_name, scale) -%}
-    cast(trunc({{ column_name }} / 100, {{ scale }}) as numeric)
+    cast(round({{ column_name }} / 100, {{ scale }}) as numeric)
 {%- endmacro %}
 
 {#
