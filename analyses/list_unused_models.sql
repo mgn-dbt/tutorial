@@ -14,8 +14,9 @@ select
             "'.'", "table_name"]) }} as relation_name
     {%- endif %}
 from
-    {{ from_info_schema('TABLES', target.schema) }}
+    {{ from_info_schema('TABLES') }}
 where
+    UPPER(table_schema) = UPPER('{{ target.schema }}') and
     UPPER(table_name) not in (
     {%- for node in graph.nodes.values() | 
         selectattr("resource_type", "in", ["model", "seed", "snapshot"]) %}
