@@ -16,7 +16,8 @@ renamed as (
                 cast(opened_at as {{ dbt.type_string() }}),
                 {%- if target.type == 'bigquery' -%}{# bigquery raw text #}
                 r{%- endif %}'^(\d{4}-\d{2}-\d{2}).*',
-                '\\1'
+                {%- if target.type == 'bigquery' -%}{# bigquery raw text #}
+                r{%- endif %}'\1'
             ) as date
         ) as opened_at
     from source
