@@ -10,12 +10,10 @@ order_items as (
 
 order_items_summary as (
     select
-        order_items.order_id,
-
+        order_id,
         sum(supply_cost) as order_cost,
         sum(is_food_item) as count_food_items,
         sum(is_drink_item) as count_drink_items
-
     from order_items
     group by 1
 ),
