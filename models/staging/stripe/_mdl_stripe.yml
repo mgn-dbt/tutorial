@@ -7,7 +7,7 @@ models:
         data_tests:
           - unique:
               config:
-                severity: Error
+                severity: error
                 limit: 10
                 error_if: ">=100"
                 warn_if: ">=10"
