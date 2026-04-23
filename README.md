@@ -22,7 +22,13 @@ There is a Git branch called develop_pg for PostgreSQL<br>
 https://github.com/mgn-dbt/tutorial/tree/develop_pg
 
 There is a Git branch called develop_duck for Duckdb<br>
-https://github.com/mgn-dbt/tutorial/tree/develop_duck
+https://github.com/mgn-dbt/tutorial/tree/develop_duck<br>
+Duckdb is locked by the process connected to it.<br>
+Only one process can read the database so vscode dbt extension lock it with the LSP.<br>
+Use only branch develop and branch develop_pg in vscode.<br>
+Use duckdb interactive shell for develop_duck git branch<br>
+https://github.com/duckdb/dbt-duckdb/tree/master#interactive-shell
+
 
 Changing git branch (changing database) should be followed by closing/reopening terminal.<br>
 Cf customized terminals in the vscode user configuration settings

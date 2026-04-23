@@ -14,10 +14,8 @@ renamed as (
         cast(
             regexp_replace(
                 cast(opened_at as {{ dbt.type_string() }}),
-                {%- if target.type == 'bigquery' -%}{# bigquery raw text #}
-                r{%- endif %}'^(\d{4}-\d{2}-\d{2}).*',
-                {%- if target.type == 'bigquery' -%}{# bigquery raw text #}
-                r{%- endif %}'\1'
+                {{ raw_string('^(\d{4}-\d{2}-\d{2}).*') }},
+                {{ raw_string('\\1') }}
             ) as date
         ) as opened_at
     from source
