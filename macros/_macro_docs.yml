@@ -98,22 +98,13 @@ macros:
         type: integer
         description: The day component of the date.
 
-  - name: my_regexp_replace
+  - name: raw_string
     description: >
-      raw for bigquery regexp_replace function
+      raw for bigquery regexp function
     arguments:
-      - name: source_value
+      - name: str
         type: string
-        description: The string to be searched and modified.
-      - name: regexp
-        type: string
-        description: The regular expression pattern to search for in the source_value.
-      - name: repl_str
-        type: string
-        description: The string to replace the matched pattern with.
-      - name: flags
-        type: optional[string]
-        description: The flags to use for the regular expression.
+        description: The string to be processed.
 
   - name: safe_ratio
     description: >
