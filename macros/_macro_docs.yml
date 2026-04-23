@@ -24,8 +24,6 @@ macros:
         type: optional[boolean]
         description: Whether to execute the drop commands or just print them.
 
-
-
   - name: from_info_schema
     description: >
       This macro generates a from clause forthe information schema.
@@ -99,6 +97,14 @@ macros:
       - name: day
         type: integer
         description: The day component of the date.
+
+  - name: raw_string
+    description: >
+      raw for bigquery regexp function
+    arguments:
+      - name: str
+        type: string
+        description: The string to be processed.
 
   - name: safe_ratio
     description: >

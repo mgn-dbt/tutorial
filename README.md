@@ -22,7 +22,10 @@ There is a Git branch called develop_pg for PostgreSQL<br>
 https://github.com/mgn-dbt/tutorial/tree/develop_pg
 
 There is a Git branch called develop_duck for Duckdb<br>
-https://github.com/mgn-dbt/tutorial/tree/develop_duck
+https://github.com/mgn-dbt/tutorial/tree/develop_duck<br>
+But VSCode should not be used with duckdb.<br>
+See why in https://github.com/mgn-dbt/external/blob/main/README.md
+
 
 Changing git branch (changing database) should be followed by closing/reopening terminal.<br>
 Cf customized terminals in the vscode user configuration settings
