@@ -1,6 +1,8 @@
-{# bigquery raw string #}
+{# 
+bigquery raw string 
+#}
 {% macro raw_string(str) -%}
-    {{ adapter.dispatch('raw_string')(str) }}
+    {{ return(adapter.dispatch('raw_string')(str)) }}
 {%- endmacro %}
 
 {% macro bigquery__raw_string(str) -%}
