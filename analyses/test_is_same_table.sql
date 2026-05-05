@@ -7,6 +7,6 @@
     opened_at'
 %}
 
-select 
+select
     {{ is_same_table('stg_autre__locations', 'test_locations', columns_to_compare) }}
         as same_table
