@@ -257,7 +257,7 @@ For convenience my entities begin with "e_".
 
 json schema  
 cf [dbt jsonschema](https://github.com/dbt-labs/dbt-jsonschema)  
-cf [dbt target jsonschem](https://schemas.getdbt.com/)
+cf [dbt target jsonschema](https://schemas.getdbt.com/)
 
 json schema applied is specified in .vscode/settings.json
 
