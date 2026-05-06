@@ -6,6 +6,7 @@
         "evidence.sqltools-bigquery-driver",
         "mtxr.sqltools-driver-pg",
         "redhat.vscode-yaml",
-        "sqlfluff.vscode-sqlfluff"
+        "sqlfluff.vscode-sqlfluff",
+        "davidanson.vscode-markdownlint"
     ]
 }
