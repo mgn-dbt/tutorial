@@ -132,8 +132,10 @@ Keep the dbt vscode extension version one release behind to avoid problems.
 You can choose the version you want.  
 Under the dbt vscode extension page : `Uninstall / Install Specific Version`
 
-To ensure compatibility, the language server version and the dbt fusion version should match.  
-So Install the dbt fusion version that match the language server.
+Current vscode extension version v0.60.0  => fusion version 2.0.0-preview.164
+
+Compatibility between the dbt fusion and vscode extension is important.  
+So Install the dbt fusion version that match or vscode will propose an upgrade.
 
 ![dbt vscode extension](dbt_vscode_extension.png)
 
@@ -142,7 +144,7 @@ iwr -uri https://public.cdn.getdbt.com/fs/install/install.ps1 -OutFile install.p
 & install.ps1 -Version "2.0.0-preview.164"
 ```
 
-or if already installed
+or if fusion is already installed
 
 ```powershell
 & install.ps1 -Update -Version "2.0.0-preview.164"  
@@ -255,9 +257,17 @@ For convenience my entities begin with "e_".
 
 json schema  
 cf [dbt jsonschema](https://github.com/dbt-labs/dbt-jsonschema)  
-cf [dbt extension](https://docs.getdbt.com/docs/about-dbt-extension)
+cf [dbt target jsonschem](https://schemas.getdbt.com/)
 
 json schema applied is specified in .vscode/settings.json
+
+### Resources
+
+- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
+- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
+- Join the [dbt community](https://getdbt.com/community) to learn from other analytics engineers
+- Find [dbt events](https://events.getdbt.com) near you
+- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
 
 ## PostgreSQL
 
@@ -266,11 +276,3 @@ cf [external repository](https://github.com/mgn-dbt/external)
 ## Duckdb
 
 cf [external repository](https://github.com/mgn-dbt/external)
-
-## Resources
-
-- Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
-- Check out [Discourse](https://discourse.getdbt.com/) for commonly asked questions and answers
-- Join the [dbt community](https://getdbt.com/community) to learn from other analytics engineers
-- Find [dbt events](https://events.getdbt.com) near you
-- Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
