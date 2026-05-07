@@ -9,8 +9,8 @@ packages:
     version: 0.17.2
   - package: metaplane/dbt_expectations
     version: 0.10.10
-  - git: https://github.com/tnightengale/dbt-meta-testing.git
-    revision: b05df7ae6158a63e0ec966550c4217e20067f2f7
-    # bug !! https://github.com/tnightengale/dbt-meta-testing/pull/33
-    #  - package: tnightengale/dbt_meta_testing
-    #    version: 0.3.6
+  # PR integree le 16/04/2026 https://github.com/tnightengale/dbt-meta-testing/pull/33
+  # - git: https://github.com/tnightengale/dbt-meta-testing.git
+  #   revision: b05df7ae6158a63e0ec966550c4217e20067f2f7
+  - package: tnightengale/dbt_meta_testing
+    version: 0.4.0
