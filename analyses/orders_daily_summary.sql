@@ -1,4 +1,5 @@
 --dbt show -s orders_daily_summary
+
 with
 orders as (
     select * from {{ ref('stg_jaffle_shop__orders') }}
