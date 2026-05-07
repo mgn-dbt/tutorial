@@ -9,8 +9,10 @@ packages:
     version: 0.17.2
   - package: metaplane/dbt_expectations
     version: 0.10.10
+  # https://github.com/tnightengale/dbt-meta-testing/pull/33
+  # PR integree le 16/04/2026 dans la v0.4.0 mais error : 
+  # Failed to unpack entry dbt-meta-testing-0.4.0/integration_tests/dbt_packages/dbt_meta_testing
+  # Le client ne dispose pas d’un privilège nécessaire. (os error 1314)
+  # donc on reste sur la PR 33
   - git: https://github.com/tnightengale/dbt-meta-testing.git
     revision: b05df7ae6158a63e0ec966550c4217e20067f2f7
-    # bug !! https://github.com/tnightengale/dbt-meta-testing/pull/33
-    #  - package: tnightengale/dbt_meta_testing
-    #    version: 0.3.6

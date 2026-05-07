@@ -1,6 +1,6 @@
 {#
 https://github.com/bbrewington/dbt-bigquery-information-schema/blob/main/dbt_bigquery_info_schema/macros
-if in dbt cloud we don't have the gcp location so we default to region-US
+if in dbt cloud we dont have the gcp location so we default to region-US
 #}
 
 {%- macro from_info_schema(info_schema_type, dataset) -%}

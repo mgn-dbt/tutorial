@@ -1,19 +1,19 @@
 with
 
 order_items as (
-    select * from {{ ref('stg_autre__order_items') }}
+    select * from {{ ref('stg_extended__order_items') }}
 ),
 
 orders as (
-    select * from {{ ref('stg_autre__orders') }}
+    select * from {{ ref('stg_extended__orders') }}
 ),
 
 products as (
-    select * from {{ ref('stg_autre__products') }}
+    select * from {{ ref('stg_extended__products') }}
 ),
 
 supplies as (
-    select * from {{ ref('stg_autre__supplies') }}
+    select * from {{ ref('stg_extended__supplies') }}
 ),
 
 order_supplies_summary as (

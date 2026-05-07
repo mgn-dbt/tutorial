@@ -1,6 +1,6 @@
 {#
 dbt run-operation is_same_table --args "{
-    table_name_A: 'stg_autre__locations', 
+    table_name_A: 'stg_extended__locations', 
     table_name_B: 'test_locations', 
     columns_to_compare: 'location_id,location_name,tax_rate,opened_at'}"
 

@@ -23,7 +23,7 @@ There is a Git branch called develop_pg for PostgreSQL
 There is a Git branch called develop_duck for Duckdb  
 [branch develop_duck](https://github.com/mgn-dbt/tutorial/tree/develop_duck)  
 But VSCode should not be used with duckdb.  
-See why in this [readme](https://github.com/mgn-dbt/external/blob/main/README.md)
+See why in this [readme](https://github.com/mgn-dbt/external/blob/main/README.md#duckdb)
 
 Changing git branch (changing database) should be followed by closing/reopening terminal.  
 Cf customized terminals in the vscode user configuration settings
@@ -170,7 +170,7 @@ This environment user variable corresponds with a variable defined in dbt cloud 
 
 ### Profiles.yml
 
-cf [external repository](https://github.com/mgn-dbt/external)
+cf [external repository](https://github.com/mgn-dbt/external#my-dbt-profiles)
 
 ### Python venvs
 
@@ -207,12 +207,14 @@ dbt-autofix deprecations --semantic-layer
 Autofix can help in migrating SL Legacy spec to the new spec.  
 
 SL legacy spec example  
-[SL Legacy](https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/main/models/metrics)
+[SL Legacy](https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/fix/models/metrics)
 
 SL new spec example  
 [SL new specs](https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/fusion_spec/models/marts)
 
 ### Semantic Layer (SL)
+
+[SL Commands](https://docs.getdbt.com/docs/build/metricflow-commands)
 
 New SL works only with dbt fusion and dbt cloud. => "dbt sl" command  
 
@@ -252,7 +254,7 @@ For convenience my entities begin with "e_".
 
 json schema  
 cf [dbt jsonschema](https://github.com/dbt-labs/dbt-jsonschema)  
-cf [dbt target jsonschema](https://schemas.getdbt.com/)
+cf [dbt artifact jsonschema](https://schemas.getdbt.com/)
 
 json schema applied is specified in .vscode/settings.json
 
@@ -266,8 +268,8 @@ json schema applied is specified in .vscode/settings.json
 
 ## PostgreSQL
 
-cf [external repository](https://github.com/mgn-dbt/external)
+cf [external repository](https://github.com/mgn-dbt/external#postgresql)
 
 ## Duckdb
 
-cf [external repository](https://github.com/mgn-dbt/external)
+cf [external repository](https://github.com/mgn-dbt/external#duckdb)

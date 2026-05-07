@@ -1,6 +1,6 @@
 with
 source as (
-    select * from {{ source('autre', 'stores') }}
+    select * from {{ source('extended', 'stores') }}
 ),
 
 renamed as (

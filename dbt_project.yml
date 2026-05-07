@@ -35,8 +35,8 @@ models:
       +materialized: view
       +meta:
         required_tests: {"unique.*|not_null": 2}
-      autre:
-        +tags: 'autre'
+      extended:
+        +tags: 'extended'
       jaffle_shop:
         +tags: 'learn'
       stripe:
@@ -48,13 +48,13 @@ models:
       +meta:
         required_docs: true
       +materialized: table
-      autre:
-        +tags: 'autre'
+      extended:
+        +tags: 'extended'
       finance:
         +tags: 'learn'
       marketing:
         +tags: 'learn'
-# dbt run -s tag:autre
+# dbt run -s tag:extended
 # dbt run -s tag:learn
 # dbt run-operation required_tests
 # dbt run-operation required_docs
@@ -70,7 +70,7 @@ seeds:
     +persist_docs:
       relation: true
       columns: true
-    marts:
+    datamarts:
       +tags: 'learn'
     tests:
       +tags: 'tests'
@@ -84,7 +84,7 @@ dbt-cloud:
 vars:
   # for dbt_date
   'dbt_date:time_zone': 'Europe/Paris'
-  # for staging/autre/stg_autre__orders and staging/autre/stg_autre__locations
+  # for staging/extended/stg_extended__orders and staging/extended/stg_extended__locations
   'truncate_timespan_to': "{{ dbt.current_timestamp() }}"
 
 # dispatch:
