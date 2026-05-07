@@ -1,4 +1,5 @@
 --dbt show -s total_revenue
+
 with
 payments as (
     select * from {{ ref('stg_stripe__payments') }}
