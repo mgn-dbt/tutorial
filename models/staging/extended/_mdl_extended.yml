@@ -22,7 +22,7 @@ models:
           - not_null
           - relationships:
               arguments:
-                to: ref('stg_autre__orders')
+                to: ref('stg_extended__orders')
                 field: order_id
 
   - name: stg_extended__orders

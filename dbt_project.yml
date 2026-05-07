@@ -84,7 +84,7 @@ dbt-cloud:
 vars:
   # for dbt_date
   'dbt_date:time_zone': 'Europe/Paris'
-  # for staging/autre/stg_autre__orders and staging/autre/stg_autre__locations
+  # for staging/extended/stg_extended__orders and staging/extended/stg_extended__locations
   'truncate_timespan_to': "{{ dbt.current_timestamp() }}"
 
 # dispatch:
