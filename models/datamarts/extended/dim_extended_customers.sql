@@ -5,11 +5,11 @@ customers as (
 ),
 
 orders as (
-    select * from {{ ref('fct_extended__orders') }}
+    select * from {{ ref('fct_extended_orders') }}
 ),
 
 order_items as (
-    select * from {{ ref('fct_extended__order_items') }}
+    select * from {{ ref('fct_extended_order_items') }}
 ),
 
 order_summary as (
