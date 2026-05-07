@@ -8,6 +8,7 @@ https://github.com/dbt-labs/jaffle-shop/blob/main/macros/cents_to_dollars.sql
 
 {% macro cents_to_dollars(column_name, scale=2) -%}
     {% if scale>2 %}
+        {{ log('Scale cannot be greater than 2. Defaulting to 2.', info=True) }}
         {{ return(adapter.dispatch('cents_to_dollars')(column_name, 2)) }}
     {% else %}
         {{ return(adapter.dispatch('cents_to_dollars')(column_name, scale)) }}
