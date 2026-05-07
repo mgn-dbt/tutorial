@@ -1,15 +1,15 @@
 with
 
 customers as (
-    select * from {{ ref('stg_autre__customers') }}
+    select * from {{ ref('stg_extended__customers') }}
 ),
 
 orders as (
-    select * from {{ ref('fct_autre_orders') }}
+    select * from {{ ref('fct_extended__orders') }}
 ),
 
 order_items as (
-    select * from {{ ref('fct_autre_order_items') }}
+    select * from {{ ref('fct_extended__order_items') }}
 ),
 
 order_summary as (
