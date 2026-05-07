@@ -271,8 +271,8 @@ json schema applied is specified in .vscode/settings.json
 
 ## PostgreSQL
 
-cf [external repository](https://github.com/mgn-dbt/external)
+cf [external repository](https://github.com/mgn-dbt/external#postgresql)
 
 ## Duckdb
 
-cf [external repository](https://github.com/mgn-dbt/external)
+cf [external repository](https://github.com/mgn-dbt/external#duckdb)
