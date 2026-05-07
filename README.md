@@ -175,7 +175,7 @@ This environment user variable corresponds with a variable defined in dbt cloud 
 
 ### Profiles.yml
 
-cf [external repository](https://github.com/mgn-dbt/external)
+cf [external repository](https://github.com/mgn-dbt/external#my-dbt-profiles)
 
 ### Python venvs
 
@@ -219,6 +219,8 @@ SL new spec example
 
 ### Semantic Layer (SL)
 
+[SL Commands](https://docs.getdbt.com/docs/build/metricflow-commands)
+
 New SL works only with dbt fusion and dbt cloud. => "dbt sl" command  
 
 Commands
@@ -257,7 +259,7 @@ For convenience my entities begin with "e_".
 
 json schema  
 cf [dbt jsonschema](https://github.com/dbt-labs/dbt-jsonschema)  
-cf [dbt target jsonschema](https://schemas.getdbt.com/)
+cf [dbt artifact jsonschema](https://schemas.getdbt.com/)
 
 json schema applied is specified in .vscode/settings.json
 
