@@ -1,9 +1,9 @@
 unit_tests:
   - name: test_does_location_opened_at_trunc_to_date
     description: "Check that opened_at timestamp is properly truncated to a date."
-    model: stg_autre__locations
+    model: stg_extended__locations
     given:
-      - input: source('autre', 'stores')
+      - input: source('extended', 'stores')
         rows:
           - {
               id: 1,

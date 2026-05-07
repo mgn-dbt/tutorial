@@ -1,15 +1,14 @@
 with
 source as (
-    select * from {{ source('autre', 'items') }}
+    select * from {{ source('extended', 'customers') }}
 ),
 
 renamed as (
     select
         ----------  ids
-        id as order_item_id,
-        order_id,
+        id as customer_id,
         ---------- properties
-        sku as product_id
+        name as customer_name
     from source
 )
 
