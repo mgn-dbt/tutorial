@@ -1,5 +1,5 @@
 models:
-  - name: fct_autre_order_items
+  - name: fct_extended_order_items
     description: |
       Order items data mart, offering key details for each individual item within an order. 
       One row per order item.
@@ -20,7 +20,7 @@ models:
         # data_tests:        entity + relationship tests => bug dbt cloud ?
         #   - relationships:
         #       arguments:
-        #         to: ref('fct_autre_orders')
+        #         to: ref('fct_extended__orders')
         #         field: order_id
         entity:
           name: e_order
@@ -62,7 +62,7 @@ models:
 
     semantic_model:
       enabled: true
-      name: fct_autre_order_items
+      name: fct_extended_order_items
 
     agg_time_dimension: ordered_at_date
 

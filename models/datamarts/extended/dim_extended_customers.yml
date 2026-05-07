@@ -1,5 +1,5 @@
 models:
-  - name: dim_autre_customers
+  - name: dim_extended_customers
     description: |
       Customer overview data mart, offering key details for each unique customer. 
       One row per customer.
@@ -56,7 +56,7 @@ models:
 
     semantic_model:
       enabled: true
-      name: dim_autre_customers
+      name: dim_extended_customers
 
     agg_time_dimension: first_ordered_at
 

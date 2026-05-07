@@ -1,5 +1,5 @@
 models:
-  - name: fct_autre_orders
+  - name: fct_extended_orders
     description: |
       Order overview data mart, offering key details for each order inlcluding 
       if it's a customer's first order and a food vs. drink item breakdown. 
@@ -21,7 +21,7 @@ models:
         data_tests:
           - relationships:
               arguments:
-                to: ref('stg_autre__customers')
+                to: ref('stg_extended__customers')
                 field: customer_id
         entity:
           name: e_customer
@@ -86,7 +86,7 @@ models:
 
     semantic_model:
       enabled: true
-      name: fct_autre_orders
+      name: fct_extended_orders
 
     agg_time_dimension: ordered_at_date
 
