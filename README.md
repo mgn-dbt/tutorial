@@ -212,7 +212,7 @@ dbt-autofix deprecations --semantic-layer
 Autofix can help in migrating SL Legacy spec to the new spec.  
 
 SL legacy spec example  
-[SL Legacy](https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/main/models/metrics)
+[SL Legacy](https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/fix/models/metrics)
 
 SL new spec example  
 [SL new specs](https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/fusion_spec/models/marts)
