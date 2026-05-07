@@ -5,7 +5,7 @@ orders as (
 ),
 
 order_items as (
-    select * from {{ ref('fct_extended__order_items') }}
+    select * from {{ ref('fct_extended_order_items') }}
 ),
 
 order_items_summary as (
