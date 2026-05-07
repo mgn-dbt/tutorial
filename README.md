@@ -23,7 +23,7 @@ There is a Git branch called develop_pg for PostgreSQL
 There is a Git branch called develop_duck for Duckdb  
 [branch develop_duck](https://github.com/mgn-dbt/tutorial/tree/develop_duck)  
 But VSCode should not be used with duckdb.  
-See why in this [readme](https://github.com/mgn-dbt/external/blob/main/README.md)
+See why in this [readme](https://github.com/mgn-dbt/external/blob/main/README.md#duckdb)
 
 There is a Git branch called develop_duck for Duckdb  
 [branch develop_duck](https://github.com/mgn-dbt/tutorial/tree/develop_duck)  
