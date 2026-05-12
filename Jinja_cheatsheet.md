@@ -62,6 +62,9 @@ Tuples are like lists that cannot be modified (Immutable)
 {# Example comment #}
 ```
 
+Jinja comments don't appear in compiled code.
+Sql comments do.
+
 ## Statements
 
 ```jinja
@@ -269,6 +272,12 @@ you can use "if variable" to test if a variable is defined, not empty and not fa
 
 ```jinja
 {{ exceptions.raise_compiler_error("Error message") }}
+```
+
+-- Not implemented
+
+```jinja
+{{ exceptions.raise_not_implemented('xxx not implemented for adapter '+adapter.type()) }}
 ```
 
 ## Debug

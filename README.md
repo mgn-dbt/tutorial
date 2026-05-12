@@ -5,10 +5,11 @@
 After following tutorials in [dbtlabs learning](https://learn.getdbt.com/learn)  
 I tried to make the dbt tutorial work with BigQuery, PostgreSql or Duckdb.
 
-Cf [cross-database-macros](https://docs.getdbt.com/reference/dbt-jinja-functions/cross-database-macros)
-
 - BigQuery with Dbt Fusion and the dbt vscode extension (also working in dbt cloud).
-- PostgreSql or Duckdb with Dbt core in sqlfluff venv (cf further in this page).
+- PostgreSql with Dbt core in sqlfluff venv (cf further in this page).
+- Duckdb with Dbt core in sqlfluff venv (cf further in this page).
+
+Cf [cross-database-macros](https://docs.getdbt.com/reference/dbt-jinja-functions/cross-database-macros)
 
 I tried to make the code as generic as possible.  
 VSCode extension is made to work with dbt fusion.  
@@ -38,7 +39,8 @@ So this other project is a bit of an exception.
 
 Cf .vscode/extensions.json
 
-Disable autoupdate for dbt and YAML extensions.
+Disable autoupdate for dbt and YAML extensions to avoid compatibility problems.
+It's up to you to decide when updating these extensions.
 
 NB : SQLTools requires Node.js to work.
 
@@ -162,11 +164,30 @@ They are macros so it seems their right place.
 
 ### Environment variable
 
-This environment user variable corresponds with a variable defined in dbt cloud following tutorials  
+This environment user variable corresponds with a variable defined in dbt cloud when following tutorials  
 
 ```powershell
 [Environment]::SetEnvironmentVariable("DBT_ENV_NAME", 'dev', [System.EnvironmentVariableTarget]::User)
 ```
+
+Other environment variables must start with :  
+
+- DBT_  
+- DBT_ENGINE_  
+- DBT_ENV_SECRET_    **variables which contains secrets**
+- DBT_ENV_PRIVATE_    **variables that should not be visible**
+
+examples
+
+- DBT_ENGINE_FAIL_FAST => --fail-fast
+- DBT_ENGINE_DEFER => --defer
+- DBT_ENGINE_DEFER_STATE => --defer-state
+- DBT_ENGINE_LOG_PATH => --log-path
+- DBT_ENGINE_TARGET_PATH => --target-path
+
+Cf
+[Environment variables](https://docs.getdbt.com/docs/build/environment-variables)
+[CLI Flags](https://docs.getdbt.com/reference/global-configs/about-global-configs)
 
 ### Profiles.yml
 
@@ -185,8 +206,8 @@ python.exe -m pip install --upgrade pip
 pip install sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery dbt-postgres dbt-duckdb pip_system_certs
 (pip_system_certs for zscaler, replacing certifi which is no longer maintained)
 
-Installing dbt-metricflow, dbt-metricflow[dbt-postgres], dbt-metricflow[dbt-duckdb]
-causes a DBT version downgrade for compatibility
+Beware installing dbt-metricflow, dbt-metricflow[dbt-postgres], dbt-metricflow[dbt-duckdb]
+It can cause a dbt-core version downgrade for compatibility
 ```
 
 PostgreSQL or Duckdb works only in SQLFluff venv (dbt core) !  
@@ -265,6 +286,13 @@ json schema applied is specified in .vscode/settings.json
 - Join the [dbt community](https://getdbt.com/community) to learn from other analytics engineers
 - Find [dbt events](https://events.getdbt.com) near you
 - Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
+
+## BigQuery
+
+[Specific BigQuery](https://docs.getdbt.com/reference/resource-configs/bigquery-configs)
+
+Note that partition pruning only works when partitions are filtered using literal values  
+(so selecting partitions using a subquery won't improve performance).
 
 ## PostgreSQL
 
