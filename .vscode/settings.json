@@ -43,4 +43,7 @@
         ]
     },
     "terminal.integrated.defaultProfile.windows": "Pwsh",
+    "markdownlint.config": {
+        "MD033": { "table_allowed_elements": ["br"] }
+    },
 }
