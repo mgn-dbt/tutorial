@@ -155,9 +155,9 @@ Sql comments do.
 [python modules](https://docs.getdbt.com/reference/dbt-jinja-functions/modules)
 
 ```sql
-select '{{ run_started_at.strftime("%Y-%m-%d") }}' as date_day
+select '{{ run_started_at.strftime("%Y-%m-%d") }}' as run_started_day
 
-select '{{ run_started_at.astimezone(modules.pytz.timezone("America/New_York")) }}' as run_started_ny
+select '{{ run_started_at.astimezone(modules.pytz.timezone("America/New_York")) }}' as run_started_at_for_ny
 ```
 
 ```jinja
@@ -174,6 +174,11 @@ select '{{ run_started_at.astimezone(modules.pytz.timezone("America/New_York")) 
 {{ print(dt) }}
 {{ print(dt_local) }}
 ```
+
+datetime is a dictionary (year, month, day, etc ...)  
+dt_now.year  
+dt_now.month  
+etc...
 
 ## if | elif | else
 
@@ -434,7 +439,7 @@ Concat take a list. All list element have to be strings.
 ```
 
 Casts  
-Cf file://./dbt_internal_packages/dbt-adapters/macros/utils/data_types.sql  
+Cf dbt_internal_packages/dbt-adapters/macros/utils/data_types.sql  
 There is no dbt.type_date or dbt.type_datetime
 
 ```jinja
