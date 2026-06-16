@@ -1,8 +1,8 @@
 {# ["bank_transfer", "credit_card", "coupon", "gift_card"] #}
 
-{%- set payment_methods = dbt_utils.get_column_values(    
-    table=source('stripe','payment'),
-    column='paymentmethod') -%}
+{%- set payment_methods = dbt_utils.get_column_values(
+    table=ref("stg_stripe__payments"),
+    column='payment_method') -%}
 
 with
 payments as (

@@ -1,11 +1,11 @@
 sources:
   - name: jaffle_shop
-    schema: dbt_raw_jaffle_shop
+    schema: dbt_mguedon_src
     description: big query jaffle_shop dataset
     tables:
-      - name: customers
+      - name: jaffle_shop__customers
         description: raw customer table
-      - name: orders
+      - name: jaffle_shop__orders
         description: raw orders table
         config:
           freshness:
