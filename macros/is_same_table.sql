@@ -48,7 +48,7 @@ cf audit_helper.compare_relations
     {% endif %}
 
     {% if results is not none %}
-        {% set differences = results.columns[0].values %}
+        {% set differences = results.columns[0].values() %}
         {% if differences | length == 0 %}
             {{ log("The tables are the same based on the columns compared.", info=True) }}
             {{ return(True) }}
