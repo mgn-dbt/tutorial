@@ -143,8 +143,8 @@ Test SSL/TLS connection with pgadmin 4
 
 ## Duckdb
 
-Duckdb can be used in Dbt Fusion and Dbt-core.
-Duckdb interactive shell only works in sqlfluff venv though.
+Duckdb can be used in Dbt Fusion and Dbt-core.  
+Duckdb interactive shell only works in sqlfluff venv though.  
 Cf [Environment](./Environment.md)
 
 [Specific Duckdb](https://docs.getdbt.com/reference/resource-configs/duckdb-configs)

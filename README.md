@@ -79,6 +79,86 @@ Bug or new format ???
 I put generic tests under "macros/generic" instead of "tests/generic" for convenience.  
 They are macros so it seems their right place.
 
+### Profiles.yml
+
+Set environment variables.  
+Cf [Environment variables](./docs/Environment.md#environment-variables)  
+Cf [env_var](https://docs.getdbt.com/reference/dbt-jinja-functions/env_var)
+
+Content of `$env:USERPROFILE\.dbt\profiles.yml`
+
+```yaml
+default:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      threads: 4
+      project: "{{ env_var('DBT_BIGQUERY_PROJECT') }}"
+      dataset: dbt_tuto
+      method: service-account
+      keyfile: "{{ env_var('DBT_BIGQUERY_KEYFILE') }}"
+      location: US
+    prod:
+      type: bigquery
+      threads: 4
+      project: "{{ env_var('DBT_BIGQUERY_PROJECT') }}"
+      dataset: dbt_prod
+      method: service-account
+      keyfile: "{{ env_var('DBT_BIGQUERY_KEYFILE') }}"
+      location: US
+pg:
+  target: dev
+  outputs:
+    dev:
+      dbname: jaffle_shop
+      host: localhost
+      password: jaffle
+      port: 5432
+      schema: dbt_tuto
+      search_path: dbt_tuto,public
+      threads: 1
+      type: postgres
+      user: jaffle
+      sslmode: verify-ca
+      sslrootcert: "{{ env_var('DBT_PG_ROOT_CERT') }}"
+    prod:
+      dbname: jaffle_shop
+      host: localhost
+      password: jaffle
+      port: 5432
+      schema: dbt_prod
+      search_path: dbt_prod,public
+      threads: 2
+      type: postgres
+      user: jaffle
+      sslmode: verify-ca
+      sslrootcert: "{{ env_var('DBT_PG_ROOT_CERT') }}"
+duckdb:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('DBT_DUCKDB_DATABASE') }}"
+      schema: dbt_tuto
+      threads: 4
+      # threads: 1  (for log_query_path to work)
+      #settings:
+      #  log_query_path: '.\offline\duck_tuto_query.log'   You can use a relative path (relative to your profiles.yml file)
+    prod:
+      type: duckdb
+      path: "{{ env_var('DBT_DUCKDB_DATABASE') }}"
+      schema: dbt_prod
+      threads: 4 
+      # threads: 1  (for log_query_path to work)
+      #settings:
+      #  log_query_path: '.\offline\duck_tuto_query.log'   You can use a relative path (relative to your profiles.yml file)
+```
+
+### Jinja
+
+[Jinja cheatsheet](./docs/Jinja_cheatsheet.md)
+
 ### Semantic Layer (SL)
 
 SL legacy spec example  
