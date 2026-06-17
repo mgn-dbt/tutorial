@@ -60,7 +60,7 @@ models:
 # dbt run-operation required_docs
 
 on-run-end:
-  - "{% do grant_select(schema=target.schema, role='lecteur') %}"
+  - "{% do grant_select(role='lecteur') %}"
 
 
 ### beware dbt sends warning for deactivated seeds that contains tests

@@ -1,6 +1,6 @@
 sources:
   - name: jaffle_shop
-    schema: dbt_mguedon_src
+    schema: dbt_tuto_src
     description: big query jaffle_shop dataset
     tables:
       - name: jaffle_shop__customers
