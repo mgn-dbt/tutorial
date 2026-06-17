@@ -1,6 +1,6 @@
 sources:
   - name: extended
-    schema: dbt_mguedon_src
+    schema: dbt_tuto_src
     description: big query extended dataset
     tables:
       - name: extended__customers

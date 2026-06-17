@@ -17,6 +17,8 @@
 
 ### Tuple (Immutable ordered indexed collection)
 
+cf [python tuples](https://www.w3schools.com/python/python_tuples.asp)
+
 ```jinja
 {% set empty_tuple = () %}
 {% set singleton = ('a',) %}
@@ -30,6 +32,8 @@ a, b, c = my_tuple
 ```
 
 ### List (Ordered indexed collection duplicate allowed)
+
+cf [python lists](https://www.w3schools.com/python/python_lists.asp)
 
 ```jinja
 {% set empty_list = [] %}
@@ -58,6 +62,8 @@ a, b, c = my_tuple
 
 ### Set (Immutable unordered unindexed collection with no duplicate)
 
+cf [python sets](https://www.w3schools.com/python/python_sets.asp)
+
 ```jinja
 {% set empty_set = {} %}
 {% set my_set = set_strict([1,2,2,3,4,4,5]) %}
@@ -71,6 +77,8 @@ False and 0 is considered the same value
 [set](https://docs.getdbt.com/reference/dbt-jinja-functions/set)
 
 ### Dictionary (Ordered collection with no duplicate)
+
+cf [python dictionaries](https://www.w3schools.com/python/python_dictionaries.asp)
 
 Keys must be unique and always have exactly one value (no duplicate)
 
@@ -102,14 +110,14 @@ Sql comments do.
 ## Expressions
 
 ```jinja
-{{ ... }} e.g.: ref
+{{ ... }} e.g.: ref(), source(), log()
 ```
 
 ## Jinja Filters
 
 [jinja functions](https://docs.getdbt.com/reference/dbt-jinja-functions-context-variables)
 
-### cast
+### Cast
 
 ```jinja
 {% set my_str_var = "2020" %}

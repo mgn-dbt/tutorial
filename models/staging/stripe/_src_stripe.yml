@@ -1,6 +1,6 @@
 sources:
   - name: stripe
-    schema: dbt_mguedon_src
+    schema: dbt_tuto_src
     description: big query stripe dataset
     tables:
       - name: stripe__payments
