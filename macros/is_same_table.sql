@@ -42,15 +42,21 @@ cf audit_helper.compare_relations
 
     {% if execute %}
         {% set results = run_query(query) %}
-        {% set nb_differences = results|length %}
-        {% if nb_differences > 0 %}
-            {{ log('The tables are different based on the columns compared. ' 
-                ~ nb_differences // 2 ~ ' differences', info=True) }}
-            {% do return(False) %}
+        {# same table == empty_set #}
+    {% else %}
+        {% set results = none %}
+    {% endif %}
+
+    {% if results is not none %}
+        {% set differences = results.columns[0].values() %}
+        {% if differences | length == 0 %}
+            {{ log("The tables are the same based on the columns compared.", info=True) }}
+            {{ return(True) }}
         {% else %}
-            {{ log('The tables are the same based on the columns compared.', info=True) }}
-            {% do return(True) %}
+            {{ log("The tables are different based on the columns compared.", info=True) }}
         {% endif %}
     {% endif %}
+
+    {{ return(False) }}
 
 {% endmacro %}

@@ -35,24 +35,10 @@ macros:
         type: optional[string]
         description: The name of the dataset to which the information schema table belongs. 
 
-  - name: generate_schema_name
-    description: >
-      This macro generates a schema name based on the provided custom schema name and node name.
-    arguments:
-      - name: custom_schema_name
-        type: string
-        description: The custom schema name to be used.
-      - name: node
-        type: string
-        description: The name of the node for which to generate the schema name.
-
   - name: grant_select
     description: >
       This macro generates a SQL statement to grant SELECT privileges on a specified schema to a specified role.
     arguments:
-      - name: schema
-        type: optional[string]
-        description: The name of the schema on which to grant SELECT privileges.
       - name: role
         type: optional[string]
         description: The name of the role to whom the SELECT privileges will be granted.

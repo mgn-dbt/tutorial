@@ -1,17 +1,17 @@
 sources:
   - name: extended
-    schema: dbt_raw_extended
+    schema: dbt_tuto_src
     description: big query extended dataset
     tables:
-      - name: customers
+      - name: extended__customers
         description: extended customer table
-      - name: items
+      - name: extended__items
         description: extended items table
-      - name: orders
+      - name: extended__orders
         description: extended orders table
-      - name: products
+      - name: extended__products
         description: extended products table
-      - name: stores
+      - name: extended__stores
         description: extended stores table
-      - name: supplies
+      - name: extended__supplies
         description: extended supplies table

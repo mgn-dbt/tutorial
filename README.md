@@ -5,10 +5,11 @@
 After following tutorials in [dbtlabs learning](https://learn.getdbt.com/learn)  
 I tried to make the dbt tutorial work with BigQuery, PostgreSql or Duckdb.
 
-Cf [cross-database-macros](https://docs.getdbt.com/reference/dbt-jinja-functions/cross-database-macros)
-
 - BigQuery with Dbt Fusion and the dbt vscode extension (also working in dbt cloud).
-- PostgreSql or Duckdb with Dbt core in sqlfluff venv (cf further in this page).
+- PostgreSql with Dbt core in sqlfluff venv (cf further in this page).
+- Duckdb with Dbt core in sqlfluff venv (cf further in this page).
+
+Cf [cross-database-macros](https://docs.getdbt.com/reference/dbt-jinja-functions/cross-database-macros)
 
 I tried to make the code as generic as possible.  
 VSCode extension is made to work with dbt fusion.  
@@ -23,131 +24,49 @@ There is a Git branch called develop_pg for PostgreSQL
 There is a Git branch called develop_duck for Duckdb  
 [branch develop_duck](https://github.com/mgn-dbt/tutorial/tree/develop_duck)  
 But VSCode should not be used with duckdb.  
-See why in this [readme](https://github.com/mgn-dbt/external/blob/main/README.md#duckdb)
+See why in this [readme](./docs/Databases.md#duckdb)
 
 Changing git branch (changing database) should be followed by closing/reopening terminal.  
-Cf customized terminals in the vscode user configuration settings
+Cf customized terminals in the [VSCode](./docs/VScode.md#user-configuration)
 
-Table data is loaded separately cf [external repository](https://github.com/mgn-dbt/external)  
+Table data is loaded separately cf [tutorial init](https://github.com/mgn-dbt/tuto-init)  
 Seeds are not for loading real live data but lookup tables or mock data for tests.  
 So this other project is a bit of an exception.
 
 ## VSCode
 
-### Installed Modules
-
-Cf .vscode/extensions.json
-
-Disable autoupdate for dbt and YAML extensions.
-
-NB : SQLTools requires Node.js to work.
-
-NB : Beware zscaler if you have it.
-
-The 2 zscaler certificates must be included in the cacert.pem npm certificate store.
-
-```powershell
-Cf $env:USERPROFILE\.npmrc
-
-cafile=<path_to>/cacert.pem
-```
-
-### User configuration
-
-($env:USERPROFILE\SCOOP\apps\vscode\current\data\user-data\User\profiles\xxxxxxxx\settings.json)
-
-```json
-{
-    "dbt.dbtPath": "C:\\Users\\<user>\\.local\\bin\\dbt.exe",
-    // dbt core doesn't work with "dbt vscode extention" : unsupported dbt version
-    "sqlfluff.executablePath": "C:\\Users\\<user>\\SCOOP\\persist\\python\\venvs\\sqlfluff\\Scripts\\sqlfluff.exe",
-    "sqltools.connections": [
-        {
-            "name": "BigQuery",
-            "authenticator": "SERVICE_ACCOUNT",
-            "location": "us",
-            "previewLimit": 50,
-            "driver": "BigQuery",
-            "keyfile": "<path_to>\\dbt-jaffle-shop-xxxxxx-yyyyyyyyyyyy.json"
-        },
-        {
-            "pgOptions": {
-                "ssl": {
-                    "rejectUnauthorized": true,
-                    "ca": "C:\\Users\\<user>\\SCOOP\\persist\\ssl\\mkcert\\rootCA.pem",
-                    "cert": "C:\\Users\\<user>\\SCOOP\\persist\\ssl\\mkcert\\server.cert.pem",
-                }
-            },
-            "ssh": "Disabled",
-            "previewLimit": 50,
-            "server": "localhost",
-            "driver": "PostgreSQL",
-            "name": "pg",
-            // pg in SSL mode with server certificate verification only
-            "connectString": "postgres://jaffle:jaffle@localhost:5432/jaffle_shop?sslmode=verify-ca"
-        },
-    ],
-    "sqltools.useNodeRuntime": true,
-    "redhat.telemetry.enabled": false,
-    //https://code.visualstudio.com/docs/copilot/ai-powered-suggestions
-    "github.copilot.enable": {
-        "*": false,
-        "plaintext": false,
-        "markdown": false,
-        "scminput": false,
-        "yaml": true,
-        "jinja-sql": true
-    },
-    // customized terminals
-    "terminal.integrated.profiles.windows": {
-        "PowerShell": null,
-        "Command Prompt": null,
-        "Git Bash": null,
-        "Pwsh_vdbt": {
-            "path": "pwsh.exe",
-            "args": [
-                "-noexit",
-                "-nologo",
-                "-file",
-                "C:\\Users\\<user>\\SCOOP\\persist\\python\\venvs\\sqlfluff\\Scripts\\Activate.ps1"
-            ]
-        },
-        "Pwsh": {
-            "path": "pwsh.exe"
-        },
-    },
-}
-```
+Cf [VScode](./docs/VScode.md)
 
 ## DBT
 
-Beware upgrading dbt fusion or the dbt vscode extension.  
-Keep the dbt vscode extension version one release behind to avoid problems.
+Beware :  
+Upgrade the dbt vscode extension first.  
+Don't upgrade dbt fusion first.  
+Let VScode propose the right dbt fusion version.
 
-You can choose the version you want.  
+You can choose the version of the dbt vscode extension.  
 Under the dbt vscode extension page : `Uninstall / Install Specific Version`
 
-Current vscode extension version v0.60.0  => fusion version 2.0.0-preview.164
+Compatibility between the dbt fusion and the dbt vscode extension is important.  
+Don't install a dbt fusion version ahead of the dbt vscode extension.
 
-Compatibility between the dbt fusion and vscode extension is important.  
-So Install the dbt fusion version that match or vscode will propose an upgrade.
-
-![dbt vscode extension](dbt_vscode_extension.png)
+![dbt vscode extension](./docs/dbt_vscode_extension.png)
 
 ```powershell
 iwr -uri https://public.cdn.getdbt.com/fs/install/install.ps1 -OutFile install.ps1
-& install.ps1 -Version "2.0.0-preview.164"
+& install.ps1 -Version "2.0.0-preview.177"
+Remove-Item install.ps1
 ```
 
 or if fusion is already installed
 
 ```powershell
-& install.ps1 -Update -Version "2.0.0-preview.164"  
+& install.ps1 -Update -Version "2.0.0-preview.177"
 ```
 
 Check your PATH environment variable after using install.ps1.
 
-NB : Fusion installation process updates the profile file Microsoft.PowerShell_profile.ps1 :  
+NB : Fusion installation process updates the powershell profile files :  
 Cf $env:USERPROFILE\Documents\Powershell\Microsoft.PowerShell_profile.ps1  
 or $env:USERPROFILE\Documents\WindowsPowershell\Microsoft.PowerShell_profile.ps1  
 It ensure dbtf alias is created.
@@ -160,59 +79,93 @@ Bug or new format ???
 I put generic tests under "macros/generic" instead of "tests/generic" for convenience.  
 They are macros so it seems their right place.
 
-### Environment variable
-
-This environment user variable corresponds with a variable defined in dbt cloud following tutorials  
-
-```powershell
-[Environment]::SetEnvironmentVariable("DBT_ENV_NAME", 'dev', [System.EnvironmentVariableTarget]::User)
-```
-
 ### Profiles.yml
 
-cf [external repository](https://github.com/mgn-dbt/external#my-dbt-profiles)
+Set environment variables.  
+Cf [Environment variables](./docs/Environment.md#environment-variables)  
+Cf [env_var](https://docs.getdbt.com/reference/dbt-jinja-functions/env_var)
 
-### Python venvs
+Content of `$env:USERPROFILE\.dbt\profiles.yml`
 
-NB : SQLFluff requires Python and dbt to work.
-
-Packages installed in the sqlfluff venv:
-
-```cmd
-python -m venv <path_to>\venvs\sqlfluff
-<path_to>\venvs\sqlfluff\Scripts\activate.ps1
-python.exe -m pip install --upgrade pip
-pip install sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery dbt-postgres dbt-duckdb pip_system_certs
-(pip_system_certs for zscaler, replacing certifi which is no longer maintained)
-
-Installing dbt-metricflow, dbt-metricflow[dbt-postgres], dbt-metricflow[dbt-duckdb]
-causes a DBT version downgrade for compatibility
+```yaml
+default:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      threads: 4
+      project: "{{ env_var('DBT_BIGQUERY_PROJECT') }}"
+      dataset: dbt_tuto
+      method: service-account
+      keyfile: "{{ env_var('DBT_BIGQUERY_KEYFILE') }}"
+      location: US
+    prod:
+      type: bigquery
+      threads: 4
+      project: "{{ env_var('DBT_BIGQUERY_PROJECT') }}"
+      dataset: dbt_prod
+      method: service-account
+      keyfile: "{{ env_var('DBT_BIGQUERY_KEYFILE') }}"
+      location: US
+pg:
+  target: dev
+  outputs:
+    dev:
+      dbname: jaffle_shop
+      host: localhost
+      password: jaffle
+      port: 5432
+      schema: dbt_tuto
+      search_path: dbt_tuto,public
+      threads: 1
+      type: postgres
+      user: jaffle
+      sslmode: verify-ca
+      sslrootcert: "{{ env_var('DBT_PG_ROOT_CERT') }}"
+    prod:
+      dbname: jaffle_shop
+      host: localhost
+      password: jaffle
+      port: 5432
+      schema: dbt_prod
+      search_path: dbt_prod,public
+      threads: 2
+      type: postgres
+      user: jaffle
+      sslmode: verify-ca
+      sslrootcert: "{{ env_var('DBT_PG_ROOT_CERT') }}"
+duckdb:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "{{ env_var('DBT_DUCKDB_DATABASE') }}"
+      schema: dbt_tuto
+      threads: 4
+      # threads: 1  (for log_query_path to work)
+      #settings:
+      #  log_query_path: '.\offline\duck_tuto_query.log'   You can use a relative path (relative to your profiles.yml file)
+    prod:
+      type: duckdb
+      path: "{{ env_var('DBT_DUCKDB_DATABASE') }}"
+      schema: dbt_prod
+      threads: 4 
+      # threads: 1  (for log_query_path to work)
+      #settings:
+      #  log_query_path: '.\offline\duck_tuto_query.log'   You can use a relative path (relative to your profiles.yml file)
 ```
 
-PostgreSQL or Duckdb works only in SQLFluff venv (dbt core) !  
-It means using Pwsh_vdbt terminal.
+### Jinja
 
-To use autofix, it is recommended to create a second venv
+[Jinja cheatsheet](./docs/Jinja_cheatsheet.md)
 
-```cmd
-python -m venv <path_to>\venvs\autofix
-<path_to>\venvs\autofix\Scripts\activate.ps1
-python.exe -m pip install --upgrade pip
-pip install dbt-autofix pip_system_certs
-
-dbt-autofix deprecations --json --all
-dbt-autofix deprecations --semantic-layer
-```
-
-Autofix can help in migrating SL Legacy spec to the new spec.  
+### Semantic Layer (SL)
 
 SL legacy spec example  
 [SL Legacy](https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/fix/models/metrics)
 
 SL new spec example  
 [SL new specs](https://github.com/dbt-labs/Semantic-Layer-Online-Course/tree/fusion_spec/models/marts)
-
-### Semantic Layer (SL)
 
 [SL Commands](https://docs.getdbt.com/docs/build/metricflow-commands)
 
@@ -265,11 +218,3 @@ json schema applied is specified in .vscode/settings.json
 - Join the [dbt community](https://getdbt.com/community) to learn from other analytics engineers
 - Find [dbt events](https://events.getdbt.com) near you
 - Check out [the blog](https://blog.getdbt.com/) for the latest news on dbt's development and best practices
-
-## PostgreSQL
-
-cf [external repository](https://github.com/mgn-dbt/external#postgresql)
-
-## Duckdb
-
-cf [external repository](https://github.com/mgn-dbt/external#duckdb)

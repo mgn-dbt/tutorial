@@ -3,7 +3,7 @@ unit_tests:
     description: Test my status case/when cleanup logic
     model: stg_jaffle_shop__orders
     given:
-      - input: source('jaffle_shop', 'orders')
+      - input: source('jaffle_shop', 'jaffle_shop__orders')
         rows:
           - { id: 1, status: completed }
           - { id: 2, status: placed }
@@ -29,7 +29,7 @@ unit_tests:
           {% elif target.type == 'duckdb' %}'2024-01-15'
           {% endif %}"
     given:
-      - input: source('jaffle_shop',  'orders')
+      - input: source('jaffle_shop',  'jaffle_shop__orders')
         rows:
           - {order_date: 2024-01-01}
     expect:
@@ -40,7 +40,7 @@ unit_tests:
     description: Test my full_name calculation 
     model: stg_jaffle_shop__customers
     given:
-      - input: source('jaffle_shop',  'customers')
+      - input: source('jaffle_shop',  'jaffle_shop__customers')
         rows:
           - {first_name: Grace,     last_name: Goheen}
           - {first_name: MICHELLE,  last_name: ARK}

@@ -1,9 +1,9 @@
 sources:
   - name: stripe
-    schema: dbt_raw_stripe
+    schema: dbt_tuto_src
     description: big query stripe dataset
     tables:
-      - name: payment
+      - name: stripe__payments
         description: raw payment table
         config:
           freshness:
