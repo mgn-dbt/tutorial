@@ -38,21 +38,15 @@ DBT environment variables must start with :
 - DBT_ENV_SECRET_    **variables which contains secrets**
 - DBT_ENV_PRIVATE_    **variables that should not be visible**
 
-Examples
-
-- DBT_ENGINE_FAIL_FAST => --fail-fast
-- DBT_ENGINE_DEFER => --defer
-- DBT_ENGINE_DEFER_STATE => --defer-state
-
 Cf  
 [Environment variables](https://docs.getdbt.com/docs/build/environment-variables)  
 [CLI Flags](https://docs.getdbt.com/reference/global-configs/about-global-configs)
 
-NB : In the following, replace  
+Set your environment variables :
+
+In the following, replace  
 dbt-jaffle-shop-xxxxxx by your BigQuery project name  
 dbt-jaffle-shop-xxxxxx-yyyyyyyyyyyy.json by your BigQuery keyfile  
-
-Set your environment variables :
 
 ```Powershell
 [Environment]::SetEnvironmentVariable("DBT_ENV_NAME", 'dev', [System.EnvironmentVariableTarget]::User)
@@ -81,6 +75,17 @@ pip install sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery dbt-postgres d
 
 # For using the Semantic Layer (SL)
 pip install dbt-metricflow dbt-metricflow[dbt-bigquery] dbt-metricflow[dbt-postgres] dbt-metricflow[dbt-duckdb]
+```
+
+If duckdb just got upgraded, the ui extension might not be published yet.  
+> Failed to download extension "ui" at url `"http://extensions.duckdb.org/v1.5.4/windows_amd64/ui.duckdb_extension.gz`" (http 404)
+
+Downgrade duckdb to the previous version in this situation.  
+Example : June 2026 duckdb 1.5.4 has been just published so downgrade to 1.5.3.
+
+```Powershell
+& (join-path $env:USERPROFILE SCOOP persist python venvs sqlfluff Scripts activate.ps1)
+pip install -v duckdb==1.5.3
 ```
 
 ```Powershell
