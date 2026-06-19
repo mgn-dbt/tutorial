@@ -422,6 +422,8 @@ Call a macro and get return value
 {% set some_var = my_macro(param01, param02, param03) %}
 ```
 
+Cf [cross-database-macros](https://docs.getdbt.com/reference/dbt-jinja-functions/cross-database-macros)
+
 ### Return
 
 ```jinja

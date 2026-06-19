@@ -77,7 +77,7 @@ pip install sqlfluff sqlfluff-templater-dbt dbt-core dbt-bigquery dbt-postgres d
 pip install dbt-metricflow dbt-metricflow[dbt-bigquery] dbt-metricflow[dbt-postgres] dbt-metricflow[dbt-duckdb]
 ```
 
-If duckdb just got upgraded, the ui extension might not be published yet.
+If duckdb just got upgraded, the ui extension might not be published yet.  
 > Failed to download extension "ui" at url `"http://extensions.duckdb.org/v1.5.4/windows_amd64/ui.duckdb_extension.gz`" (http 404)
 
 Downgrade duckdb to the previous version in this situation.  
