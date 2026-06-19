@@ -6,25 +6,27 @@ After following tutorials in [dbtlabs learning](https://learn.getdbt.com/learn)
 I tried to make the dbt tutorial work with BigQuery, PostgreSql or Duckdb.
 
 - BigQuery with Dbt Fusion and the dbt vscode extension (also working in dbt cloud).
-- PostgreSql with Dbt core in sqlfluff venv (cf further in this page).
-- Duckdb with Dbt core in sqlfluff venv (cf further in this page).
-
-Cf [cross-database-macros](https://docs.getdbt.com/reference/dbt-jinja-functions/cross-database-macros)
+- PostgreSql with Dbt core in sqlfluff venv (cf [Environment](./docs/Environment.md#python-venvs)).
+- Duckdb with Dbt core in sqlfluff venv (cf [Environment](./docs/Environment.md#python-venvs)).
 
 I tried to make the code as generic as possible.  
 VSCode extension is made to work with dbt fusion.  
 But it can be used to edit dbt core projects if you restrict to CLI in terminal.
 
-There is a Git branch called develop for BigQuery  
-[branch develop](https://github.com/mgn-dbt/tutorial/tree/develop)
+There is a Git branch called [develop](https://github.com/mgn-dbt/tutorial/tree/develop) for BigQuery  
 
-There is a Git branch called develop_pg for PostgreSQL  
-[branch develop_pg](https://github.com/mgn-dbt/tutorial/tree/develop_pg)
+> The main difference with the develop_pg branch is in models/datamarts/extended.  
+> BigQuery/Fusion uses the new Semantic Layer specifications
 
-There is a Git branch called develop_duck for Duckdb  
-[branch develop_duck](https://github.com/mgn-dbt/tutorial/tree/develop_duck)  
-But VSCode should not be used with duckdb.  
-See why in this [readme](./docs/Databases.md#duckdb)
+There is a Git branch called [develop_pg](https://github.com/mgn-dbt/tutorial/tree/develop_pg) for PostgreSQL and Duckdb  
+
+> The main difference with the develop branch is in models/datamarts/extended.  
+> Postgres/Dbt-core uses the legacy Semantic Layer specifications  
+> There is 2 files which contains references to the database type (postgres/duckdb)
+>> .sqlfluff  
+>> dbt_project.yml
+
+VSCode should not be used with Duckdb. See why in this [readme](./docs/Databases.md#duckdb)
 
 Changing git branch (changing database) should be followed by closing/reopening terminal.  
 Cf customized terminals in the [VSCode](./docs/VScode.md#user-configuration)
