@@ -1,5 +1,5 @@
-name: 'jaffle_shop'
-version: '1.0.0'
+name: "jaffle_shop"
+version: "1.0.0"
 config-version: 2
 
 # This setting configures which "profile" dbt uses for this project.
@@ -15,17 +15,17 @@ seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
 
-clean-targets:         # directories to be removed by `dbt clean`
+clean-targets: # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
-# In dbt, the default materialization for a model is a view. This means, when you run 
-# dbt run or dbt build, all of your models will be built as a view in your data platform. 
-# The configuration below will override this setting for models in the example folder to 
-# instead be materialized as tables. Any models you add to the root of the models folder will 
+# In dbt, the default materialization for a model is a view. This means, when you run
+# dbt run or dbt build, all of your models will be built as a view in your data platform.
+# The configuration below will override this setting for models in the example folder to
+# instead be materialized as tables. Any models you add to the root of the models folder will
 # continue to be built as views. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
 
@@ -34,26 +34,26 @@ models:
     staging:
       +materialized: view
       +meta:
-        required_tests: {"unique.*|not_null": 2}
+        required_tests: { "unique.*|not_null": 2 }
       extended:
-        +tags: 'extended'
+        +tags: "extended"
       jaffle_shop:
-        +tags: 'learn'
+        +tags: "learn"
       stripe:
-        +tags: 'learn'
+        +tags: "learn"
     intermediate:
       +materialized: table
-      +tags: 'learn'
+      +tags: "learn"
     datamarts:
       +meta:
         required_docs: true
       +materialized: table
       extended:
-        +tags: 'extended'
+        +tags: "extended"
       finance:
-        +tags: 'learn'
+        +tags: "learn"
       marketing:
-        +tags: 'learn'
+        +tags: "learn"
 # dbt run -s tag:extended
 # dbt run -s tag:learn
 # dbt run-operation required_tests
@@ -61,7 +61,6 @@ models:
 
 on-run-end:
   - "{% do grant_select(role='lecteur') %}"
-
 
 ### beware dbt sends warning for deactivated seeds that contains tests
 # for marketing mart
@@ -71,9 +70,9 @@ seeds:
       relation: true
       columns: true
     datamarts:
-      +tags: 'learn'
+      +tags: "learn"
     tests:
-      +tags: 'tests'
+      +tags: "tests"
 # dbt seed --full-refresh -s "tag:tests"
 # dbt seed --full-refresh -s "tag:learn"
 
@@ -83,9 +82,9 @@ dbt-cloud:
 
 vars:
   # for dbt_date
-  'dbt_date:time_zone': 'Europe/Paris'
+  "dbt_date:time_zone": "Europe/Paris"
   # for staging/extended/stg_extended__orders and staging/extended/stg_extended__locations
-  'truncate_timespan_to': "{{ dbt.current_timestamp() }}"
+  "truncate_timespan_to": "{{ dbt.current_timestamp() }}"
 
 # dispatch:
 #   - macro_namespace: dbt
@@ -102,7 +101,7 @@ flags:
   require_unique_project_resource_names: true
   require_nested_cumulative_type_params: false
 
-# It's important to follow the correct YAML naming conventions for the configs in your dbt_project.yml file 
+# It's important to follow the correct YAML naming conventions for the configs in your dbt_project.yml file
 # to ensure dbt can process them properly. This is especially true for resource types with more than one word.
 #
 # Use dashes (-) when configuring resource types with multiple words in your dbt_project.yml file.
