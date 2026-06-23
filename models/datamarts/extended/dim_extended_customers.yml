@@ -3,7 +3,9 @@ models:
     description: |
       Customer overview data mart, offering key details for each unique customer. 
       One row per customer.
-
+    config:
+      contract:
+        enforced: true
     columns:
       - name: customer_id
         description: PK for the customers mart, representing a unique customer.

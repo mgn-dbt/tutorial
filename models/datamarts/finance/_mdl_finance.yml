@@ -1,6 +1,9 @@
 models:
   - name: fct_orders
     description: This table has basic information about orders, as well as some derived facts based on payments
+    config:
+      contract:
+        enforced: true
     data_tests:
       - dbt_utils.expression_is_true:
           arguments:

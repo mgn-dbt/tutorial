@@ -3,7 +3,9 @@ models:
     description: |
       Order items data mart, offering key details for each individual item within an order. 
       One row per order item.
-
+    config:
+      contract:
+        enforced: true
     columns:
       - name: order_item_id
         description: PK for the order items mart, representing a unique item within an order.
