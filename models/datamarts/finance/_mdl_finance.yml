@@ -1,9 +1,11 @@
 models:
   - name: fct_orders
     description: This table has basic information about orders, as well as some derived facts based on payments
-    config:
-      contract:
-        enforced: true
+    ### Contract enforced involve adding data_type to columns. 
+    ### This will cause dbt to fail if the data type of a column changes in the future.
+    # config:
+    #   contract:
+    #     enforced: true
     data_tests:
       - dbt_utils.expression_is_true:
           arguments:

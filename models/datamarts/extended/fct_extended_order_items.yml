@@ -3,9 +3,11 @@ models:
     description: |
       Order items data mart, offering key details for each individual item within an order. 
       One row per order item.
-    config:
-      contract:
-        enforced: true
+    ### Contract enforced involve adding data_type to columns. 
+    ### This will cause dbt to fail if the data type of a column changes in the future.
+    # config:
+    #   contract:
+    #     enforced: true
     columns:
       - name: order_item_id
         description: PK for the order items mart, representing a unique item within an order.

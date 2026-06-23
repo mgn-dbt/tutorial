@@ -30,8 +30,6 @@ clean-targets: # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 
 models:
-  # +post-hook:
-  #   - "{{ create_latest_version_view() }}"
   jaffle_shop:
     staging:
       +materialized: view

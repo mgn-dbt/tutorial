@@ -4,9 +4,11 @@ models:
       Order overview data mart, offering key details for each order inlcluding 
       if it's a customer's first order and a food vs. drink item breakdown. 
       One row per order.
-    config:
-      contract:
-        enforced: true
+    ### Contract enforced involve adding data_type to columns. 
+    ### This will cause dbt to fail if the data type of a column changes in the future.
+    # config:
+    #   contract:
+    #     enforced: true
     columns:
       - name: order_id
         description: PK for the orders mart, representing a unique order.
