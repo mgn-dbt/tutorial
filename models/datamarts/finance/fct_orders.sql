@@ -1,8 +1,11 @@
+{# on_schema_change mandatory if contract is enforced #}
+
 {{
     config(
         materialized='incremental',
         unique_key = 'order_id',
         incremental_strategy = 'merge',
+        on_schema_change = 'append_new_columns'
     )
 }}
 

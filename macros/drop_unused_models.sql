@@ -30,7 +30,7 @@ where
     UPPER(table_name) not in (
     {%- for node in graph.nodes.values() | 
         selectattr("resource_type", "in", ["model", "seed", "snapshot"]) %}
-        '{{ node.name.upper() }}'
+        '{{ node.alias.upper() }}'
         {%- if not loop.last -%},{% endif %}
     {%- endfor %}
     )

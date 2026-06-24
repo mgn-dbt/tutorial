@@ -1,6 +1,11 @@
 models:
   - name: dim_customers
     description: This table has basic information about a customer, as well as some derived facts based on a customer's orders
+    ### Contract enforced involve adding data_type to columns. 
+    ### This will cause dbt to fail if the data type of a column changes in the future.
+    # config:
+    #   contract:
+    #     enforced: true
     columns:
       - name: customer_id
         description: This is a unique identifier for a customer
@@ -31,15 +36,21 @@ models:
               arguments:
                 group_by_column: customer_id
 
-      - name: employee_id
-        description: |
-          Identifier of the employee associated with the customer
-          seed
-
-#      - name: email
-#        description: |
-#          email address of the employee associated with the customer
-#          seed
-
       - name: number_of_orders
         description: Count of the number of orders a customer has placed
+
+      - name: employee_id
+        description: Identifier of the employee associated with the customer seed
+    versions:
+      - v: 1
+        description: Initial version of the model.
+      - v: 2
+        description: Added a new column to the model.
+        columns:
+          - name: employee_email
+            description: email address of the employee associated with the customer seed
+    latest_version: 2
+
+# dbt run --select dim_customers.v1
+# dbt run --select dim_customers.v2
+# dbt run --select dim_customers,version:latest
