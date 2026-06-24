@@ -96,8 +96,7 @@ models:
         expr: case when is_drink_item = 1 then product_price else 0 end
 
       - name: supply_cost
-        description: |
-          The cost generated for each order item.
+        description: The cost generated for each order item.
         type: simple
         agg: sum
         expr: supply_cost

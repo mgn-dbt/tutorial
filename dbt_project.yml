@@ -48,6 +48,8 @@ models:
       +meta:
         required_docs: true
       +materialized: table
+      +post-hook:
+        - "{{ create_latest_version_view() }}"
       extended:
         +tags: "extended"
       finance:

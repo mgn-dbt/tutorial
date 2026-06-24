@@ -40,23 +40,15 @@ models:
         description: Count of the number of orders a customer has placed
 
       - name: employee_id
-        description: |
-          Identifier of the employee associated with the customer
-          seed
-
+        description: Identifier of the employee associated with the customer seed
     versions:
       - v: 1
-        description: |
-          Initial version of the model.
+        description: Initial version of the model.
       - v: 2
-        description: |
-          Added a new column to the model.
+        description: Added a new column to the model.
         columns:
           - name: employee_email
-            description: |
-              email address of the employee associated with the customer
-              seed
-
+            description: email address of the employee associated with the customer seed
     latest_version: 2
 
 # dbt run --select dim_customers.v1
