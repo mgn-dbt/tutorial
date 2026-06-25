@@ -1,6 +1,6 @@
 models:
   - name: dim_extended_customers
-    description: |
+    description: >
       Customer overview data mart, offering key details for each unique customer. 
       One row per customer.
     ### Contract enforced involve adding data_type to columns. 
@@ -47,7 +47,7 @@ models:
       - name: lifetime_spend
         description: The sum of all the order totals (including tax) that a customer has ever placed.
       - name: customer_type
-        description: |
+        description: >
           Options are 'new' or 'returning', indicating if a customer has ordered more than once 
           or has only placed their first order to date.
         data_tests:

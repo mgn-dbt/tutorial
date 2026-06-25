@@ -1,6 +1,6 @@
 models:
   - name: fct_extended_order_items
-    description: |
+    description: >
       Order items data mart, offering key details for each individual item within an order. 
       One row per order item.
     ### Contract enforced involve adding data_type to columns. 
@@ -72,7 +72,7 @@ models:
 
     metrics:
       - name: revenue
-        description: |
+        description: >
           The revenue generated for each order item. 
           Revenue is calculated as a sum of revenue associated with each product in an order.
         type: simple
@@ -80,7 +80,7 @@ models:
         expr: product_price
 
       - name: food_revenue
-        description: |
+        description: >
           The revenue generated for each order item. 
           Revenue is calculated as a sum of revenue associated with each product in an order.
         type: simple
@@ -88,7 +88,7 @@ models:
         expr: case when is_food_item = 1 then product_price else 0 end
 
       - name: drink_revenue
-        description: |
+        description: >
           The revenue generated for each order item. 
           Revenue is calculated as a sum of revenue associated with each product in an order.
         type: simple

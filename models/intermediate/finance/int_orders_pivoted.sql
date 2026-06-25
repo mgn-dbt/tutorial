@@ -1,4 +1,6 @@
-{# ["bank_transfer", "credit_card", "coupon", "gift_card"] #}
+{# 
+default used in for
+#}
 
 {%- set payment_methods = dbt_utils.get_column_values(
     table=ref("stg_stripe__payments"),
@@ -12,7 +14,7 @@ payments as (
 final as (
     select
         order_id,
-        {% for payment_method in payment_methods -%}
+        {% for payment_method in payment_methods|default(["bank_transfer", "credit_card", "coupon", "gift_card"]) -%}
             sum(
                 case
                     when payment_method = '{{ payment_method }}' then payment_amount else 0
