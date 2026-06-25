@@ -2,7 +2,7 @@ semantic_models:
   - name: order_item
     defaults:
       agg_time_dimension: ordered_at_date
-    description: |
+    description: >
       Items contained in each order. The grain of the table is one row per order item.
     model: ref('fct_extended_order_items')
     entities:

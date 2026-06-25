@@ -1,5 +1,7 @@
 -- dbt run-operation grant_select --args '{"role": "lecteur"}'
-
+{#
+https://docs.getdbt.com/reference/database-permissions/postgres-permissions
+#}
 {% macro grant_select(role) %}
 
     {% if execute %}

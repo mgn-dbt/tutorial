@@ -1,5 +1,7 @@
 --dbt show -s test_is_same_table
 
+{{ config ( enabled = false ) }}
+
 {% set columns_to_compare = '
     location_id,
     location_name,
