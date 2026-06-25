@@ -1,13 +1,9 @@
 {#
 Macro to create a view pointing to the latest version of a model.
+cf https://github.com/nydasco/dbt_with_duckdb/blob/model-versioning/macros/create_latest_version_view.sql
 
     dbt-core v1.12 new feature :
-    config:
-      latest_version_pointer:
-        enabled: true
-
-  # +post-hook:
-  #   - "{{ create_latest_version_view() }}"
+    https://docs.getdbt.com/reference/resource-configs/latest_version_pointer
 
 #}
 
