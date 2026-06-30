@@ -22,13 +22,17 @@ cf [python tuples](https://www.w3schools.com/python/python_tuples.asp)
 ```jinja
 {% set empty_tuple = () %}
 {% set singleton = ('a',) %}
-{% set my_tuple = ('un', 'deux', 'trois') %}
+{% set my_tuple = ('un', 'deux', 'trois', 'deux') %}
 
 {{ my_tuple[1,2] }}
 {# ('deux', 'trois') #}
 
 {# unpack a tuple #}
-a, b, c = my_tuple
+a, b, c, d = my_tuple
+
+methods :
+    .count("deux")        Returns the number of times a specified value occurs in a tuple
+    .index("trois")       Searches the tuple for a specified value and returns the position of where it was found
 ```
 
 ### List (Ordered indexed collection duplicate allowed)
@@ -58,6 +62,19 @@ cf [python lists](https://www.w3schools.com/python/python_lists.asp)
 {% do numbers.append(i) %}
 {% endfor %}
 {# [1,2,3,4,5,6,7,8,9,10] #}
+
+methods :
+    .append("orange")           Adds an element at the end of the list
+    .clear()                    Removes all the elements from the list
+    .copy()                     Returns a copy of the list
+    .count("lemon")             Returns the number of elements with the specified value
+    .extend(["orange","kiwi"])  Add the elements of a list (or any iterable), to the end of the current list
+    .index("grape")             Returns the index of the first element with the specified value
+    .insert(1, orange)          Adds an element at the specified position
+    .pop(1)                     Removes the element at the specified position
+    .remove("apple")            Removes the item with the specified value
+    .reverse()                  Reverses the order of the list
+    .sort()                     Sorts the list
 ```
 
 ### Set (Immutable unordered unindexed collection with no duplicate)
@@ -68,6 +85,25 @@ cf [python sets](https://www.w3schools.com/python/python_sets.asp)
 {% set empty_set = {} %}
 {% set my_set = set_strict([1,2,2,3,4,4,5]) %}
 {# {1,2,3,4,5} #}
+
+methods :
+    .add(3)                             Adds an element to the set
+    .clear()                            Removes all the elements from the set
+    .copy()                             Returns a copy of the set
+    .difference({3,4,5,6})              Returns a set containing the difference between two or more sets
+    .difference_update({3,4,5,6})       Removes the items in this set that are also included in another, specified set
+    .discard(3)                         Remove the specified item
+    .intersection({3,4,5,6})            Returns a set, that is the intersection of two other sets
+    .intersection_update({3,4,5,6})     Removes the items in this set that are not present in other, specified set(s)
+    .isdisjoint({3,4,5,6})              Returns True if NO items of this set is present in another set
+    .issubset({1,2,3,4,5,6})            Returns True if all items of this set is present in another set
+    .issuperset({3,4,5})                Returns True if all items of another set is present in this set
+    .pop()                              Removes an element from the set
+    .remove(3)                          Removes the specified element / raise an error if the specified item does not exist
+    .symmetric_difference()             Returns a set with the symmetric differences of two sets
+    .symmetric_difference_update()      Inserts the symmetric differences from this set and another
+    .union({3,4,5})                     Return a set containing the union of sets
+    .update({3,4,5})                    Update the set with the union of this set and others
 ```
 
 Duplicate values will be ignored  
@@ -90,7 +126,30 @@ my name is {{ my_dict['firstname'] }} {{ my_dict['lastname'] }}
 {% for key, value in my_dict.items() %}
   {{ key }}: {{ value }}
 {% endfor %}
+
+methods :
+    .clear()                       clear the dictionary
+    .get("key")                    get value corresponding to key
+    .items()                       list all key-value pairs
+    .keys()                        list all keys
+    .pop("key")                    remove key-value pair correspoding to key
+    .popitem()                     remove last inserted key-value pair
+    .setdefault("key": "value")    my_dict["key"] = "value"
+    .update({"key": "value"})      update value of key-value pair
+    .values()                      list all values
 ```
+
+### variable['property'] vs variable.property
+
+Use box brackets  
+To avoid bugs, stick to the box bracket notation variable['property'].  
+Although generally, the two should be equivalent,  
+there are known cases where using variable.property causes issues.
+
+For example, attributes that start with a number, such as "123property"  
+have to be expressed as {{customer['123property']}} due to a Python limitation.
+
+For a technical explanation of the differences check out the official [Jinja reference](https://jinja.palletsprojects.com/en/stable/templates/#variables).
 
 ## Comments
 
@@ -214,6 +273,8 @@ other tests on variables :
 {% if variable is string %}...
 {% if variable is mapping %}...{# variable is a dictionary ? #}
 ```
+
+[Testing variables](https://rickalm.blogspot.com/2018/08/testing-for-data-types-in-jinja.html)
 
 ## Loops
 

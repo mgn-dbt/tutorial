@@ -11,7 +11,7 @@ cf https://github.com/nydasco/dbt_with_duckdb/blob/model-versioning/macros/creat
 
     -- this hook will run only if the model is versioned, and only if it's the latest version
     -- otherwise, it's a no-op
-    {% if model.version and model.version == model.latest_version %}
+    {% if model.get('version') and model.get('version') == model.get('latest_version') %}
 
         {% set new_relation = this.incorporate(path={"identifier": model['name']}) %}
 
