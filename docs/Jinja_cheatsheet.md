@@ -269,12 +269,24 @@ other tests on variables :
 {% if variable is defined %}...
 {% if variable is undefined %}...
 {% if variable is none %}...
-{% if variable is number %}...
-{% if variable is string %}...
-{% if variable is mapping %}...{# variable is a dictionary ? #}
+{% if variable is number %}...{# boolean are numbers too #}
+{% if variable is sameas true or variable is sameas false %}...{# variable is boolean and number #}
+{% if variable is string %}...{# variable is sequence, iterable and string #}
+{% if variable is mapping %}...{# variable is sequence, iterable and dictionary #}
+{% if variable is sequence and variable is not mapping and variable is not string %}...{# variable is sequence, iterable and list #}
 ```
 
 [Testing variables](https://rickalm.blogspot.com/2018/08/testing-for-data-types-in-jinja.html)
+
+To get informations on a variable :
+
+```jinja
+{{ log(my_var, info=True) }}
+{{ log(my_var.__class__, info=True) }}
+{{ log(my_var.__class__.__name__, info=True) }}
+{{ log(my_var | pprint, info=True) }}
+{{ log(my_var.__dict__ | pprint, info=True) }}
+```
 
 ## Loops
 
@@ -388,10 +400,6 @@ Usage:
 ...
 {{ debug() }}
 ...
-```
-
-```cmd
-DBT_ENGINE_MACRO_DEBUGGING=write dbt compile
 ```
 
 ## Logging

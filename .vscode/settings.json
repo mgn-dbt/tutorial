@@ -46,4 +46,7 @@
     "markdownlint.config": {
         "MD033": { "table_allowed_elements": ["br"] }
     },
+    "dbt.environmentVariables": {
+        "DBT_ENGINE_MACRO_DEBUGGING": "write"
+    },
 }
