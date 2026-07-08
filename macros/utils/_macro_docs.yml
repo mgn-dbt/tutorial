@@ -1,0 +1,16 @@
+macros:
+  - name: inspect
+    description: |
+      This macro is used to inspect the contents of a variable or object in dbt. It can be helpful for debugging and understanding the structure of your data.
+    arguments:
+      - name: obj
+        description: The variable or object to inspect.
+        type: any
+
+  - name: str_to_bool
+    description: |
+      This macro converts a string representation of a boolean value to an actual boolean type. It is useful when dealing with string inputs that need to be interpreted as boolean values.
+    arguments:
+      - name: value
+        description: The string value to convert to a boolean.
+        type: string
