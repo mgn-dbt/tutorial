@@ -272,8 +272,8 @@ other tests on variables :
 {% if variable is number %}...{# boolean are numbers too #}
 {% if variable is sameas true or variable is sameas false %}...{# variable is boolean and number #}
 {% if variable is string %}...{# variable is sequence, iterable and string #}
-{% if variable is mapping %}...{# variable is sequence, iterable and dictionary #}
-{% if variable is sequence and variable is not mapping and variable is not string %}...{# variable is sequence, iterable and list #}
+{% if variable is mapping %}...{# variable is iterable and dictionary #}
+{% if variable is sequence and variable is not string %}...{# variable is sequence, iterable and list/tuple #}
 ```
 
 [Testing variables](https://rickalm.blogspot.com/2018/08/testing-for-data-types-in-jinja.html)
