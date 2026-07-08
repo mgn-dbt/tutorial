@@ -2,11 +2,11 @@
     "recommendations": [
         "dbtlabsinc.dbt",
         "samuelcolvin.jinjahtml",
-        "mtxr.sqltools",
-        "evidence.sqltools-bigquery-driver",
-        "mtxr.sqltools-driver-pg",
         "redhat.vscode-yaml",
         "sqlfluff.vscode-sqlfluff",
-        "davidanson.vscode-markdownlint"
+        "davidanson.vscode-markdownlint",
+        "mechatroner.rainbow-csv",
+        "donjayamanne.githistory",
+        "ms-vscode-remote.remote-containers"
     ]
 }
