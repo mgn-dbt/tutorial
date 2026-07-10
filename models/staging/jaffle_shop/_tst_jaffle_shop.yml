@@ -1,6 +1,9 @@
 unit_tests:
   - name: test_order_status_cleanup
     description: Test my status case/when cleanup logic
+    # if mockable_source is used disable unit tests
+    config:
+      enabled: true
     model: stg_jaffle_shop__orders
     given:
       - input: source('jaffle_shop', 'jaffle_shop__orders')
@@ -17,8 +20,12 @@ unit_tests:
         - { order_id: 3, order_status: returned }
         - { order_id: 4, order_status: returned }
         - { order_id: 5, order_status: shipped }
+
   - name: test_days_since_ordered
     description: Test my datediff calculation for days_since_ordered
+    # if mockable_source is used disable unit tests
+    config:
+      enabled: true
     model: stg_jaffle_shop__orders
     # overrides with dbt internal macro dont work in fusion (dbt.current_timestamp)
     overrides:
@@ -37,7 +44,10 @@ unit_tests:
         - {order_date: 2024-01-01, days_since_ordered: 14}
 
   - name: test_full_name
-    description: Test my full_name calculation 
+    description: Test my full_name calculation
+    # if mockable_source is used disable unit tests
+    config:
+      enabled: true
     model: stg_jaffle_shop__customers
     given:
       - input: source('jaffle_shop',  'jaffle_shop__customers')

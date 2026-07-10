@@ -28,12 +28,21 @@ There is a Git branch called [develop_pg](https://github.com/mgn-dbt/tutorial/tr
 
 VSCode should not be used with Duckdb. See why in this [readme](./docs/Databases.md#duckdb)
 
-Changing git branch (changing database) should be followed by closing/reopening terminal.  
-Cf customized terminals in the [VSCode](./docs/VScode.md#user-configuration)
-
 Table data is loaded separately cf [tutorial init](https://github.com/mgn-dbt/tuto-init)  
 Seeds are not for loading real live data but lookup tables or mock data for tests.  
 So this other project is a bit of an exception.
+
+```Powershell
+# To prepare the source tables :
+dbt build --select package:jaffle_shop_init
+# To build the project :
+dbt build --exclude package:jaffle_shop_init
+```
+
+NB:  
+Using {{ mockable_source() }} instead of {{ source() }} results in problems with unit tests.  
+Unit tests only support models in your current project (not packages).  
+Cf [unit tests](https://docs.getdbt.com/reference/resource-properties/unit-tests)
 
 ## VSCode
 
@@ -95,7 +104,7 @@ default:
   outputs:
     dev:
       type: bigquery
-      threads: 4
+      threads: 1
       project: "{{ env_var('DBT_BIGQUERY_PROJECT') }}"
       dataset: dbt_tuto
       method: service-account
@@ -114,7 +123,7 @@ pg:
   outputs:
     dev:
       dbname: jaffle_shop
-      host: localhost
+      host: "{{ env_var('DBT_PG_HOST') }}"
       password: jaffle
       port: 5432
       schema: dbt_tuto
@@ -126,12 +135,12 @@ pg:
       sslrootcert: "{{ env_var('DBT_PG_ROOT_CERT') }}"
     prod:
       dbname: jaffle_shop
-      host: localhost
+      host: "{{ env_var('DBT_PG_HOST') }}"
       password: jaffle
       port: 5432
       schema: dbt_prod
       search_path: dbt_prod,public
-      threads: 2
+      threads: 4
       type: postgres
       user: jaffle
       sslmode: verify-ca
@@ -143,7 +152,7 @@ duckdb:
       type: duckdb
       path: "{{ env_var('DBT_DUCKDB_DATABASE') }}"
       schema: dbt_tuto
-      threads: 4
+      threads: 1
       # threads: 1  (for log_query_path to work)
       #settings:
       #  log_query_path: '.\offline\duck_tuto_query.log'   You can use a relative path (relative to your profiles.yml file)

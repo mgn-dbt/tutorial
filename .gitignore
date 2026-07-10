@@ -6,3 +6,4 @@ logs/
 target/
 offline/
 macros/offline/
+package-lock.yml

@@ -62,6 +62,17 @@ macros:
 
 
 
+  - name: mockable_source
+    description: >
+      This macro generates a ref to a package model for testing purposes.
+    arguments:
+      - name: source_name
+        type: string
+        description: The name of the source.
+      - name: table_name
+        type: string
+        description: The name of the source table or the name of the table model mocking the source.
+
   - name: my_current_timestamp
     description: >
       This macro returns the current timestamp in the format 'YYYY-MM-DD HH:MI:SS'.

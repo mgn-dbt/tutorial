@@ -1,6 +1,9 @@
 unit_tests:
   - name: test_does_location_opened_at_trunc_to_date
     description: "Check that opened_at timestamp is properly truncated to a date."
+    # if mockable_source is used disable unit tests
+    config:
+      enabled: true
     model: stg_extended__locations
     given:
       - input: source('extended', 'extended__stores')
