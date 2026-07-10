@@ -1,3 +1,12 @@
+
+# It's important to follow the correct YAML naming conventions for the configs in your dbt_project.yml file
+# to ensure dbt can process them properly. This is especially true for resource types with more than one word.
+#
+# Use dashes (-) when configuring resource types with multiple words in your dbt_project.yml file.
+# Use underscore (_) when configuring resource types with multiple words for YAML files other than the dbt_project.yml file.
+#  ex: saved-queries (dbt_project.yml) => saved_queries (property file)
+
+
 name: "jaffle_shop"
 version: "1.0.0"
 config-version: 2
@@ -19,6 +28,20 @@ snapshot-paths: ["snapshots"]
 clean-targets: # directories to be removed by `dbt clean`
   - "target"
   - "dbt_packages"
+
+
+### beware dbt sends warning for deactivated seeds that contains tests
+seeds:
+  jaffle_shop:
+    +persist_docs:
+      relation: true
+      columns: true
+    datamarts:
+      +tags: "learn"
+    tests:
+      +tags: "tests"
+# dbt seed --full-refresh -s "tag:tests"
+# dbt seed --full-refresh -s "tag:learn"
 
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
@@ -65,20 +88,6 @@ models:
 on-run-end:
   - "{% do grant_select(role='lecteur') %}"
 
-### beware dbt sends warning for deactivated seeds that contains tests
-# for marketing mart
-seeds:
-  jaffle_shop:
-    +persist_docs:
-      relation: true
-      columns: true
-    datamarts:
-      +tags: "learn"
-    tests:
-      +tags: "tests"
-# dbt seed --full-refresh -s "tag:tests"
-# dbt seed --full-refresh -s "tag:learn"
-
 vars:
   # for dbt_date
   "dbt_date:time_zone": "Europe/Paris"
@@ -95,10 +104,3 @@ vars:
 flags:
   require_generic_test_arguments_property: true
   require_unique_project_resource_names: true
-
-# It's important to follow the correct YAML naming conventions for the configs in your dbt_project.yml file
-# to ensure dbt can process them properly. This is especially true for resource types with more than one word.
-#
-# Use dashes (-) when configuring resource types with multiple words in your dbt_project.yml file.
-# Use underscore (_) when configuring resource types with multiple words for YAML files other than the dbt_project.yml file.
-#  ex: saved-queries (dbt_project.yml) => saved_queries (property file)

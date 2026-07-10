@@ -12,13 +12,14 @@
     "files.associations": {
         "*.sql": "jinja-sql",
     },
-    "sqlfluff.linter.run": "onSave",
+    // sqlfluff isn't compatible with SL new spec
+    "sqlfluff.linter.run": "off",
     //
     // we specify which jsonschema we want
     "yaml.schemaStore.enable": false,
     //
     "yaml.schemas": {
-        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/dbt_yml_files-latest.json": [
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest_fusion/dbt_yml_files-latest-fusion.json": [
             "/**/*.yml",
             "!profiles.yml",
             "!dbt_project.yml",
@@ -28,16 +29,16 @@
             "!profile_template.yml",
             "!package-lock.yml"
         ],
-        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/dbt_project-latest.json": [
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest_fusion/dbt_project-latest-fusion.json": [
             "dbt_project.yml"
         ],
-        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/selectors-latest.json": [
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest_fusion/selectors-latest-fusion.json": [
             "selectors.yml"
         ],
-        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/packages-latest.json": [
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest_fusion/packages-latest-fusion.json": [
             "packages.yml"
         ],
-        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest/dependencies-latest.json": [
+        "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/latest_fusion/dependencies-latest-fusion.json": [
             "dependencies.yml"
         ]
     },

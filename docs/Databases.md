@@ -14,7 +14,8 @@ PostgreSQL can only be used in Dbt-core.
 
 ### in Podman
 
-Cf [dbt-podman](https://github.com/mgn-dbt/dbt-podman)
+Cf [dbt-podman](https://github.com/mgn-dbt/dbt-podman)  
+I have used 2 docker-compose to create containers under podman.
 
 ### in SCOOP
 
